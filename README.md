@@ -1,1 +1,3 @@
-# ceyntra mobile
+# Ceyntra mobile
+
+Mobile application for Ceyntra
