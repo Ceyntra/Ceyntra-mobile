@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/views/screens/nearMeFeed.dart';
 import 'package:ceyntra_mobile/views/screens/populerFeed.dart';
 import 'package:ceyntra_mobile/views/screens/suggestionsFeed.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -61,7 +62,15 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          feed(context)
+          feed(context),
+          Container(
+              child: Image(
+            width: 20,
+            height: 20,
+            image: AssetImage('assets/images/3.png'),
+          )),
+          Text("data"),
+          SvgPicture.asset('assets/images/home.svg')
         ],
       ),
     );
