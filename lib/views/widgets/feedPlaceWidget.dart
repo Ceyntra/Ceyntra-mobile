@@ -1,3 +1,5 @@
+import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeMainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/placeDetailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,75 +30,79 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
       ),
     );
 
-    return Container(
-      margin: EdgeInsets.only(top: 20),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
+      },
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              height: 180,
-              // width: (MediaQuery.of(context).size.width / 100) * 92,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  image: DecorationImage(
-                      image: AssetImage(widget.imagePath),
-                      fit: BoxFit.fitWidth)),
-            ),
-            Positioned(
-                height: 50,
-                bottom: 10,
-                left: 20,
-                right: 20,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(10)),
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  height: 20,
+        margin: EdgeInsets.only(top: 20),
+        child: Container(
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                height: 180,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    image: DecorationImage(
+                        image: AssetImage(widget.imagePath),
+                        fit: BoxFit.fitWidth)),
+              ),
+              Positioned(
+                  height: 50,
+                  bottom: 10,
+                  left: 20,
+                  right: 20,
                   child: Container(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                          child: Text(
-                        widget.placeName,
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      )),
-                      Container(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Text(
-                                  widget.rating.toString(),
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 15, color: Colors.white),
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(10)),
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    height: 20,
+                    child: Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            child: Text(
+                          widget.placeName,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        )),
+                        Container(
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text(
+                                    widget.rating.toString(),
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 15, color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                              Row(children: items),
-                              Container(
-                                // margin: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  "(" + widget.votes.toString() + ")",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 10, color: Colors.white),
+                                Row(children: items),
+                                Container(
+                                  child: Text(
+                                    "(" + widget.votes.toString() + ")",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 10, color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  )),
-                ))
-          ],
+                        )
+                      ],
+                    )),
+                  ))
+            ],
+          ),
         ),
       ),
     );
