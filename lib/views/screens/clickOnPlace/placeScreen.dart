@@ -12,6 +12,7 @@ class PlaceScreen extends StatefulWidget {
 
 class _PlaceScreenState extends State<PlaceScreen> {
   bool favourite = false;
+  bool toggle = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,7 +89,143 @@ class _PlaceScreenState extends State<PlaceScreen> {
           ],
         ),
         SizedBox(
-          height: 30,
+          height: 20,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  "4.9",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber[300],
+                                  size: 16,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber[300],
+                                  size: 16,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber[300],
+                                  size: 16,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber[300],
+                                  size: 16,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber[300],
+                                  size: 16,
+                                ),
+                              ),
+                              Container(
+                                // margin: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "(4782)",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 10, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              "Sigiriya",
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      // color: Colors.redAccent,
+
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: Text(
+                              "Check In",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                !toggle ? toggle = true : toggle = false;
+                              });
+                            },
+                            child: Icon(
+                              toggle ? Icons.toggle_on : Icons.toggle_off,
+                              color: toggle ? Colors.green : Colors.grey,
+                              size: 50,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Text(
+                  "Central Province, Matale District, Dambulla",
+                  style:
+                      GoogleFonts.montserrat(fontSize: 15, color: Colors.grey),
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 20,
         ),
         Container(
           alignment: Alignment.centerLeft,
