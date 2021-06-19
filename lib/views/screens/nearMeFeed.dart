@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -164,197 +165,21 @@ class _NearMeFeedScreenState extends State<NearMeFeedScreen> {
                     bottomRight: Radius.circular(20))),
           ),
         ),
-
-        // Image(image: AssetImage('assets/images/polo.jpg'))
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Container(
-            child: Stack(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 180,
-                  // width: (MediaQuery.of(context).size.width / 100) * 92,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/polo.jpg'),
-                          fit: BoxFit.fitWidth)),
-                ),
-                Positioned(
-                    height: 40,
-                    bottom: 10,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(10)),
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      height: 20,
-                      child: Container(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              child: Text(
-                            "Polonnaruwa",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          )),
-                          Container(
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      )),
-                    ))
-              ],
-            ),
-          ),
+        FeedPlaceWidget(
+          imagePath: "assets/images/polo.jpg",
+          placeName: "Polonnaruwa",
+          votes: 2429,
+          rating: 4.5,
         ),
-        // ksdhfkj
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Container(
-            child: Stack(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 180,
-                  // width: (MediaQuery.of(context).size.width / 100) * 92,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/dambulla.jpg'),
-                          fit: BoxFit.fitWidth)),
-                ),
-                Positioned(
-                    height: 40,
-                    bottom: 10,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(10)),
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      height: 20,
-                      child: Container(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              child: Text(
-                            "Dambulla cave Temple",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          )),
-                          Container(
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber[300],
-                                    size: 16,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      )),
-                    ))
-              ],
-            ),
-          ),
+        FeedPlaceWidget(
+          imagePath: "assets/images/dambulla.jpg",
+          placeName: "Dambulla cave temple",
+          votes: 1356,
+          rating: 4.3,
         ),
         SizedBox(
-          height: 600,
+          height: 60,
         ),
-        Text("blaaaaaa")
       ],
     );
   }
