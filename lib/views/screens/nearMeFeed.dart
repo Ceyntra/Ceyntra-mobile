@@ -102,11 +102,11 @@ class _NearMeFeedScreenState extends State<NearMeFeedScreen> {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
+                          margin: EdgeInsets.only(right: 10),
+                          child: Text(
+                            "4.9",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 15, color: Colors.white),
                           ),
                         ),
                         Container(
@@ -140,7 +140,23 @@ class _NearMeFeedScreenState extends State<NearMeFeedScreen> {
                             color: Colors.amber[300],
                             size: 16,
                           ),
-                        )
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 5),
+                          child: Icon(
+                            Icons.star,
+                            color: Colors.amber[300],
+                            size: 16,
+                          ),
+                        ),
+                        Container(
+                          // margin: EdgeInsets.only(left: 5),
+                          child: Text(
+                            "(4782)",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 10, color: Colors.white),
+                          ),
+                        ),
                       ],
                     ),
                   ))

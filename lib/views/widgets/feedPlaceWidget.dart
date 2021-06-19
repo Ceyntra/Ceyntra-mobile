@@ -8,6 +8,7 @@ class FeedPlaceWidget extends StatefulWidget {
   final int votes;
 
   FeedPlaceWidget({this.imagePath, this.placeName, this.rating, this.votes});
+
   @override
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
 }
@@ -15,7 +16,18 @@ class FeedPlaceWidget extends StatefulWidget {
 class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
   @override
   Widget build(BuildContext context) {
-    print(widget.imagePath);
+    final items = List<Widget>.generate(
+      widget.rating.round(),
+      (i) => Container(
+        margin: EdgeInsets.only(right: 5),
+        child: Icon(
+          Icons.star_rate,
+          color: Colors.amber[300],
+          size: 16,
+        ),
+      ),
+    );
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Container(
@@ -57,65 +69,28 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                             fontWeight: FontWeight.w500),
                       )),
                       Container(
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Text(
-                                widget.rating.toString(),
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 15, color: Colors.white),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  widget.rating.toString(),
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 15, color: Colors.white),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber[300],
-                                size: 16,
+                              Row(children: items),
+                              Container(
+                                // margin: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "(" + widget.votes.toString() + ")",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 10, color: Colors.white),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber[300],
-                                size: 16,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber[300],
-                                size: 16,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber[300],
-                                size: 16,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber[300],
-                                size: 16,
-                              ),
-                            ),
-                            Container(
-                              // margin: EdgeInsets.only(left: 5),
-                              child: Text(
-                                "(" + widget.votes.toString() + ")",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 10, color: Colors.white),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       )
                     ],
