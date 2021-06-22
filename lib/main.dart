@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/feed.dart';
+import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: FeedScreen(),
+      home: IntroSlideScreen(),
     );
   }
 }
