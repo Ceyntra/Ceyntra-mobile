@@ -21,54 +21,20 @@ class IntroSlideScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
-          new Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ShapeOfView(
-                    height: 100.0,
-                    width: 100.0,
-                    shape: PolygonShape(numberOfSides: 4),
-                    child: Image(
-                      image: AssetImage('assets/images/s1.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  ShapeOfView(
-                    height: 100.0,
-                    width: 100.0,
-                    shape: PolygonShape(numberOfSides: 4),
-                    child: Image(
-                      image: AssetImage('assets/images/s2.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  ShapeOfView(
-                    height: 100.0,
-                    width: 100.0,
-                    shape: PolygonShape(numberOfSides: 4),
-                    child: Image(
-                      image: AssetImage('assets/images/s3.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
-              ),
-
-              new Positioned(
-                top: 60.0,
-                child: new Row(
+          new Container(
+            child:new Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ShapeOfView(
                       height: 100.0,
                       width: 100.0,
                       shape: PolygonShape(numberOfSides: 4),
                       child: Image(
-                        image: AssetImage('assets/images/s4.jpeg'),
+                        image: AssetImage('assets/images/s1.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -77,7 +43,7 @@ class IntroSlideScreen extends StatelessWidget {
                       width: 100.0,
                       shape: PolygonShape(numberOfSides: 4),
                       child: Image(
-                        image: AssetImage('assets/images/s5.jpg'),
+                        image: AssetImage('assets/images/s2.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -86,23 +52,68 @@ class IntroSlideScreen extends StatelessWidget {
                       width: 100.0,
                       shape: PolygonShape(numberOfSides: 4),
                       child: Image(
-                        image: AssetImage('assets/images/s6.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ShapeOfView(
-                      height: 100.0,
-                      width: 100.0,
-                      shape: PolygonShape(numberOfSides: 4),
-                      child: Image(
-                        image: AssetImage('assets/images/s7.jpg'),
+                        image: AssetImage('assets/images/s3.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ],
                 ),
+
+                new Positioned(
+                  top: 60.0,
+                  child: new Row(
+                    children: [
+                      ShapeOfView(
+                        height: 100.0,
+                        width: 100.0,
+                        shape: PolygonShape(numberOfSides: 4),
+                        child: Image(
+                          image: AssetImage('assets/images/s4.jpeg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      ShapeOfView(
+                        height: 100.0,
+                        width: 100.0,
+                        shape: PolygonShape(numberOfSides: 4),
+                        child: Image(
+                          image: AssetImage('assets/images/s5.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      ShapeOfView(
+                        height: 100.0,
+                        width: 100.0,
+                        shape: PolygonShape(numberOfSides: 4),
+                        child: Image(
+                          image: AssetImage('assets/images/s6.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      ShapeOfView(
+                        height: 100.0,
+                        width: 100.0,
+                        shape: PolygonShape(numberOfSides: 4),
+                        child: Image(
+                          image: AssetImage('assets/images/s7.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new Container(
+            margin: EdgeInsets.only(top: 120.0, left: 40.0, right: 40.0),
+            child: Text(
+              'We\'re happy to share our best tips for destinations where you can relax. But you find the nicest city tips as well!',
+              style: TextStyle(
+                color: Colors.white,
               ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:ceyntra_mobile/views/screens/feed.dart';
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      theme: ThemeData(fontFamily: GoogleFonts.montserrat().fontFamily),
       home: IntroSlideScreen(),
     );
   }
