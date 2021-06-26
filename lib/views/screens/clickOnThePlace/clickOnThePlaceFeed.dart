@@ -35,7 +35,11 @@ class _ClickOnThePlacePlaceFeedScreenState
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           brightness: Brightness.dark,
-          leading: Icon(Icons.menu),
+          leading: GestureDetector(
+              onTap: () {
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>))
+              },
+              child: Icon(Icons.arrow_back)),
           elevation: 20,
           backgroundColor: Color(0xff192537),
           actions: [

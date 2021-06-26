@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(fontFamily: GoogleFonts.montserrat().fontFamily),
       home: MainScreen(),
     );
   }
