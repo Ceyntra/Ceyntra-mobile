@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/mainFeed/mainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainFeedScreen(),
+      home: MainScreen(),
     );
   }
 }

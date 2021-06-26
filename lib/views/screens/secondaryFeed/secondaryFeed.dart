@@ -5,9 +5,15 @@ import 'package:ceyntra_mobile/views/screens/secondaryFeed/suggestionsFeed.dart'
 import 'package:flutter/material.dart';
 
 class SecondaryFeedScreen extends StatefulWidget {
+  final bool isPressed;
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedPlace;
-  SecondaryFeedScreen({this.changeMainFeedStateState, this.setClickedPlace});
+  final Function pressed;
+  SecondaryFeedScreen(
+      {this.changeMainFeedStateState,
+      this.setClickedPlace,
+      this.pressed,
+      this.isPressed});
   @override
   _SecondaryFeedScreenState createState() => _SecondaryFeedScreenState();
 }
@@ -35,7 +41,17 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           brightness: Brightness.dark,
-          leading: Icon(Icons.menu),
+          leading: widget.isPressed
+              ? GestureDetector(
+                  onTap: () {
+                    widget.pressed(0.0, 0.0, 1.0, false);
+                  },
+                  child: Icon(Icons.arrow_back))
+              : GestureDetector(
+                  onTap: () {
+                    widget.pressed(230.0, 70.0, 0.8, true);
+                  },
+                  child: Icon(Icons.menu)),
           elevation: 20,
           backgroundColor: Color(0xff192537),
           actions: [
