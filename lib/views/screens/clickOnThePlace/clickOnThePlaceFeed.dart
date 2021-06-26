@@ -1,22 +1,24 @@
-import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeScreen.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickedPlaceDetails.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:flutter/material.dart';
 
-class PlaceFeedScreen extends StatefulWidget {
-  // const PlaceFeedScreen({ Key? key }) : super(key: key);
+class ClickOnThePlacePlaceFeedScreen extends StatefulWidget {
+  // const ClickOnThePlacePlaceFeedScreen({ Key? key }) : super(key: key);
   final String place;
-  PlaceFeedScreen({this.place});
+  ClickOnThePlacePlaceFeedScreen({this.place});
 
   @override
-  _PlaceFeedScreenState createState() => _PlaceFeedScreenState();
+  _ClickOnThePlacePlaceFeedScreenState createState() =>
+      _ClickOnThePlacePlaceFeedScreenState();
 }
 
-class _PlaceFeedScreenState extends State<PlaceFeedScreen> {
+class _ClickOnThePlacePlaceFeedScreenState
+    extends State<ClickOnThePlacePlaceFeedScreen> {
   String feedState = 'place';
 
   Widget feed(BuildContext context) {
     if (feedState == "place")
-      return PlaceScreen(
+      return ClickedPlaceDetails(
         place: widget.place,
       );
     else if (feedState == "weather") return PopularFeedScreen();

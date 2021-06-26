@@ -1,5 +1,3 @@
-import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeMainFeed.dart';
-import 'package:ceyntra_mobile/views/screens/placeDetailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -48,7 +46,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
         );
       },
       child: Container(
-        margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(bottom: 20),
         child: Container(
           child: Stack(
             children: [

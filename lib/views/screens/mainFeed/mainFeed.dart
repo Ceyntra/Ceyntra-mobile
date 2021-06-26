@@ -1,5 +1,4 @@
-import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeFeed.dart';
-import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +12,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   String clickedPlace;
 
   void changeMainFeedStateState(String state) {
-    // setState(() => mainFeedState = state);
     setState(() {
       mainFeedState = state;
     });
   }
 
   void setClickedPlace(String place) {
-    // setState(() => mainFeedState = state);
     setState(() {
       clickedPlace = place;
     });
@@ -33,7 +30,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         setClickedPlace: setClickedPlace,
       );
     else if (mainFeedState == "clickOnThePlace")
-      return PlaceFeedScreen(
+      return ClickOnThePlacePlaceFeedScreen(
         place: clickedPlace,
       );
     // else if (mainFeedState == "profile") return SuggestionsFeedScreen();

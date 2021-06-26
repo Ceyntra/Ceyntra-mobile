@@ -1,4 +1,6 @@
+import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
+import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -102,86 +104,18 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                   bottom: 20,
                   left: 20,
                   child: Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Text(
-                            "4.9",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 15, color: Colors.white),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber[300],
-                            size: 16,
-                          ),
-                        ),
-                        Container(
-                          // margin: EdgeInsets.only(left: 5),
-                          child: Text(
-                            "(4782)",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 10, color: Colors.white),
-                          ),
-                        ),
-                      ],
+                    child: DisplayRatingWidget(
+                      rating: 4.9,
+                      votes: 5823,
                     ),
                   ))
             ],
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
         Container(
           alignment: Alignment.centerLeft,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: Text(
-              "Nearest Destinations",
-              style: GoogleFonts.montserrat(fontSize: 15, color: Colors.white),
-            ),
-            decoration: BoxDecoration(
-                color: Colors.green[800],
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20))),
+          child: GreenTagWidget(
+            title: "Nearest Destinations",
           ),
         ),
         FeedPlaceWidget(

@@ -1,5 +1,4 @@
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
-import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +7,16 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class PlaceScreen extends StatefulWidget {
-  // const PlaceScreen({ Key? key }) : super(key: key);
+class ClickedPlaceDetails extends StatefulWidget {
+  // const ClickedPlaceDetails({ Key? key }) : super(key: key);
   final String place;
-  PlaceScreen({this.place});
+  ClickedPlaceDetails({this.place});
 
   @override
-  _PlaceScreenState createState() => _PlaceScreenState();
+  _ClickedPlaceDetailsState createState() => _ClickedPlaceDetailsState();
 }
 
-class _PlaceScreenState extends State<PlaceScreen> {
+class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
   double myRating = 0;
