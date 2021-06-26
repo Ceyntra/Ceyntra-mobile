@@ -1,21 +1,24 @@
-import 'package:ceyntra_mobile/views/screens/nearMeFeed.dart';
-import 'package:ceyntra_mobile/views/screens/popularFeed.dart';
-import 'package:ceyntra_mobile/views/screens/suggestionsFeed.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/nearYouFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/suggestionsFeed.dart';
 
-class FeedScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+
+class SecondaryFeedScreen extends StatefulWidget {
+  final ValueChanged<String> changeMainFeedStateState;
+  SecondaryFeedScreen({this.changeMainFeedStateState});
   @override
-  _FeedScreenState createState() => _FeedScreenState();
+  _SecondaryFeedScreenState createState() => _SecondaryFeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
   String feedState = 'nearMe';
 
   Widget feed(BuildContext context) {
     if (feedState == "nearMe")
-      return NearMeFeedScreen();
+      return NearYouFeedScreen(
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+      );
     else if (feedState == "popular")
       return PopularFeedScreen();
     else if (feedState == "suggestions") return SuggestionsFeedScreen();

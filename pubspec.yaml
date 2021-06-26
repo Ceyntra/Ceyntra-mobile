@@ -30,6 +30,8 @@ dependencies:
   flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
   carousel_pro: ^1.0.0
+  expandable_text: ^2.2.0
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:

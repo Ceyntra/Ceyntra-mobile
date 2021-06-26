@@ -1,5 +1,5 @@
-import 'package:ceyntra_mobile/views/screens/feed.dart';
-import 'package:ceyntra_mobile/views/screens/mainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/mainFeed/mainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

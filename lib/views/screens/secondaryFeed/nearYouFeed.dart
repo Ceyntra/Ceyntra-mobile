@@ -2,12 +2,14 @@ import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NearMeFeedScreen extends StatefulWidget {
+class NearYouFeedScreen extends StatefulWidget {
+  final ValueChanged<String> changeMainFeedStateState;
+  NearYouFeedScreen({this.changeMainFeedStateState});
   @override
-  _NearMeFeedScreenState createState() => _NearMeFeedScreenState();
+  _NearYouFeedScreenState createState() => _NearYouFeedScreenState();
 }
 
-class _NearMeFeedScreenState extends State<NearMeFeedScreen> {
+class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -186,12 +188,14 @@ class _NearMeFeedScreenState extends State<NearMeFeedScreen> {
           placeName: "Polonnaruwa",
           votes: 2429,
           rating: 4.5,
+          changeMainFeedStateState: widget.changeMainFeedStateState,
         ),
         FeedPlaceWidget(
           imagePath: "assets/images/dambulla.jpg",
           placeName: "Dambulla cave temple",
           votes: 1356,
           rating: 4.3,
+          changeMainFeedStateState: widget.changeMainFeedStateState,
         ),
         SizedBox(
           height: 60,

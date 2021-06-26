@@ -1,4 +1,6 @@
-import 'package:ceyntra_mobile/views/screens/feed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 
 class MainFeedScreen extends StatefulWidget {
@@ -9,10 +11,16 @@ class MainFeedScreen extends StatefulWidget {
 class _MainFeedScreenState extends State<MainFeedScreen> {
   String mainFeedState = 'explore';
 
+  void changeMainFeedStateState(String state) {
+    setState(() => mainFeedState = state);
+  }
+
   Widget mainFeed(BuildContext context) {
-    if (mainFeedState == "explore") return FeedScreen();
-    // else if (mainFeedState == "global")
-    //   return PopulerFeedScreen();
+    if (mainFeedState == "explore")
+      return SecondaryFeedScreen(
+        changeMainFeedStateState: changeMainFeedStateState,
+      );
+    else if (mainFeedState == "clickOnThePlace") return PlaceFeedScreen();
     // else if (mainFeedState == "profile") return SuggestionsFeedScreen();
     return null;
   }

@@ -1,9 +1,7 @@
 import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeFeed.dart';
-import 'package:ceyntra_mobile/views/screens/popularFeed.dart';
 import 'package:flutter/material.dart';
 
-import '../feed.dart';
-import '../suggestionsFeed.dart';
+import '../secondaryFeed/secondaryFeed.dart';
 
 class PlaceMainFeedScreen extends StatefulWidget {
   // const PlaceMainFeedScreen({ Key? key }) : super(key: key);
@@ -17,7 +15,7 @@ class _PlaceMainFeedScreenState extends State<PlaceMainFeedScreen> {
 
   Widget mainFeed(BuildContext context) {
     if (mainFeedState == "explore")
-      return FeedScreen();
+      return SecondaryFeedScreen();
     else if (mainFeedState == "place") return PlaceFeedScreen();
     // else if (mainFeedState == "global")
     //   return PopularFeedScreen();

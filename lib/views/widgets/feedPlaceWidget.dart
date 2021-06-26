@@ -8,8 +8,14 @@ class FeedPlaceWidget extends StatefulWidget {
   final String placeName;
   final double rating;
   final int votes;
+  final ValueChanged<String> changeMainFeedStateState;
 
-  FeedPlaceWidget({this.imagePath, this.placeName, this.rating, this.votes});
+  FeedPlaceWidget(
+      {this.imagePath,
+      this.placeName,
+      this.rating,
+      this.votes,
+      this.changeMainFeedStateState});
 
   @override
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
@@ -32,8 +38,9 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
+        widget.changeMainFeedStateState("clickOnThePlace");
       },
       child: Container(
         margin: EdgeInsets.only(top: 20),

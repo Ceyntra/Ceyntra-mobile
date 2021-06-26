@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/clickOnPlace/placeScreen.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:flutter/material.dart';
 
 class PlaceFeedScreen extends StatefulWidget {
@@ -12,9 +13,9 @@ class _PlaceFeedScreenState extends State<PlaceFeedScreen> {
   String feedState = 'place';
 
   Widget feed(BuildContext context) {
-    if (feedState == "place") return PlaceScreen();
-    // else if (feedState == "weather")
-    //   return WeatherFeedScreen();
+    if (feedState == "place")
+      return PlaceScreen();
+    else if (feedState == "weather") return PopularFeedScreen();
     // else if (feedState == "hotel") return HotelFeedScreen();
     // else if (feedState == "taxi") return TaxiFeedScreen();
     return null;
@@ -28,7 +29,7 @@ class _PlaceFeedScreenState extends State<PlaceFeedScreen> {
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           brightness: Brightness.dark,
-          // leading: Icon(Icons.menu),
+          leading: Icon(Icons.menu),
           elevation: 20,
           backgroundColor: Color(0xff192537),
           actions: [
