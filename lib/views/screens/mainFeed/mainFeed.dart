@@ -10,17 +10,32 @@ class MainFeedScreen extends StatefulWidget {
 
 class _MainFeedScreenState extends State<MainFeedScreen> {
   String mainFeedState = 'explore';
+  String clickedPlace;
 
   void changeMainFeedStateState(String state) {
-    setState(() => mainFeedState = state);
+    // setState(() => mainFeedState = state);
+    setState(() {
+      mainFeedState = state;
+    });
+  }
+
+  void setClickedPlace(String place) {
+    // setState(() => mainFeedState = state);
+    setState(() {
+      clickedPlace = place;
+    });
   }
 
   Widget mainFeed(BuildContext context) {
     if (mainFeedState == "explore")
       return SecondaryFeedScreen(
         changeMainFeedStateState: changeMainFeedStateState,
+        setClickedPlace: setClickedPlace,
       );
-    else if (mainFeedState == "clickOnThePlace") return PlaceFeedScreen();
+    else if (mainFeedState == "clickOnThePlace")
+      return PlaceFeedScreen(
+        place: clickedPlace,
+      );
     // else if (mainFeedState == "profile") return SuggestionsFeedScreen();
     return null;
   }

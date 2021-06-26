@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class PlaceFeedScreen extends StatefulWidget {
   // const PlaceFeedScreen({ Key? key }) : super(key: key);
+  final String place;
+  PlaceFeedScreen({this.place});
 
   @override
   _PlaceFeedScreenState createState() => _PlaceFeedScreenState();
@@ -14,7 +16,9 @@ class _PlaceFeedScreenState extends State<PlaceFeedScreen> {
 
   Widget feed(BuildContext context) {
     if (feedState == "place")
-      return PlaceScreen();
+      return PlaceScreen(
+        place: widget.place,
+      );
     else if (feedState == "weather") return PopularFeedScreen();
     // else if (feedState == "hotel") return HotelFeedScreen();
     // else if (feedState == "taxi") return TaxiFeedScreen();

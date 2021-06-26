@@ -10,6 +10,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class PlaceScreen extends StatefulWidget {
   // const PlaceScreen({ Key? key }) : super(key: key);
+  final String place;
+  PlaceScreen({this.place});
 
   @override
   _PlaceScreenState createState() => _PlaceScreenState();
@@ -162,7 +164,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 0),
                         child: Text(
-                          "Sigiriya",
+                          widget.place,
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600,
                               fontSize: 20,

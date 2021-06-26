@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class SecondaryFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
-  SecondaryFeedScreen({this.changeMainFeedStateState});
+  final ValueChanged<String> setClickedPlace;
+  SecondaryFeedScreen({this.changeMainFeedStateState, this.setClickedPlace});
   @override
   _SecondaryFeedScreenState createState() => _SecondaryFeedScreenState();
 }
@@ -18,6 +19,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
     if (feedState == "nearMe")
       return NearYouFeedScreen(
         changeMainFeedStateState: widget.changeMainFeedStateState,
+        setClickedPlace: widget.setClickedPlace,
       );
     else if (feedState == "popular")
       return PopularFeedScreen();
