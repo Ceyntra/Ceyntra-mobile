@@ -49,7 +49,11 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                   child: Icon(Icons.arrow_back))
               : GestureDetector(
                   onTap: () {
-                    widget.pressed(230.0, 70.0, 0.8, true);
+                    widget.pressed(
+                        (MediaQuery.of(context).size.width / 100) * 70,
+                        70.0,
+                        0.8,
+                        true);
                   },
                   child: Icon(Icons.menu)),
           elevation: 20,
