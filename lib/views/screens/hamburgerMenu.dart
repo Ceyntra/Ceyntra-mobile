@@ -160,28 +160,28 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            height: 40,
-            child: Row(
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.cloud,
-                    color: Colors.grey,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Whether",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(top: 20),
+          //   height: 40,
+          //   child: Row(
+          //     children: [
+          //       Container(
+          //         child: Icon(
+          //           Icons.cloud,
+          //           color: Colors.grey,
+          //         ),
+          //       ),
+          //       Container(
+          //         margin: EdgeInsets.only(left: 10),
+          //         child: Text(
+          //           "Whether",
+          //           style: GoogleFonts.montserrat(
+          //               fontSize: 15, color: Colors.white),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Spacer(),
           // Container(
           //   margin: EdgeInsets.only(bottom: 20),

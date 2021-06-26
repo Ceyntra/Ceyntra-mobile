@@ -8,6 +8,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xff2F3546),
       body: Stack(
         children: [HamburgerMenu(), MainFeedScreen()],
