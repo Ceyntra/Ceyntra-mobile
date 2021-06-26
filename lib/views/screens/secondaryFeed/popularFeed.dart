@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PopulerFeedScreen extends StatefulWidget {
+class PopularFeedScreen extends StatefulWidget {
   @override
-  _PopulerFeedScreenState createState() => _PopulerFeedScreenState();
+  _PopularFeedScreenState createState() => _PopularFeedScreenState();
 }
 
-class _PopulerFeedScreenState extends State<PopulerFeedScreen> {
+class _PopularFeedScreenState extends State<PopularFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
