@@ -12,12 +12,18 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   String mainFeedState;
 
-  void changeMainFeedState(String state) {
+  void changeMainFeedState(dynamic state) {
     setState(() {
       mainFeedState = state;
     });
 
     // print(name);
+  }
+
+  void setNull() {
+    setState(() {
+      mainFeedState = null;
+    });
   }
 
   @override
@@ -32,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           MainFeedScreen(
             hamburgerState: mainFeedState,
+            setNull: setNull,
           )
         ],
       ),

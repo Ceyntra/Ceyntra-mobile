@@ -1,10 +1,13 @@
+import 'package:ceyntra_mobile/views/screens/animalDetection.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
+import 'package:ceyntra_mobile/views/screens/favourites.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 
 class MainFeedScreen extends StatefulWidget {
+  Function setNull;
   String hamburgerState;
-  MainFeedScreen({this.hamburgerState});
+  MainFeedScreen({this.hamburgerState, this.setNull});
   @override
   _MainFeedScreenState createState() => _MainFeedScreenState();
 }
@@ -55,7 +58,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return ClickOnThePlacePlaceFeedScreen(
         place: clickedPlace,
       );
-    // else if (mainFeedState == "profile") return SuggestionsFeedScreen();
+    else if (mainFeedState == "favourites")
+      return FavouritesScreen();
+    else if (mainFeedState == "animalDetection") return AnimalDetectionScreen();
     return null;
   }
 
@@ -69,6 +74,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         yOffSet = 0.0;
         isPressed = false;
       });
+
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => FavouritesScreen()));
       print(widget.hamburgerState);
     }
     return AnimatedContainer(
@@ -89,13 +97,16 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
+                    splashColor: Colors.amber,
                     onTap: () {
+                      widget.setNull();
                       widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "explore";
                       });
                     },
                     child: Container(
+                        // color: Colors.amber,
                         padding: EdgeInsets.symmetric(horizontal: 10),
 
                         // color: Colors.amberAccent,
@@ -120,6 +131,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                         ))),
                 InkWell(
                     onTap: () {
+                      widget.setNull();
                       widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "global";
@@ -148,6 +160,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                         ))),
                 GestureDetector(
                     onTap: () {
+                      widget.setNull();
                       widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "profile";
