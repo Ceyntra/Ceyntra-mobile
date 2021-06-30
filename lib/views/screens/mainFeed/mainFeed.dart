@@ -3,6 +3,8 @@ import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
 
 class MainFeedScreen extends StatefulWidget {
+  String hamburgerState;
+  MainFeedScreen({this.hamburgerState});
   @override
   _MainFeedScreenState createState() => _MainFeedScreenState();
 }
@@ -59,6 +61,16 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.hamburgerState != null) {
+      setState(() {
+        mainFeedState = widget.hamburgerState;
+        scaleFactor = 1.0;
+        xOffSet = 0.0;
+        yOffSet = 0.0;
+        isPressed = false;
+      });
+      print(widget.hamburgerState);
+    }
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffSet, yOffSet, 0)
         ..scale(scaleFactor),
@@ -78,6 +90,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
               children: [
                 InkWell(
                     onTap: () {
+                      widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "explore";
                       });
@@ -107,6 +120,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                         ))),
                 InkWell(
                     onTap: () {
+                      widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "global";
                       });
@@ -134,6 +148,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                         ))),
                 GestureDetector(
                     onTap: () {
+                      widget.hamburgerState = null;
                       setState(() {
                         mainFeedState = "profile";
                       });
