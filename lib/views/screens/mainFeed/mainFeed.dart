@@ -76,7 +76,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
+                InkWell(
                     onTap: () {
                       setState(() {
                         mainFeedState = "explore";
@@ -105,7 +105,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                             ),
                           ],
                         ))),
-                GestureDetector(
+                InkWell(
                     onTap: () {
                       setState(() {
                         mainFeedState = "global";

@@ -42,12 +42,12 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
         child: AppBar(
           brightness: Brightness.dark,
           leading: widget.isPressed
-              ? GestureDetector(
+              ? InkWell(
                   onTap: () {
                     widget.pressed(0.0, 0.0, 1.0, false);
                   },
                   child: Icon(Icons.arrow_back))
-              : GestureDetector(
+              : InkWell(
                   onTap: () {
                     widget.pressed(
                         (MediaQuery.of(context).size.width / 100) * 70,
@@ -55,7 +55,9 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                         0.8,
                         true);
                   },
-                  child: Icon(Icons.menu)),
+                  child: Icon(
+                    Icons.menu,
+                  )),
           elevation: 20,
           backgroundColor: Color(0xff192537),
           actions: [
@@ -66,7 +68,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
                           feedState = "nearMe";
@@ -93,7 +95,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                               ),
                             ],
                           ))),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
                           feedState = "popular";
@@ -119,7 +121,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                               ),
                             ],
                           ))),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
                           feedState = "suggestions";
