@@ -1,7 +1,11 @@
-import 'package:ceyntra_mobile/views/screens/animalDetection.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
-import 'package:ceyntra_mobile/views/screens/favourites.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
+
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/animalDetection.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favourites.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/translator.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
+
 import 'package:flutter/material.dart';
 
 class MainFeedScreen extends StatefulWidget {
@@ -27,6 +31,10 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     });
   }
 
+  void setHamburgerStateNull() {
+    widget.hamburgerState = null;
+  }
+
 // this function call from FeedPlaceWidget
   void setClickedPlace(String place) {
     setState(() {
@@ -37,12 +45,17 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void pressed(double xOff, double yOff, double scaleFac, bool pressed) {
     print(xOff);
     print(yOff);
+    print("clicked pressed");
+    print(pressed);
+
     setState(() {
       isPressed = pressed;
       xOffSet = xOff;
       yOffSet = yOff;
       scaleFactor = scaleFac;
     });
+
+    print(pressed);
   }
 
 // this function return Screen widgets according to mainfeed state
@@ -59,8 +72,29 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         place: clickedPlace,
       );
     else if (mainFeedState == "favourites")
-      return FavouritesScreen();
-    else if (mainFeedState == "animalDetection") return AnimalDetectionScreen();
+      return FavouritesScreen(
+        pressed: pressed,
+        isPressed: isPressed,
+        setNull: setHamburgerStateNull,
+      );
+    else if (mainFeedState == "translator")
+      return TranslatorScreen(
+        pressed: pressed,
+        isPressed: isPressed,
+        setNull: setHamburgerStateNull,
+      );
+    else if (mainFeedState == "addNewPlace")
+      return AddNewPlaceScreen(
+        pressed: pressed,
+        isPressed: isPressed,
+        setNull: setHamburgerStateNull,
+      );
+    else if (mainFeedState == "animalDetection")
+      return AnimalDetectionScreen(
+        pressed: pressed,
+        isPressed: isPressed,
+        setNull: setHamburgerStateNull,
+      );
     return null;
   }
 
@@ -69,11 +103,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     if (widget.hamburgerState != null) {
       setState(() {
         mainFeedState = widget.hamburgerState;
-        scaleFactor = 1.0;
-        xOffSet = 0.0;
-        yOffSet = 0.0;
-        isPressed = false;
+        // scaleFactor = 1.0;
+        // xOffSet = 0.0;
+        // yOffSet = 0.0;
+        // isPressed = false;
       });
+      pressed(0.0, 0.0, 1.0, false);
 
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => FavouritesScreen()));
@@ -82,7 +117,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffSet, yOffSet, 0)
         ..scale(scaleFactor),
-      duration: Duration(microseconds: 250),
+      duration: Duration(microseconds: 10),
       child: ClipRRect(
         borderRadius:
             isPressed ? BorderRadius.circular(40) : BorderRadius.circular(0),
