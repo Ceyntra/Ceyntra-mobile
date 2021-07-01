@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:translator/translator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +29,19 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     "item4",
   ];
 
+  void translate(String input) {
+    final translator = GoogleTranslator();
+
+    // final input = "Здравствуйте. Ты в порядке?";
+
+    translator.translate(input, from: 'si', to: 'en').then((s) {
+      print(s);
+      setState(() {
+        extractedText = s.toString();
+      });
+    });
+  }
+
   void postData() async {
     final Dio dio = new Dio();
     String fileName = image.path.split('/').last;
@@ -41,9 +54,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     try {
       print("object");
       var response = await dio.post(url, data: formData);
-      setState(() {
-        extractedText = response.toString();
-      });
+      translate(response.toString());
+      // setState(() {
+      //   extractedText = response.toString();
+      // });
       print(response);
     } catch (e) {
       print(e);
@@ -254,24 +268,20 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       title: "Sinhala translate",
                     ),
                     Container(
-                      height: 150,
-                      child: ListView(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 20, left: 20),
-                            width: double.infinity,
-                            color: Colors.white,
-                            child: extractedText != null
-                                ? Text(
-                                    extractedText,
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                : Text(""),
-                          ),
-                        ],
+                      constraints:
+                          BoxConstraints(maxHeight: 1000, minHeight: 100),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(right: 20, left: 20),
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: extractedText != null
+                            ? Text(
+                                extractedText,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 17, fontWeight: FontWeight.w600),
+                              )
+                            : Text(""),
                       ),
                     ),
                     GreenTagWidget(
