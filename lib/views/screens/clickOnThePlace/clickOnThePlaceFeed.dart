@@ -37,18 +37,22 @@ class _ClickOnThePlacePlaceFeedScreenState
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           brightness: Brightness.dark,
-          leading: Icon(Icons.menu),
+          leading: InkWell(
+              onTap: () {
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>))
+              },
+              child: Icon(Icons.arrow_back)),
           elevation: 20,
           backgroundColor: Color(0xff192537),
           actions: [
             Container(
               // color: Colors.amber,
               // padding: EdgeInsets.only(right: 10),
-              width: (MediaQuery.of(context).size.width / 100) * 80,
+              width: (MediaQuery.of(context).size.width / 100) * 85,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
                           feedState = "place";
@@ -75,20 +79,21 @@ class _ClickOnThePlacePlaceFeedScreenState
                               ),
                             ],
                           ))),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
-                          feedState = "weather";
+                          feedState = "taxi";
                         });
                       },
                       child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 10),
+                          alignment: Alignment.center,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.cloud,
-                                color: feedState == "weather"
+                                Icons.local_taxi,
+                                color: feedState == "taxi"
                                     ? Colors.green[400]
                                     : Colors.amber,
                               ),
@@ -96,12 +101,12 @@ class _ClickOnThePlacePlaceFeedScreenState
                                 height: 2,
                               ),
                               Text(
-                                "Weather",
+                                "Taxi",
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
                           ))),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
                           feedState = "hotel";
@@ -128,10 +133,36 @@ class _ClickOnThePlacePlaceFeedScreenState
                               ),
                             ],
                           ))),
-                  GestureDetector(
+                  InkWell(
                       onTap: () {
                         setState(() {
-                          feedState = "taxi";
+                          feedState = "weather";
+                        });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.cloud,
+                                color: feedState == "weather"
+                                    ? Colors.green[400]
+                                    : Colors.amber,
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "Weather",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ))),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          feedState = "guide";
                         });
                       },
                       child: Container(
@@ -141,8 +172,8 @@ class _ClickOnThePlacePlaceFeedScreenState
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.local_taxi,
-                                color: feedState == "taxi"
+                                Icons.tour,
+                                color: feedState == "guide"
                                     ? Colors.green[400]
                                     : Colors.amber,
                               ),
@@ -150,7 +181,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                                 height: 2,
                               ),
                               Text(
-                                "Taxi",
+                                "Guide",
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
