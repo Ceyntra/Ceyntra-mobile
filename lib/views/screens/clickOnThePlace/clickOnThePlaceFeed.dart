@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickedPlaceDetails.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/hotelFeed.dart';
 import 'package:flutter/material.dart';
 
 class ClickOnThePlacePlaceFeedScreen extends StatefulWidget {
@@ -21,8 +22,9 @@ class _ClickOnThePlacePlaceFeedScreenState
       return ClickedPlaceDetails(
         place: widget.place,
       );
-    else if (feedState == "weather") return PopularFeedScreen();
-    // else if (feedState == "hotel") return HotelFeedScreen();
+    else if (feedState == "weather") 
+      return PopularFeedScreen();
+    else if (feedState == "hotel") return HotelFeedScreen();
     // else if (feedState == "taxi") return TaxiFeedScreen();
     return null;
   }
