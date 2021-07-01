@@ -1,5 +1,11 @@
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
+import 'package:ceyntra_mobile/views/screens/introSlide.dart';
+import 'package:ceyntra_mobile/views/screens/startApp.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() {
   runApp(MyApp());
