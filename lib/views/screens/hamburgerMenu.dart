@@ -5,6 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 class HamburgerMenu extends StatefulWidget {
   // const HamburgerMenu({ Key? key }) : super(key: key);
 
+  Function changeMainFeedState;
+
+  HamburgerMenu({this.changeMainFeedState});
+
   @override
   _HamburgerMenuState createState() => _HamburgerMenuState();
 }
@@ -18,6 +22,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
       // color: Colors.amberAccent,
       margin: EdgeInsets.only(left: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             // color: Colors.green,
@@ -73,91 +78,120 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             height: 10,
           ),
           Container(
+            // color: Colors.greenAccent,
+            width: (MediaQuery.of(context).size.width / 100) * 55,
             margin: EdgeInsets.only(top: 20),
             height: 40,
-            child: Row(
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.grey,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                widget.changeMainFeedState("favourites");
+              },
+              child: Row(
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Favourites",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.white),
-                  ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Favourites",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Container(
+            width: (MediaQuery.of(context).size.width / 100) * 55,
             margin: EdgeInsets.only(top: 20),
             height: 40,
-            child: Row(
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.translate,
-                    color: Colors.grey,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                widget.changeMainFeedState("translator");
+              },
+              child: Row(
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.translate,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Translator",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.white),
-                  ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Translator",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Container(
+            width: (MediaQuery.of(context).size.width / 100) * 55,
             margin: EdgeInsets.only(top: 20),
             height: 40,
-            child: Row(
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.pets,
-                    color: Colors.grey,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                widget.changeMainFeedState("animalDetection");
+              },
+              child: Row(
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.pets,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Animal Detection",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.white),
-                  ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Animal Detection",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Container(
+            width: (MediaQuery.of(context).size.width / 100) * 55,
             margin: EdgeInsets.only(top: 20),
             height: 40,
-            child: Row(
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.place,
-                    color: Colors.grey,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                widget.changeMainFeedState("addNewPlace");
+              },
+              child: Row(
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.place,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Add New Place",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.white),
-                  ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Add New Place",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           // Container(
@@ -200,13 +234,21 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                     color: Colors.grey,
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    "Settings",
-                    style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      color: Colors.white,
+                InkWell(
+                  borderRadius: BorderRadius.circular(5),
+                  onTap: () {
+                    print("jhgj");
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Text(
+                      "Settings",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -217,13 +259,21 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                         color: Colors.white,
                       )),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Text("Log out",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        color: Colors.white,
-                      )),
+                InkWell(
+                  borderRadius: BorderRadius.circular(5),
+                  onTap: () {
+                    print("jhgj");
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Text("Log out",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.white,
+                        )),
+                  ),
                 )
               ],
             ),
