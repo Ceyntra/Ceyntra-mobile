@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ceyntra_mobile/models/languageModel.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
@@ -28,6 +29,32 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     "item3",
     "item4",
   ];
+
+  List<LanguageModel> languageList;
+
+  void fetchData() async {
+    List<LanguageModel> languageListDemo = [];
+    final Dio dio = new Dio();
+    var response = await dio.get('https://restcountries.eu/rest/v2/all');
+    // print(response.data.toList());
+
+    var items = response.data;
+
+    for (var i = 0; i < items.length; i++) {
+      print(items[i]['languages']);
+      for (var j = 0; j < items[i]['languages'].length; j++) {
+        languageListDemo.add(LanguageModel(
+            name: items[i]['languages'][j]['name'],
+            code: items[i]['languages'][j]['iso639_1']));
+      }
+    }
+
+    print(languageListDemo);
+
+    setState(() {
+      languageList = languageListDemo;
+    });
+  }
 
   void translate(String input) {
     final translator = GoogleTranslator();
@@ -178,10 +205,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                             valueChoose = newValue;
                           });
                         },
-                        items: listItem.map((value) {
+                        items: languageList.map((value) {
                           return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                            value: value.code,
+                            child: Text(value.name),
                           );
                         }).toList(),
                       ),
@@ -254,8 +281,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           ),
                           SizedBox(width: 20),
                           ElevatedButton(
-                            onPressed: () {},
-                            child: Text("skdjfh"),
+                            onPressed: () {
+                              fetchData();
+                            },
+                            child: Text("fetch data"),
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.redAccent),
