@@ -1,3 +1,7 @@
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/FavouriteTaxis.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouriteGuides.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouriteHotels.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouritePlaces.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -80,6 +84,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                     Icons.menu,
                   )),
           backgroundColor: Color(0xff192537),
+        ),
+        body: TabBarView(
+          children: [
+            FavouritePlacesScreen(),
+            FavouriteHotelsScreen(),
+            FavouriteTaxisScreen(),
+            FavouriteGuidesScreen()
+          ],
         ),
       ),
     );
