@@ -11,6 +11,8 @@ class ForgetPassword extends StatefulWidget {
 class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
+
+    Size size= MediaQuery.of(context).size;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -34,31 +36,42 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
 
               //Image
+              MediaQuery.of(context).viewInsets.bottom == 0 ?
               Expanded(
                 flex: 2,
                   child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                        Container(
-                          alignment: Alignment.topCenter,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.lightBlue,
-                            radius: 80.0,
-                            child: Icon(
-                              Icons.lock_open,
-                              color: Colors.white,
-                              size: 50.0,
-                            )
-                          ),
-                        ),
+                      //back oval shape
+                      Image.asset('assets/images/backoval.png',),
+                      //middle oval shape
+                      Image.asset('assets/images/frontoval.png',),
+                      //front circle
+                      CircleAvatar(
+                        backgroundColor: Colors.lightBlue,
+                        radius: 70.0,
+                      ),
+
+                      // icon
+                      Icon(
+                        Icons.lock_open,
+                        color: Colors.white,
+                        size: 50.0,
+                      ),
                     ],
                   ),
+              ) : Icon(
+                Icons.lock_open,
+                color: Colors.white,
+                size: 50.0,
               ),
 
               //Description
               Container(
                   //flex: 1,
-                  child: Padding(
+                  child: Container(
                     padding: const EdgeInsets.all(20.0),
+                    alignment: Alignment.center,
                     child: Text(
                       'Enter your email below to recive your\n \t\t\t\t\t password reset instructions',
                       style: GoogleFonts.montserrat(
@@ -116,8 +129,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             ),
                           ),
                         ),
-
-
                       ],
                     ),
                   )
