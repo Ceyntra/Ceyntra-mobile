@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
 
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/animalDetection.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 class MainFeedScreen extends StatefulWidget {
   Function setNull;
   String hamburgerState;
+
   MainFeedScreen({this.hamburgerState, this.setNull});
   @override
   _MainFeedScreenState createState() => _MainFeedScreenState();
@@ -23,11 +25,19 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   bool isPressed = false;
   String mainFeedState = 'explore';
   String clickedPlace;
+  String clickedHotel;
+  String clickedOnThePlaceState;
 
   // this function call from FeedPlaceWidget
   void changeMainFeedStateState(String state) {
     setState(() {
       mainFeedState = state;
+    });
+  }
+
+  void setClickedOnThePlaceState(String state) {
+    setState(() {
+      clickedOnThePlaceState = state;
     });
   }
 
@@ -39,6 +49,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void setClickedPlace(String place) {
     setState(() {
       clickedPlace = place;
+    });
+  }
+
+// this function call from FeedPlaceWidget
+  void setClickedHotel(String hotel) {
+    setState(() {
+      clickedHotel = hotel;
     });
   }
 
@@ -68,8 +85,11 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         isPressed: isPressed,
       );
     else if (mainFeedState == "clickOnThePlace")
-      return ClickOnThePlacePlaceFeedScreen(
+      return ClickOnThePlaceFeedScreen(
         place: clickedPlace,
+        changeMainFeedStateState: changeMainFeedStateState,
+        setClickedHotel: setClickedHotel,
+        changedFeedState: clickedOnThePlaceState,
       );
     else if (mainFeedState == "favourites")
       return FavouritesScreen(
@@ -94,6 +114,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         pressed: pressed,
         isPressed: isPressed,
         setNull: setHamburgerStateNull,
+      );
+    else if (mainFeedState == "clickOnTheHotel")
+      return ClickOnTheHotelFeed(
+        clickedHotel: clickedHotel,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
     return null;
   }
