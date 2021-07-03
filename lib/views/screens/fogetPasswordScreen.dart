@@ -11,6 +11,8 @@ class ForgetPassword extends StatefulWidget {
 class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
+
+    Size size= MediaQuery.of(context).size;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -34,6 +36,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
 
               //Image
+              MediaQuery.of(context).viewInsets.bottom == 0 ?
               Expanded(
                 flex: 2,
                   child: Stack(
@@ -52,6 +55,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                     ],
                   ),
+              ) : Icon(
+                Icons.lock_open,
+                color: Colors.white,
+                size: 50.0,
               ),
 
               //Description
