@@ -9,11 +9,13 @@ class SecondaryFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedPlace;
   final Function pressed;
+  final Function setNullClickedOnThePlaceState;
   SecondaryFeedScreen(
       {this.changeMainFeedStateState,
       this.setClickedPlace,
       this.pressed,
-      this.isPressed});
+      this.isPressed,
+      this.setNullClickedOnThePlaceState});
   @override
   _SecondaryFeedScreenState createState() => _SecondaryFeedScreenState();
 }
@@ -26,6 +28,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
       return NearYouFeedScreen(
         changeMainFeedStateState: widget.changeMainFeedStateState,
         setClickedPlace: widget.setClickedPlace,
+        setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
       );
     else if (feedState == "popular")
       return PopularFeedScreen();

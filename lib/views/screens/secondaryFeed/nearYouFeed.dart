@@ -7,7 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 class NearYouFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedPlace;
-  NearYouFeedScreen({this.changeMainFeedStateState, this.setClickedPlace});
+  final Function setNullClickedOnThePlaceState;
+  NearYouFeedScreen(
+      {this.changeMainFeedStateState,
+      this.setClickedPlace,
+      this.setNullClickedOnThePlaceState});
   @override
   _NearYouFeedScreenState createState() => _NearYouFeedScreenState();
 }
@@ -125,6 +129,7 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
           rating: 4.5,
           changeMainFeedStateState: widget.changeMainFeedStateState,
           setClickedPlace: widget.setClickedPlace,
+          setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
         ),
         FeedPlaceWidget(
           imagePath: "assets/images/dambulla.jpg",
@@ -133,6 +138,7 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
           rating: 4.3,
           changeMainFeedStateState: widget.changeMainFeedStateState,
           setClickedPlace: widget.setClickedPlace,
+          setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
         ),
         SizedBox(
           height: 60,
