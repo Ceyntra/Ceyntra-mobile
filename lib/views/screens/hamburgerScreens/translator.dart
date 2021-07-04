@@ -26,6 +26,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   File image;
   String sinhalaExtractedText;
   bool indicator;
+  String LanguageName = "English";
 
   List languageList = [
     LanguageModel(name: "English", code: "en"),
@@ -39,7 +40,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   Widget progress() {
     if (indicator == true) {
-      return CircularProgressIndicator();
+      return CircularProgressIndicator(
+        strokeWidth: 10,
+      );
     } else if (indicator == false) {
       return Container();
     }
@@ -230,6 +233,32 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                             choosenLanguage = newValue;
                           });
 
+                          if (newValue == "en") {
+                            setState(() {
+                              LanguageName = "English";
+                            });
+                          } else if (newValue == "es") {
+                            setState(() {
+                              LanguageName = "Spanish";
+                            });
+                          } else if (newValue == "ta") {
+                            setState(() {
+                              LanguageName = "Tamil";
+                            });
+                          } else if (newValue == "ar") {
+                            setState(() {
+                              LanguageName = "Arabic";
+                            });
+                          } else if (newValue == "ru") {
+                            setState(() {
+                              LanguageName = "Russian";
+                            });
+                          } else if (newValue == "hi") {
+                            setState(() {
+                              LanguageName = "Hindi";
+                            });
+                          }
+
                           print(sinhalaExtractedText);
 
                           if (sinhalaExtractedText != null) {
@@ -298,6 +327,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
+                                  setState(() {
+                                    extractedText = null;
+                                    sinhalaExtractedText = null;
+                                  });
                                   pickImage();
                                 },
                                 child: Icon(
@@ -340,69 +373,53 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 20, right: 20, left: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                pickImage();
-                              },
-                              child: Text("skdjsssfhhh"),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.redAccent),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          ElevatedButton(
-                            onPressed: () {
-                              // fetchData();
-                            },
-                            child: Text("fetch data"),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.redAccent,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
                     GreenTagWidget(
-                      title: "Sinhala translate",
+                      title: LanguageName + " translate",
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 150,
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(right: 20, left: 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       alignment: Alignment.center,
-                      constraints:
-                          BoxConstraints(maxHeight: 1000, minHeight: 100),
+                      constraints: BoxConstraints(minHeight: 100),
                       child: extractedText != null
                           ? Text(
                               extractedText,
                               style: GoogleFonts.montserrat(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
+                                  fontSize: 16, fontWeight: FontWeight.w500),
                             )
                           : Container(
-                              width: 100,
-                              height: 100,
+                              width: 60,
+                              height: 60,
                               child: progress(),
                             ),
                     ),
                     GreenTagWidget(
-                      title: "English translate",
+                      title: "Extracted text",
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 20, left: 20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      alignment: Alignment.center,
+                      constraints: BoxConstraints(minHeight: 100),
+                      child: sinhalaExtractedText != null
+                          ? Text(
+                              sinhalaExtractedText,
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            )
+                          : Container(
+                              width: 60,
+                              height: 60,
+                              child: progress(),
+                            ),
                     ),
                   ],
                 )
