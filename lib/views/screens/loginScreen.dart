@@ -14,3 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xff2F3546),
+		 body: SafeArea(
+          child: ListView(
+            physics: ClampingScrollPhysics(),
+            children: [
