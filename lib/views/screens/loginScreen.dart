@@ -31,3 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+			  //btn-bar
+              Row(
+                children: [
+                  //Facebook btn
+                  LoginButton(
+                    title: "Facebook",
+                    icon: FaIcon(
+                      FontAwesomeIcons.facebook,
+                      color: Colors.white,
