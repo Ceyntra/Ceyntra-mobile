@@ -18,3 +18,16 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(
             physics: ClampingScrollPhysics(),
             children: [
+			//1st Login
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(bottom: 25.0, top: 40.0),
+                child: Text(
+                  "Login",
+                  style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
