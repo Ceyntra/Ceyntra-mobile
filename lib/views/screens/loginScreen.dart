@@ -59,3 +59,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
+			  //login with email text
+              TextWidget(
+                textstring: "or login with email",
+                paddingtext: EdgeInsets.only(top: 40.0),
+              ),
+
+              Container(
+                padding: EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 20.0, bottom: 10.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Your email",
+                        filled: true,
