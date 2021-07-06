@@ -40,3 +40,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: FaIcon(
                       FontAwesomeIcons.facebook,
                       color: Colors.white,
+					  ),
+                    color: Color(0xFF0D47A1),
+                    paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
+                    //color: Colors.blue[900],
+                  ),
+
+                  //twitter btn
+                  LoginButton(
+                    title: "Twitter",
+                    icon: FaIcon(
+                      FontAwesomeIcons.twitter,
+                      color: Colors.white,
+                    ),
+                    color: Color(0xFF81D4FA),
+                    paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
+                    //color: Colors.lightBlue,
+                  ),
+                ],
+              ),
