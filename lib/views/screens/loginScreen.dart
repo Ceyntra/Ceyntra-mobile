@@ -74,3 +74,51 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         hintText: "Your email",
                         filled: true,
+						contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        filled: true,
+                        hintText: "password",
+                        contentPadding: EdgeInsets.all(15.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20.0, top: 5.0),
+                child: Text(
+                  "Forgot password?",
+                  style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12.0),
+                ),
+              ),
+
+              Container(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                height: 60.0,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  style: ButtonStyle(
