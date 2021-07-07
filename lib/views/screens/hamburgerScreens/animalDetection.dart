@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 
 class AnimalDetectionScreen extends StatefulWidget {
   // const AnimalDetectionScreen({ Key? key }) : super(key: key);
@@ -13,6 +16,62 @@ class AnimalDetectionScreen extends StatefulWidget {
 }
 
 class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
+  File imageFile;
+
+  _imgFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera, 
+      imageQuality: 50, 
+    );
+
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery, 
+      imageQuality: 50, 
+    );
+
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+  }
+
+void _showPicker(context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.photo_library),
+                    title: new Text('Photo Library'),
+                    onTap: () {
+                      _imgFromGallery();
+                      Navigator.of(context).pop();
+                    }
+                    ),
+                new ListTile(
+                  leading: new Icon(Icons.photo_camera),
+                  title: new Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +99,58 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                 child: Icon(
                   Icons.menu,
                 )),
-        backgroundColor: Color(0xff192537),
+        backgroundColor: Color(0xff192537),        
+      ),
+
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: GreenTagWidget(
+                title: "Photo",
+              ),
+            ),
+
+            imageFile != null 
+            
+            ? Container(
+                margin: EdgeInsets.only(right: 10, left: 10),
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.lime,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                  image: DecorationImage(
+                    image: FileImage(imageFile),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )
+
+            : Container(
+                margin: EdgeInsets.only(right: 10, left: 10),
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.lime,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                ),
+                
+                child: IconButton(
+                  onPressed: () {_showPicker(context);}, 
+                  icon: Icon(
+                    Icons.add_photo_alternate_rounded, 
+                    size: 80.0,
+                  )
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
