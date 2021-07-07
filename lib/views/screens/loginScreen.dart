@@ -167,3 +167,41 @@ class TextWidget extends StatelessWidget {
     required this.textstring,
     required this.paddingtext,
   }) : super(key: key);
+
+  final String textstring;
+  final EdgeInsets paddingtext;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: paddingtext,
+      child: Text(
+        textstring,
+        style: GoogleFonts.montserrat(
+          color: Colors.white,
+          fontWeight: FontWeight.w200,
+          fontSize: 11.0,
+        ),
+      ),
+    );
+  }
+}
+
+class LoginButton extends StatelessWidget {
+  const LoginButton(
+      {Key? key,
+      required this.title,
+      required this.icon,
+      required this.color,
+      required this.paddingbutton})
+      : super(key: key);
+
+  final String title;
+  final FaIcon icon;
+  final Color color;
+  final EdgeInsets paddingbutton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 180.0,
