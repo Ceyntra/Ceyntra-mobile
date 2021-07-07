@@ -205,3 +205,32 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 180.0,
+	  height: 40.0,
+      padding: paddingbutton,
+      //padding: EdgeInsets.only(left: 5.0, right: 5.0),
+      child: TextButton(
+        onPressed: () {
+          print("clicked ${title}");
+        },
+        child: Row(
+          children: [
+            icon,
+            Padding(padding: EdgeInsets.only(left: 5.0, right: 20.0)),
+            Text(
+              title,
+              style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(color),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)))),
+      ),
+    );
+  }
+}
