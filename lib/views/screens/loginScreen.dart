@@ -122,3 +122,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   style: ButtonStyle(
+				  alignment: Alignment.center,
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xFF64B5F6)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)))),
+                ),
+              ),
+
+              TextWidget(
+                  textstring: "Don't have an account?",
+                  paddingtext: EdgeInsets.only(top: 80.0)),
+
+              Container(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                height: 60.0,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Sign up",
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                      alignment: Alignment.center,
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)))),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class TextWidget extends StatelessWidget {
+  const TextWidget({
+    Key? key,
+    required this.textstring,
+    required this.paddingtext,
+  }) : super(key: key);
