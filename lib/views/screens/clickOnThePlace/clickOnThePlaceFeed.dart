@@ -3,18 +3,24 @@ import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/hotelFeed.dart';
 import 'package:flutter/material.dart';
 
-class ClickOnThePlacePlaceFeedScreen extends StatefulWidget {
-  // const ClickOnThePlacePlaceFeedScreen({ Key? key }) : super(key: key);
+class ClickOnThePlaceFeedScreen extends StatefulWidget {
+  // const ClickOnThePlaceFeedScreen({ Key? key }) : super(key: key);
+  final ValueChanged<String> changeMainFeedStateState;
+  final ValueChanged<String> setClickedHotel;
   final String place;
-  ClickOnThePlacePlaceFeedScreen({this.place});
+  String changedFeedState;
+  ClickOnThePlaceFeedScreen(
+      {this.place,
+      this.changeMainFeedStateState,
+      this.setClickedHotel,
+      this.changedFeedState});
 
   @override
-  _ClickOnThePlacePlaceFeedScreenState createState() =>
-      _ClickOnThePlacePlaceFeedScreenState();
+  _ClickOnThePlaceFeedScreenState createState() =>
+      _ClickOnThePlaceFeedScreenState();
 }
 
-class _ClickOnThePlacePlaceFeedScreenState
-    extends State<ClickOnThePlacePlaceFeedScreen> {
+class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
   String feedState = 'place';
 
   Widget feed(BuildContext context) {
@@ -22,15 +28,24 @@ class _ClickOnThePlacePlaceFeedScreenState
       return ClickedPlaceDetails(
         place: widget.place,
       );
-    else if (feedState == "weather") 
+    else if (feedState == "weather")
       return PopularFeedScreen();
-    else if (feedState == "hotel") return HotelFeedScreen();
+    else if (feedState == "hotel")
+      return HotelFeedScreen(
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+        setClickedHotel: widget.setClickedHotel,
+      );
     // else if (feedState == "taxi") return TaxiFeedScreen();
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.changedFeedState != null) {
+      setState(() {
+        feedState = widget.changedFeedState;
+      });
+    }
     return Scaffold(
       backgroundColor: Color(0xff192537),
       appBar: PreferredSize(
@@ -54,6 +69,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                 children: [
                   InkWell(
                       onTap: () {
+                        widget.changedFeedState = null;
                         setState(() {
                           feedState = "place";
                         });
@@ -81,6 +97,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.changedFeedState = null;
                         setState(() {
                           feedState = "taxi";
                         });
@@ -108,6 +125,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.changedFeedState = null;
                         setState(() {
                           feedState = "hotel";
                         });
@@ -135,6 +153,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.changedFeedState = null;
                         setState(() {
                           feedState = "weather";
                         });
@@ -161,6 +180,7 @@ class _ClickOnThePlacePlaceFeedScreenState
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.changedFeedState = null;
                         setState(() {
                           feedState = "guide";
                         });
