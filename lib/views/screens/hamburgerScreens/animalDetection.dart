@@ -20,8 +20,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
 
   _imgFromCamera() async {
     PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera, 
-      imageQuality: 50, 
+      source: ImageSource.camera,
     );
 
     setState(() {
@@ -31,8 +30,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
 
   _imgFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery, 
-      imageQuality: 50, 
+      source: ImageSource.gallery,
     );
 
     setState(() {
@@ -40,37 +38,42 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
     });
   }
 
-void _showPicker(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return SafeArea(
-          child: Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.photo_library),
-                    title: new Text('Photo Library'),
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(
+                      Icons.photo_library,
+                      color: Colors.black,
+                    ),
+                    title: Text('Photo Library'),
                     onTap: () {
                       _imgFromGallery();
                       Navigator.of(context).pop();
                     }
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.photo_camera,
+                      color: Colors.black,
                     ),
-                new ListTile(
-                  leading: new Icon(Icons.photo_camera),
-                  title: new Text('Camera'),
-                  onTap: () {
-                    _imgFromCamera();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+                    title: Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    );
-}
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,7 @@ void _showPicker(context) {
                 child: Icon(
                   Icons.menu,
                 )),
-        backgroundColor: Color(0xff192537),        
+        backgroundColor: Color(0xff192537),
       ),
 
       body: SingleChildScrollView(
@@ -112,101 +115,92 @@ void _showPicker(context) {
               ),
             ),
 
-            imageFile != null 
-            
-            ? Container(
-                margin: EdgeInsets.only(right: 10, left: 10),
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.lime,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  image: DecorationImage(
-                    image: FileImage(imageFile),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 150),
-                      height: 50,
-                      decoration: BoxDecoration(
-                        // color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
+            imageFile != null
+                ? Container(
+                    margin: EdgeInsets.only(right: 10, left: 10),
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
                       ),
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Material(
-                            color: Colors.transparent,
-                            child: Ink(
-                              decoration: const ShapeDecoration(
-                                color: Colors.white,
-                                shape: CircleBorder(),
-                              ),
-                              // color: Colors.white,
-                              // width: 40.0,
-                              // height: 40.0,
-                              child: IconButton(
-                                icon: const Icon(Icons.camera_alt_outlined),
-                                // color: Colors.white,
-                                onPressed: () {},
-                              ),
+                      image: DecorationImage(
+                        image: FileImage(imageFile),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 140),
+                          height: 60,
+                          decoration: BoxDecoration(
+                            // color: Colors.black.withOpacity(0.4),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Material(
-                            color: Colors.transparent,
-                            child: Ink(
-                              decoration: const ShapeDecoration(
-                                color: Colors.white,
-                                shape: CircleBorder(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Material(
+                                color: Colors.transparent,
+                                child: Ink(
+                                  decoration: const ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: CircleBorder(),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(Icons.camera_alt_outlined),
+                                    // color: Colors.white,
+                                    onPressed: _imgFromCamera,
+                                  ),
+                                ),
                               ),
-                              // color: Colors.white,
-                              // width: 40.0,
-                              // height: 40.0,
-                              child: IconButton(
-                                icon: const Icon(Icons.photo_library_outlined),
-                                // color: Colors.white,
-                                onPressed: () {},
+                              SizedBox(width: 5),
+                              Material(
+                                color: Colors.transparent,
+                                child: Ink(
+                                  decoration: const ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: CircleBorder(),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                        Icons.photo_library_outlined),
+                                    // color: Colors.white,
+                                    onPressed: _imgFromGallery,
+                                  ),
+                                ),
                               ),
-                            ),
+                              SizedBox(width: 5),
+                            ],
                           ),
-                          SizedBox(width: 10),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-
-            : Container(
-                margin: EdgeInsets.only(right: 10, left: 10),
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                ),
-                
-                child: IconButton(
-                  onPressed: () {_showPicker(context);}, 
-                  icon: Icon(
-                    Icons.add_photo_alternate_rounded, 
-                    size: 80.0,
-                    color: Colors.white,
+                        )
+                      ],
+                    ),
                   )
-                ),
-              ),
+                : Container(
+                    margin: EdgeInsets.only(right: 10, left: 10),
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.2),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                    ),
+                    child: IconButton(
+                        onPressed: () {
+                          _showPicker(context);
+                        },
+                        icon: Icon(
+                          Icons.add_photo_alternate_rounded,
+                          size: 80.0,
+                          color: Colors.white,
+                        )),
+                  ),
 
             Container(
               alignment: Alignment.centerLeft,
@@ -215,24 +209,45 @@ void _showPicker(context) {
               ),
             ),
 
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 10, left: 10),
-              // height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                // color: Colors.grey.withOpacity(0.5),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-              child: Text(
-                'Please enter the image to view results',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            imageFile != null
+              ? Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 10, left: 10),
+                  // height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    // color: Colors.grey.withOpacity(0.5),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+
+                  child: Text(
+                    'The description will goes here ...',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 10, left: 10),
+                  // height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    // color: Colors.grey.withOpacity(0.5),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+
+                  child: Text(
+                    'Please enter the image to view results',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                )
           ],
         ),
       ),
