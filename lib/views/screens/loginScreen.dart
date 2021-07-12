@@ -163,13 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
 class TextWidget extends StatelessWidget {
   const TextWidget({
-    Key? key,
-    required this.textstring,
-    required this.paddingtext,
+    Key key,
+    @required this.textstring,
+    @required this.paddingtext,
   }) : super(key: key);
 
   final String textstring;
   final EdgeInsets paddingtext;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,11 +190,11 @@ class TextWidget extends StatelessWidget {
 
 class LoginButton extends StatelessWidget {
   const LoginButton(
-      {Key? key,
-      required this.title,
-      required this.icon,
-      required this.color,
-      required this.paddingbutton})
+      {Key key,
+      @required this.title,
+      @required this.icon,
+      @required this.color,
+      @required this.paddingbutton})
       : super(key: key);
 
   final String title;
