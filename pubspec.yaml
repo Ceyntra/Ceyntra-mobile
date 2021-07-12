@@ -39,6 +39,7 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   http: ^0.13.3
   weather: ^2.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
