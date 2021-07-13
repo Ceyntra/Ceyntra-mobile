@@ -40,9 +40,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   Widget progress() {
     if (indicator == true) {
-      return CircularProgressIndicator(
-        strokeWidth: 10,
-      );
+      return CircularProgressIndicator();
     } else if (indicator == false) {
       return Container();
     }
@@ -392,8 +390,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                   fontSize: 16, fontWeight: FontWeight.w500),
                             )
                           : Container(
-                              width: 60,
-                              height: 60,
+                              width: 40,
+                              height: 40,
                               child: progress(),
                             ),
                     ),
@@ -416,8 +414,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                   fontSize: 16, fontWeight: FontWeight.w500),
                             )
                           : Container(
-                              width: 60,
-                              height: 60,
+                              width: 40,
+                              height: 40,
                               child: progress(),
                             ),
                     ),
