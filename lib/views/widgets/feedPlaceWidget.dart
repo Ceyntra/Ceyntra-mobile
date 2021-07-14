@@ -8,6 +8,7 @@ class FeedPlaceWidget extends StatefulWidget {
   final int votes;
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedPlace;
+  final Function setNullClickedOnThePlaceState;
 
   FeedPlaceWidget(
       {this.imagePath,
@@ -15,7 +16,8 @@ class FeedPlaceWidget extends StatefulWidget {
       this.rating,
       this.votes,
       this.changeMainFeedStateState,
-      this.setClickedPlace});
+      this.setClickedPlace,
+      this.setNullClickedOnThePlaceState});
 
   @override
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
@@ -40,6 +42,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
       onTap: () {
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
+        widget.setNullClickedOnThePlaceState();
         widget.setClickedPlace(widget.placeName);
         widget.changeMainFeedStateState(
           "clickOnThePlace",
