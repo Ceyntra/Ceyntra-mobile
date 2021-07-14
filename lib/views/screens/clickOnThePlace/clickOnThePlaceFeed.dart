@@ -7,13 +7,15 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   // const ClickOnThePlaceFeedScreen({ Key? key }) : super(key: key);
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedHotel;
+  final Function setNullChangedFeedState;
   final String place;
   String changedFeedState;
   ClickOnThePlaceFeedScreen(
       {this.place,
       this.changeMainFeedStateState,
       this.setClickedHotel,
-      this.changedFeedState});
+      this.changedFeedState,
+      this.setNullChangedFeedState});
 
   @override
   _ClickOnThePlaceFeedScreenState createState() =>
@@ -54,7 +56,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
           brightness: Brightness.dark,
           leading: InkWell(
               onTap: () {
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>))
+                widget.changeMainFeedStateState("explore");
               },
               child: Icon(Icons.arrow_back)),
           elevation: 20,
@@ -70,6 +72,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
                   InkWell(
                       onTap: () {
                         widget.changedFeedState = null;
+                        widget.setNullChangedFeedState();
                         setState(() {
                           feedState = "place";
                         });
@@ -98,6 +101,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
                   InkWell(
                       onTap: () {
                         widget.changedFeedState = null;
+                        widget.setNullChangedFeedState();
                         setState(() {
                           feedState = "taxi";
                         });
@@ -126,6 +130,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
                   InkWell(
                       onTap: () {
                         widget.changedFeedState = null;
+                        widget.setNullChangedFeedState();
                         setState(() {
                           feedState = "hotel";
                         });
@@ -154,6 +159,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
                   InkWell(
                       onTap: () {
                         widget.changedFeedState = null;
+                        widget.setNullChangedFeedState();
                         setState(() {
                           feedState = "weather";
                         });
@@ -181,6 +187,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
                   InkWell(
                       onTap: () {
                         widget.changedFeedState = null;
+                        widget.setNullChangedFeedState();
                         setState(() {
                           feedState = "guide";
                         });
