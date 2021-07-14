@@ -161,6 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+
 class TextWidget extends StatelessWidget {
   const TextWidget({
     Key key,
@@ -196,6 +197,7 @@ class LoginButton extends StatelessWidget {
       @required this.color,
       @required this.paddingbutton})
       : super(key: key);
+
 
   final String title;
   final FaIcon icon;
