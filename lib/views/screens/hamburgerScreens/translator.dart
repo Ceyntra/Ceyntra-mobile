@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ceyntra_mobile/models/languageModel.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:shape_of_view/shape_of_view.dart';
 import 'package:translator/translator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
@@ -20,48 +21,68 @@ class TranslatorScreen extends StatefulWidget {
 }
 
 class _TranslatorScreenState extends State<TranslatorScreen> {
-  String valueChoose;
+  String choosenLanguage = "en";
   String extractedText;
   File image;
-  List listItem = [
-    "item1",
-    "item2",
-    "item3",
-    "item4",
+  String sinhalaExtractedText;
+  bool indicator;
+  String LanguageName = "English";
+
+  List languageList = [
+    LanguageModel(name: "English", code: "en"),
+    // LanguageModel(name: "Chinese", code: "zh-CN"),
+    LanguageModel(name: "Spanish", code: "es"),
+    LanguageModel(name: "Tamil", code: "ta"),
+    LanguageModel(name: "Arabic", code: "ar"),
+    LanguageModel(name: "Russian", code: "ru"),
+    LanguageModel(name: "Hindi", code: "hi")
   ];
 
-  List<LanguageModel> languageList;
-
-  void fetchData() async {
-    List<LanguageModel> languageListDemo = [];
-    final Dio dio = new Dio();
-    var response = await dio.get('https://restcountries.eu/rest/v2/all');
-    // print(response.data.toList());
-
-    var items = response.data;
-
-    for (var i = 0; i < items.length; i++) {
-      print(items[i]['languages']);
-      for (var j = 0; j < items[i]['languages'].length; j++) {
-        languageListDemo.add(LanguageModel(
-            name: items[i]['languages'][j]['name'],
-            code: items[i]['languages'][j]['iso639_1']));
-      }
+  Widget progress() {
+    if (indicator == true) {
+      return CircularProgressIndicator();
+    } else if (indicator == false) {
+      return Container();
     }
 
-    print(languageListDemo);
-
-    setState(() {
-      languageList = languageListDemo;
-    });
+    return null;
   }
+
+  // void fetchData() async {
+  //   List<LanguageModel> languageListDemo = [];
+  //   final Dio dio = new Dio();
+  //   var response = await dio.get('https://restcountries.eu/rest/v2/all');
+  //   // print(response.data.toList());
+
+  //   var items = response.data;
+
+  //   for (var i = 0; i < items.length; i++) {
+  //     print(items[i]['languages']);
+  //     for (var j = 0; j < items[i]['languages'].length; j++) {
+  //       languageListDemo.add(LanguageModel(
+  //           name: items[i]['languages'][j]['name'],
+  //           code: items[i]['languages'][j]['iso639_1']));
+  //     }
+  //   }
+
+  //   print(languageListDemo);
+
+  //   setState(() {
+  //     languageList = languageListDemo;
+  //   });
+  // }
+
+  // void initState() {
+  //   print("sjkdfds");
+  //   fetchData();
+  // }
 
   void translate(String input) {
     final translator = GoogleTranslator();
 
     // final input = "Здравствуйте. Ты в порядке?";
 
-    translator.translate(input, from: 'si', to: 'en').then((s) {
+    translator.translate(input, from: 'si', to: choosenLanguage).then((s) {
       print(s);
       setState(() {
         extractedText = s.toString();
@@ -80,11 +101,17 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     String url = "http://10.0.2.2:8000/upload";
     try {
       print("object");
+      setState(() {
+        indicator = true;
+      });
       var response = await dio.post(url, data: formData);
+      setState(() {
+        indicator = false;
+      });
       translate(response.toString());
-      // setState(() {
-      //   extractedText = response.toString();
-      // });
+      setState(() {
+        sinhalaExtractedText = response.toString();
+      });
       print(response);
     } catch (e) {
       print(e);
@@ -92,7 +119,6 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   }
 
   Future pickImage() async {
-    print("me inne true eke");
     final file = await ImagePicker().getImage(source: ImageSource.gallery);
     setState(() {
       image = File(file.path);
@@ -199,11 +225,43 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                             fontSize: 15,
                           ),
                         ),
-                        value: valueChoose,
+                        value: choosenLanguage,
                         onChanged: (newValue) {
                           setState(() {
-                            valueChoose = newValue;
+                            choosenLanguage = newValue;
                           });
+
+                          if (newValue == "en") {
+                            setState(() {
+                              LanguageName = "English";
+                            });
+                          } else if (newValue == "es") {
+                            setState(() {
+                              LanguageName = "Spanish";
+                            });
+                          } else if (newValue == "ta") {
+                            setState(() {
+                              LanguageName = "Tamil";
+                            });
+                          } else if (newValue == "ar") {
+                            setState(() {
+                              LanguageName = "Arabic";
+                            });
+                          } else if (newValue == "ru") {
+                            setState(() {
+                              LanguageName = "Russian";
+                            });
+                          } else if (newValue == "hi") {
+                            setState(() {
+                              LanguageName = "Hindi";
+                            });
+                          }
+
+                          print(sinhalaExtractedText);
+
+                          if (sinhalaExtractedText != null) {
+                            translate(sinhalaExtractedText);
+                          }
                         },
                         items: languageList.map((value) {
                           return DropdownMenuItem<String>(
@@ -213,108 +271,153 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                         }).toList(),
                       ),
                     ),
-
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     pickImage();
-                    //   },
-                    //   child: Container(
-                    //     alignment: Alignment.center,
-                    //     width: 200,
-                    //     height: 40,
-                    //     color: Colors.redAccent,
-                    //     child: Text("Click here"),
-                    //   ),
-                    // ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     print("iam clicked");
-                    //     postData();
-                    //   },
-                    //   child: Container(
-                    //     alignment: Alignment.center,
-                    //     width: 200,
-                    //     height: 40,
-                    //     color: Colors.greenAccent,
-                    //     child: Text("extract text"),
-                    //   ),
-                    // ),
-                    // Conta
-                    image != null
-                        ? Container(
-                            margin:
-                                EdgeInsets.only(top: 20, right: 20, left: 20),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            width: double.infinity,
-                            height: 250,
-                            child: Image.file(image),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.amber, width: 5)),
-                            height: 200,
-                          ),
-
                     Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 20, right: 20, left: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Stack(
                         children: [
-                          Container(
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                pickImage();
-                              },
-                              child: Text("skdjfhhh"),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.redAccent),
+                          image != null
+                              ? Container(
+                                  margin: EdgeInsets.only(
+                                      top: 20, right: 20, left: 20),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  width: double.infinity,
+                                  height: 250,
+                                  child: Image.file(image),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                      top: 20, right: 20, left: 20),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  width: double.infinity,
+                                  height: 250,
+                                  // child: Image.file(image),
+                                ),
+                          Positioned(
+                            bottom: 10,
+                            right: 110,
+                            child: Container(
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 20),
-                          ElevatedButton(
-                            onPressed: () {
-                              fetchData();
-                            },
-                            child: Text("fetch data"),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.redAccent),
+                          Positioned(
+                            bottom: 10,
+                            right: 30,
+                            child: Container(
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    extractedText = null;
+                                    sinhalaExtractedText = null;
+                                  });
+                                  pickImage();
+                                },
+                                child: Icon(
+                                  Icons.photo,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors.grey,
+                                  ),
+                                ),
+                              ),
                             ),
-                          )
+                          ),
+                          image != null
+                              ? Positioned(
+                                  top: 30,
+                                  right: 30,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        image = null;
+                                        extractedText = null;
+                                        sinhalaExtractedText = null;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey),
+                                      child: Icon(Icons.close_rounded),
+                                    ),
+                                  ))
+                              : Container()
                         ],
                       ),
                     ),
                     GreenTagWidget(
-                      title: "Sinhala translate",
+                      title: LanguageName + " translate",
                     ),
                     Container(
-                      constraints:
-                          BoxConstraints(maxHeight: 1000, minHeight: 100),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.only(right: 20, left: 20),
-                        width: double.infinity,
-                        color: Colors.white,
-                        child: extractedText != null
-                            ? Text(
-                                extractedText,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 17, fontWeight: FontWeight.w600),
-                              )
-                            : Text(""),
-                      ),
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 20, left: 20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      alignment: Alignment.center,
+                      constraints: BoxConstraints(minHeight: 100),
+                      child: extractedText != null
+                          ? Text(
+                              extractedText,
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            )
+                          : Container(
+                              width: 40,
+                              height: 40,
+                              child: progress(),
+                            ),
                     ),
                     GreenTagWidget(
-                      title: "English translate",
+                      title: "Extracted text",
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 20, left: 20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      alignment: Alignment.center,
+                      constraints: BoxConstraints(minHeight: 100),
+                      child: sinhalaExtractedText != null
+                          ? Text(
+                              sinhalaExtractedText,
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            )
+                          : Container(
+                              width: 40,
+                              height: 40,
+                              child: progress(),
+                            ),
                     ),
                   ],
                 )

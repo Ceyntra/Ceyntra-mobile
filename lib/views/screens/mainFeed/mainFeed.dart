@@ -41,6 +41,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     });
   }
 
+  void setNullClickedOnThePlaceState() {
+    setState(() {
+      clickedOnThePlaceState = null;
+    });
+  }
+
   void setHamburgerStateNull() {
     widget.hamburgerState = null;
   }
@@ -83,6 +89,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         setClickedPlace: setClickedPlace,
         pressed: pressed,
         isPressed: isPressed,
+        setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
       );
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
@@ -90,6 +97,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedHotel: setClickedHotel,
         changedFeedState: clickedOnThePlaceState,
+        setNullChangedFeedState: setNullClickedOnThePlaceState,
       );
     else if (mainFeedState == "favourites")
       return FavouritesScreen(
