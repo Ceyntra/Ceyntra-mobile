@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:ceyntra_mobile/views/screens/startApp.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainScreen(),
+      home: FirstPageScreen(),
     );
   }
 }
