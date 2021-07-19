@@ -3,8 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TravellerSignUp extends StatefulWidget {
-  const TravellerSignUp({Key? key}) : super(key: key);
-
   @override
   _TravellerSignUpState createState() => _TravellerSignUpState();
 }
@@ -82,7 +80,7 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
                         contentPadding: EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
                         fillColor: Colors.white,
-						border: OutlineInputBorder(
+                        border: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0))),
                       ),
@@ -201,14 +199,13 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
     );
   }
 }
+
 class LoginButton extends StatelessWidget {
   const LoginButton(
-      {Key? key,
-      required this.title,
-      required this.icon,
-      required this.color,
-      required this.paddingbutton})
-      : super(key: key);
+      {@required this.title,
+      @required this.icon,
+      @required this.color,
+      @required this.paddingbutton});
 
   final String title;
   final FaIcon icon;
@@ -251,12 +248,11 @@ class LoginButton extends StatelessWidget {
 
 class TextWidget extends StatelessWidget {
   const TextWidget({
-    Key? key,
-    required this.textstring,
-    required this.paddingtext,
-    required this.fntcolor,
-    required this.fntweight,
-  }) : super(key: key);
+    @required this.textstring,
+    @required this.paddingtext,
+    @required this.fntcolor,
+    @required this.fntweight,
+  });
 
   final String textstring;
   final EdgeInsets paddingtext;
