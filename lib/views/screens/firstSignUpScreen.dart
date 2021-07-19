@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
+import 'package:ceyntra_mobile/views/widgets/signUpwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,124 +25,20 @@ class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          Container(
-            padding: EdgeInsets.only(bottom: 30),
-            decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Colors.grey.withOpacity(0.6), width: 1)),
-            ),
-            margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-            child: Column(
-              children: [
-                Container(
-                    // color: Colors.amber,
-                    width: MediaQuery.of(context).size.width,
-                    child: Text(
-                      "Travaller",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    )),
-                Container(
-                    height: 140,
-                    child:
-                        Image(image: AssetImage("assets/images/signup1.png"))),
-                Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "If you are a traveller who eger to travel around Sri Lanka. Please sign up to use our amazing support for you.",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
-                    )),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.centerRight,
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(5)),
-                    alignment: Alignment.center,
-                    width: 120,
-                    height: 40,
-                    child: Text(
-                      "Continue",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                )
-              ],
-            ),
+          SignUpWidget(
+            title: "Travaller",
+            description:
+                "If you are a traveller who eger to travel around Sri Lanka. Please sign up to use our amazing support for you.",
+            image: AssetImage('assets/images/signup1.png'),
+            widget: LoginScreen(),
           ),
           SizedBox(
             height: 20,
           ),
-          // Container(
-          //   padding: EdgeInsets.only(bottom: 30),
-          //   decoration: BoxDecoration(
-          //     border: Border(
-          //         bottom: BorderSide(
-          //             color: Colors.grey.withOpacity(0.6), width: 1)),
-          //   ),
-          //   margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-          //   child: Column(
-          //     children: [
-          //       Container(
-          //           // color: Colors.amber,
-          //           width: MediaQuery.of(context).size.width,
-          //           child: Text(
-          //             "Sevice Provider",
-          //             style: GoogleFonts.montserrat(
-          //                 fontSize: 25,
-          //                 fontWeight: FontWeight.w500,
-          //                 color: Colors.white),
-          //           )),
-          //       Container(
-          //           height: 140,
-          //           child:
-          //               Image(image: AssetImage("assets/images/signup3.png"))),
-          //       Container(
-          //           margin: EdgeInsets.only(top: 10),
-          //           child: Text(
-          //             "If you wish to join our service provider community to support travellers and earn profits. Join us.",
-          //             style: GoogleFonts.montserrat(
-          //                 fontSize: 15,
-          //                 fontWeight: FontWeight.w400,
-          //                 color: Colors.white),
-          //           )),
-          //       Container(
-          //         margin: EdgeInsets.only(top: 10),
-          //         alignment: Alignment.centerRight,
-          //         width: MediaQuery.of(context).size.width,
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //               color: Colors.blueAccent,
-          //               borderRadius: BorderRadius.circular(5)),
-          //           alignment: Alignment.center,
-          //           width: 120,
-          //           height: 40,
-          //           child: Text(
-          //             "Continue",
-          //             style: GoogleFonts.montserrat(
-          //                 fontSize: 15,
-          //                 color: Colors.white,
-          //                 fontWeight: FontWeight.w400),
-          //           ),
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           SignUpWidget(
             title: "Service Provider",
-            description: "skdjfh",
+            description:
+                "If you wish to join our service provider community to support travellers and earn profits. Join us.",
             image: AssetImage('assets/images/signup3.png'),
             widget: LoginScreen(),
           ),
@@ -175,76 +72,6 @@ class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
                             fontWeight: FontWeight.w400)),
                   ),
                 ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class SignUpWidget extends StatelessWidget {
-  final String title;
-  final AssetImage image;
-  final String description;
-  final Widget widget;
-  const SignUpWidget({this.title, this.image, this.description, this.widget});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 30),
-      decoration: BoxDecoration(
-        border: Border(
-            bottom: BorderSide(color: Colors.grey.withOpacity(0.6), width: 1)),
-      ),
-      margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-      child: Column(
-        children: [
-          Container(
-              // color: Colors.amber,
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                title,
-                style: GoogleFonts.montserrat(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              )),
-          Container(height: 140, child: Image(image: image)),
-          Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
-                description,
-                style: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-              )),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            alignment: Alignment.centerRight,
-            width: MediaQuery.of(context).size.width,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => widget));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                alignment: Alignment.center,
-                width: 120,
-                height: 40,
-                child: Text(
-                  "Continue",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400),
-                ),
               ),
             ),
           )
