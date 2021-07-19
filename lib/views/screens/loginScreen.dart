@@ -14,11 +14,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xff2F3546),
-		 body: SafeArea(
+        body: SafeArea(
           child: ListView(
             physics: ClampingScrollPhysics(),
             children: [
-			//1st Login
+              //1st Login
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(bottom: 25.0, top: 40.0),
@@ -31,35 +31,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-			  //btn-bar
+
+              //btn-bar
               Row(
                 children: [
                   //Facebook btn
-                  LoginButton(
-                    title: "Facebook",
-                    icon: FaIcon(
-                      FontAwesomeIcons.facebook,
-                      color: Colors.white,
-					  ),
-                    color: Color(0xFF0D47A1),
-                    paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
-                    //color: Colors.blue[900],
+                  Expanded(
+                    flex: 1,
+                    child: LoginButton(
+                      title: "Facebook",
+                      icon: FaIcon(
+                        FontAwesomeIcons.facebook,
+                        color: Colors.white,
+                      ),
+                      color: Color(0xFF0D47A1),
+                      paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
+                      //color: Colors.blue[900],
+                    ),
                   ),
 
                   //twitter btn
-                  LoginButton(
-                    title: "Twitter",
-                    icon: FaIcon(
-                      FontAwesomeIcons.twitter,
-                      color: Colors.white,
+                  Expanded(
+                    flex: 1,
+                    child: LoginButton(
+                      title: "Twitter",
+                      icon: FaIcon(
+                        FontAwesomeIcons.twitter,
+                        color: Colors.white,
+                      ),
+                      color: Color(0xFF81D4FA),
+                      paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
+                      //color: Colors.lightBlue,
                     ),
-                    color: Color(0xFF81D4FA),
-                    paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
-                    //color: Colors.lightBlue,
                   ),
                 ],
               ),
-			  //login with email text
+              //login with email text
               TextWidget(
                 textstring: "or login with email",
                 paddingtext: EdgeInsets.only(top: 40.0),
@@ -74,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         hintText: "Your email",
                         filled: true,
-						contentPadding: EdgeInsets.only(
+                        contentPadding: EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -122,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   style: ButtonStyle(
-				  alignment: Alignment.center,
+                      alignment: Alignment.center,
                       backgroundColor:
                           MaterialStateProperty.all(Color(0xFF64B5F6)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -161,17 +168,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-
 class TextWidget extends StatelessWidget {
   const TextWidget({
-    Key key,
-    @required this.textstring,
-    @required this.paddingtext,
+    Key? key,
+    required this.textstring,
+    required this.paddingtext,
   }) : super(key: key);
 
   final String textstring;
   final EdgeInsets paddingtext;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -191,13 +196,12 @@ class TextWidget extends StatelessWidget {
 
 class LoginButton extends StatelessWidget {
   const LoginButton(
-      {Key key,
-      @required this.title,
-      @required this.icon,
-      @required this.color,
-      @required this.paddingbutton})
+      {Key? key,
+      required this.title,
+      required this.icon,
+      required this.color,
+      required this.paddingbutton})
       : super(key: key);
-
 
   final String title;
   final FaIcon icon;
@@ -207,8 +211,8 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180.0,
-	  height: 40.0,
+      //width: 180.0,
+      height: 40.0,
       padding: paddingbutton,
       //padding: EdgeInsets.only(left: 5.0, right: 5.0),
       child: TextButton(
