@@ -94,11 +94,33 @@ class FirstPageScreen extends StatelessWidget {
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                child: Text('Already have an account?',
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Already have an account?',
+                        style: GoogleFonts.montserrat(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400)),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      },
+                      child: Text('Click here',
+                          style: GoogleFonts.montserrat(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -213,7 +214,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
                 height: 60.0,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MainScreen()));
+                  },
                   child: Text(
                     "Login",
                     style: GoogleFonts.montserrat(
