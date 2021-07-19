@@ -280,7 +280,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                       top: 20, right: 20, left: 20),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Colors.black.withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: double.infinity,
                                   height: 250,
@@ -291,7 +291,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                       top: 20, right: 20, left: 20),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Colors.black.withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: double.infinity,
                                   height: 250,
@@ -307,12 +307,12 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                 child: Icon(
                                   Icons.camera_alt,
                                   size: 30,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                    Colors.grey,
+                                    Colors.white.withOpacity(0.2),
                                   ),
                                 ),
                               ),
@@ -334,12 +334,12 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                                 child: Icon(
                                   Icons.photo,
                                   size: 30,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                    Colors.grey,
+                                    Colors.white.withOpacity(0.2),
                                   ),
                                 ),
                               ),
@@ -379,7 +379,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(right: 20, left: 20),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.black.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(10)),
                       alignment: Alignment.center,
                       constraints: BoxConstraints(minHeight: 100),
@@ -387,7 +387,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           ? Text(
                               extractedText,
                               style: GoogleFonts.montserrat(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
                             )
                           : Container(
                               width: 40,
@@ -403,7 +406,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(right: 20, left: 20),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.black.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(10)),
                       alignment: Alignment.center,
                       constraints: BoxConstraints(minHeight: 100),
@@ -411,7 +414,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           ? Text(
                               sinhalaExtractedText,
                               style: GoogleFonts.montserrat(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
                             )
                           : Container(
                               width: 40,
