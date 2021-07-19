@@ -82,3 +82,122 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
                         contentPadding: EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
                         fillColor: Colors.white,
+						border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Last Name",
+                        filled: true,
+                        contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "NIC / Passport",
+                        filled: true,
+                        contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Email",
+                        filled: true,
+                        contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Contact Number",
+                        filled: true,
+                        contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Password",
+                        filled: true,
+                        contentPadding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                  ],
+                )),
+            Container(
+              padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+              height: 60.0,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                style: ButtonStyle(
+                    alignment: Alignment.center,
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xFF64B5F6)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)))),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  TextWidget(
+                    textstring: "Already have an account?",
+                    paddingtext: EdgeInsets.only(top: 30.0, bottom: 25.0),
+                    fntcolor: Colors.white,
+                    fntweight: FontWeight.w500,
+                  ),
+                  TextWidget(
+                    textstring: "  Log in",
+                    paddingtext: EdgeInsets.only(top: 30.0, bottom: 25.0),
+                    fntcolor: Colors.blue,
+                    fntweight: FontWeight.w500,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
