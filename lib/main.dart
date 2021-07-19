@@ -1,8 +1,10 @@
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
+import 'package:ceyntra_mobile/views/screens/fogetPasswordScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:ceyntra_mobile/views/screens/startApp.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
+import 'package:ceyntra_mobile/views/screens/weatherScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainScreen(),
+      home: FirstPageScreen(),
     );
   }
 }
