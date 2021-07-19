@@ -6,6 +6,7 @@ import 'package:ceyntra_mobile/views/screens/hamburgerScreens/animalDetection.da
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favourites.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/translator.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
+import 'package:ceyntra_mobile/views/screens/profileScreens/travellerProfile.dart';
 
 import 'package:flutter/material.dart';
 
@@ -90,6 +91,10 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         pressed: pressed,
         isPressed: isPressed,
         setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "profile")
+      return TravellerProfileScreen(
+        
       );
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
