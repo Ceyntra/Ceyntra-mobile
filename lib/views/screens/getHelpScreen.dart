@@ -12,44 +12,44 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff2F3546),
-      body: SafeArea(
-        child: ListView(
-          physics: ClampingScrollPhysics(),
+      backgroundColor: Color(0xff031925),
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             //get help quote
             Container(
-              padding: EdgeInsets.only(top: 40.0),
-              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 50, right: 60, left: 60, bottom: 0),
               child: Text(
-                "Get help for your",
+                "Get help for your next trip around Sri Lanka",
                 style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 24.0),
+                    fontSize: 30.0),
+                textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                "next trip around",
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24.0),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 30.0),
-              alignment: Alignment.center,
-              child: Text(
-                "Sri Lanka",
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24.0),
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.center,
+            //   child: Text(
+            //     "next trip around",
+            //     style: GoogleFonts.montserrat(
+            //         color: Colors.white,
+            //         fontWeight: FontWeight.w700,
+            //         fontSize: 24.0),
+            //   ),
+            // ),
+            // Container(
+            //   padding: EdgeInsets.only(bottom: 30.0),
+            //   alignment: Alignment.center,
+            //   child: Text(
+            //     "Sri Lanka",
+            //     style: GoogleFonts.montserrat(
+            //         color: Colors.white,
+            //         fontWeight: FontWeight.w700,
+            //         fontSize: 24.0),
+            //   ),
+            // ),
             Container(
               child: Row(
                 children: [
@@ -58,7 +58,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image(
-                          image: AssetImage('assets/images/image1.jpg'),
+                          image: AssetImage('assets/images/image1.jpeg'),
                           height: 260.0,
                         ),
                       )),
@@ -67,7 +67,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image(
-                          image: AssetImage('assets/images/image6.jpg'),
+                          image: AssetImage('assets/images/image6.jpeg'),
                           height: 260.0,
                         ),
                       )),
@@ -76,7 +76,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image(
-                          image: AssetImage('assets/images/image3.jpg'),
+                          image: AssetImage('assets/images/image3.jpeg'),
                           height: 260.0,
                         ),
                       )),
@@ -85,41 +85,66 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
             ),
 
             Container(
-              padding: EdgeInsets.only(top: 30.0),
-              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
               child: Text(
-                "We're happy to share our registered",
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w200,
-                    fontSize: 12),
+                "We're happy to share our registered partners (Guides, Hotels, Taxis) near destinations where you can relax",
+                style:
+                    GoogleFonts.montserrat(color: Colors.white, fontSize: 15),
+                textAlign: TextAlign.center,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
-              alignment: Alignment.center,
-              child: Text(
-                "partners (Guides, Hotels, Taxis) near",
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w200,
-                    fontSize: 12),
+              margin: EdgeInsets.only(bottom: 20),
+              // color: Colors.amber,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Back",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16, color: Colors.white))
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Text("Next",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 16, color: Colors.white)),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                "destinations where you can relax",
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w200,
-                    fontSize: 12),
-              ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 }
-

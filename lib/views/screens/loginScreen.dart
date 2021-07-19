@@ -170,10 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
 class TextWidget extends StatelessWidget {
   const TextWidget({
-    Key? key,
-    required this.textstring,
-    required this.paddingtext,
-  }) : super(key: key);
+    @required this.textstring,
+    @required this.paddingtext,
+  });
 
   final String textstring;
   final EdgeInsets paddingtext;
@@ -196,12 +195,10 @@ class TextWidget extends StatelessWidget {
 
 class LoginButton extends StatelessWidget {
   const LoginButton(
-      {Key? key,
-      required this.title,
-      required this.icon,
-      required this.color,
-      required this.paddingbutton})
-      : super(key: key);
+      {@required this.title,
+      @required this.icon,
+      @required this.color,
+      @required this.paddingbutton});
 
   final String title;
   final FaIcon icon;
