@@ -201,3 +201,80 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
     );
   }
 }
+class LoginButton extends StatelessWidget {
+  const LoginButton(
+      {Key? key,
+      required this.title,
+      required this.icon,
+      required this.color,
+      required this.paddingbutton})
+      : super(key: key);
+
+  final String title;
+  final FaIcon icon;
+  final Color color;
+  final EdgeInsets paddingbutton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // width: 180.0,
+      height: 40.0,
+      padding: paddingbutton,
+      //padding: EdgeInsets.only(left: 5.0, right: 5.0),
+      child: TextButton(
+        onPressed: () {
+          print("clicked ${title}");
+        },
+        child: Row(
+          children: [
+            icon,
+            Padding(padding: EdgeInsets.only(left: 5.0, right: 20.0)),
+            Text(
+              title,
+              style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(color),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)))),
+      ),
+    );
+  }
+}
+
+class TextWidget extends StatelessWidget {
+  const TextWidget({
+    Key? key,
+    required this.textstring,
+    required this.paddingtext,
+    required this.fntcolor,
+    required this.fntweight,
+  }) : super(key: key);
+
+  final String textstring;
+  final EdgeInsets paddingtext;
+  final Color fntcolor;
+  final FontWeight fntweight;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: paddingtext,
+      child: Text(
+        textstring,
+        style: GoogleFonts.montserrat(
+          color: fntcolor,
+          fontWeight: fntweight,
+          fontSize: 11.0,
+        ),
+      ),
+    );
+  }
+}
