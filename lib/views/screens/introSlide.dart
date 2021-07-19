@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shape_of_view/shape_of_view.dart';
 
 class IntroSlideScreen extends StatelessWidget {
@@ -8,21 +9,22 @@ class IntroSlideScreen extends StatelessWidget {
       backgroundColor: Color(0xff031925),
       body: new Column(
         // margin: EdgeInsets.all(50),
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           new Container(
-            margin: EdgeInsets.all(50),
+            margin: EdgeInsets.only(top: 50, right: 50, left: 50, bottom: 60),
             child: Text(
               'Find best places to visit in Sri Lanka',
-              style: TextStyle(
+              style: GoogleFonts.montserrat(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 35,
+                fontSize: 30,
               ),
               textAlign: TextAlign.center,
             ),
           ),
           new Container(
-            child:new Stack(
+            child: new Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
@@ -58,7 +60,6 @@ class IntroSlideScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 new Positioned(
                   top: 60.0,
                   child: new Row(
@@ -106,18 +107,64 @@ class IntroSlideScreen extends StatelessWidget {
             ),
           ),
           new Container(
-            margin: EdgeInsets.only(top: 120.0, left: 40.0, right: 40.0),
+            margin: EdgeInsets.only(top: 100.0, left: 20.0, right: 20.0),
             child: Text(
               'We\'re happy to share our best tips for destinations where you can relax. But you find the nicest city tips as well!',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: GoogleFonts.montserrat(color: Colors.white, fontSize: 15),
               textAlign: TextAlign.center,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(bottom: 20),
+            // color: Colors.amber,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Back",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 16, color: Colors.white))
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      Text("Next",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 16, color: Colors.white)),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 }
-

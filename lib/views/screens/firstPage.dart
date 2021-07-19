@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,32 +31,6 @@ class FirstPageScreen extends StatelessWidget {
                     Colors.black.withOpacity(0.1)
                   ])),
             ),
-            // Positioned(
-            //   top: 30,
-            //   child: Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     // color: Colors.amber,
-            //     child: Container(
-            //       width: 160,
-            //       height: 160,
-            //       alignment: Alignment.center,
-            //       // margin: EdgeInsets.only(top: 80, left: 190),
-            //       decoration: BoxDecoration(
-            //         shape: BoxShape.circle,
-            //         color: Colors.black.withOpacity(0.4),
-            //       ),
-            //       child: Stack(
-            //         children: [
-            //           Container(
-            //             width: 100,
-            //             height: 100,
-            //             child: Image.asset("assets/images/logo.png"),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Positioned(
                 top: 60,
                 child: Container(
@@ -96,7 +71,12 @@ class FirstPageScreen extends StatelessWidget {
                   width: 300.0,
                   height: 40.0,
                   child: ElevatedButton(
-                    onPressed: logIn,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IntroSlideScreen()));
+                    },
                     child: Text('Get Started',
                         style: GoogleFonts.montserrat(fontSize: 17)),
                     style: ElevatedButton.styleFrom(
