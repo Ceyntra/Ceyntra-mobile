@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff2F3546),
+        backgroundColor: Color(0xff031925),
         body: SafeArea(
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -21,9 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
               //1st Login
               Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.only(bottom: 25.0, top: 40.0),
+                padding: EdgeInsets.only(bottom: 40.0, top: 40.0),
                 child: Text(
-                  "Login",
+                  "Ceyntra Login",
                   style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontSize: 26.0,
@@ -33,43 +33,136 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               //btn-bar
-              Row(
-                children: [
-                  //Facebook btn
-                  Expanded(
-                    flex: 1,
-                    child: LoginButton(
-                      title: "Facebook",
-                      icon: FaIcon(
-                        FontAwesomeIcons.facebook,
-                        color: Colors.white,
+              Container(
+                // color: Colors.amber,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    //Facebook btn
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF0D47A1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      width: 115,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.facebook,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Facebook",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        ],
                       ),
-                      color: Color(0xFF0D47A1),
-                      paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
-                      //color: Colors.blue[900],
                     ),
-                  ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF00acee),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      width: 115,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.twitter,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Twitter",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color(0xFF4285F4),
+                                Color(0xFFDB4437),
+                                Color(0xFFF4B400),
+                                Color(0xFF0F9D58),
+                              ]),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      width: 115,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Google",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
 
-                  //twitter btn
-                  Expanded(
-                    flex: 1,
-                    child: LoginButton(
-                      title: "Twitter",
-                      icon: FaIcon(
-                        FontAwesomeIcons.twitter,
-                        color: Colors.white,
-                      ),
-                      color: Color(0xFF81D4FA),
-                      paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
-                      //color: Colors.lightBlue,
-                    ),
-                  ),
-                ],
+                    // Container(
+                    //   width: 150,
+                    //   child: LoginButton(
+                    //     title: "Facebook",
+                    //     icon: FaIcon(
+                    //       FontAwesomeIcons.facebook,
+                    //       color: Colors.white,
+                    //     ),
+                    //     color: Color(0xFF0D47A1),
+                    //     paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
+                    //     //color: Colors.blue[900],
+                    //   ),
+                    // ),
+
+                    // //twitter btn
+                    // Container(
+                    //   width: 150,
+                    //   child: LoginButton(
+                    //     title: "Twitter",
+                    //     icon: FaIcon(
+                    //       FontAwesomeIcons.twitter,
+                    //       color: Colors.white,
+                    //     ),
+                    //     color: Color(0xFF81D4FA),
+                    //     paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
+                    //     //color: Colors.lightBlue,
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
               //login with email text
-              TextWidget(
-                textstring: "or login with email",
-                paddingtext: EdgeInsets.only(top: 40.0),
+              Container(
+                alignment: Alignment.center,
+                // color: Colors.amber,
+                margin: EdgeInsets.only(
+                  top: 50,
+                  bottom: 20,
+                ),
+                child: Text(
+                  "or login with email",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                ),
               ),
 
               Container(
@@ -123,24 +216,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {},
                   child: Text(
                     "Login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
                   ),
                   style: ButtonStyle(
                       alignment: Alignment.center,
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF64B5F6)),
+                      backgroundColor: MaterialStateProperty.all(
+                        Color(0xFF0D47A1),
+                      ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)))),
                 ),
               ),
 
-              TextWidget(
-                  textstring: "Don't have an account?",
-                  paddingtext: EdgeInsets.only(top: 80.0)),
+              // TextWidget(
+              //     textstring: "Don't have an account?",
+              //     paddingtext: EdgeInsets.only(top: 80.0)),
+
+              Container(
+                alignment: Alignment.center,
+                // color: Colors.amber,
+                margin: EdgeInsets.only(
+                  top: 50,
+                  bottom: 0,
+                ),
+                child: Text(
+                  "Don't have an account?",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                ),
+              ),
 
               Container(
                 padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
@@ -150,13 +260,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     "Sign up",
                     style: GoogleFonts.montserrat(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
                   ),
                   style: ButtonStyle(
                       alignment: Alignment.center,
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: MaterialStateProperty.all(
+                        Color(0xFF0D47A1),
+                      ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)))),

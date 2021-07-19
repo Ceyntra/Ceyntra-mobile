@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/getHelpScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shape_of_view/shape_of_view.dart';
@@ -12,7 +13,7 @@ class IntroSlideScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           new Container(
-            margin: EdgeInsets.only(top: 50, right: 50, left: 50, bottom: 60),
+            margin: EdgeInsets.only(top: 50, right: 50, left: 50, bottom: 30),
             child: Text(
               'Find best places to visit in Sri Lanka',
               style: GoogleFonts.montserrat(
@@ -144,20 +145,28 @@ class IntroSlideScreen extends StatelessWidget {
                 SizedBox(
                   width: 50,
                 ),
-                Container(
-                  child: Row(
-                    children: [
-                      Text("Next",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 16, color: Colors.white)),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GetHelpScreen()));
+                  },
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Text("Next",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 16, color: Colors.white)),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
