@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
+import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/fogetPasswordScreen.dart';
 import 'package:ceyntra_mobile/views/screens/getHelpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: FirstPageScreen(),
+      home: FirstSignUpScreen(),
     );
   }
 }

@@ -25,7 +25,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                 style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 30.0),
+                    fontSize: 24.0),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -123,20 +123,22 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                   SizedBox(
                     width: 50,
                   ),
-                  Container(
-                    child: Row(
-                      children: [
-                        Text("Next",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 16, color: Colors.white)),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                        ),
-                      ],
+                  GestureDetector(
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Text("Next",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16, color: Colors.white)),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

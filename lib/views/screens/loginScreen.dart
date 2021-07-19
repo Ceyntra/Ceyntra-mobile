@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Color(0xFF00acee),
                           borderRadius: BorderRadius.circular(5)),
                       padding: EdgeInsets.all(8),
-                      width: 115,
+                      width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ]),
                           borderRadius: BorderRadius.circular(5)),
                       padding: EdgeInsets.all(8),
-                      width: 115,
+                      width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -154,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.center,
                 // color: Colors.amber,
                 margin: EdgeInsets.only(
-                  top: 50,
-                  bottom: 20,
+                  top: 30,
+                  bottom: 10,
                 ),
                 child: Text(
                   "or login with email",
@@ -211,8 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               Container(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                height: 60.0,
+                margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                height: 40.0,
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(context,
@@ -257,8 +257,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               Container(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                height: 60.0,
+                margin: EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15.0, bottom: 60),
+                height: 40.0,
                 child: TextButton(
                   onPressed: () {},
                   child: Text(
