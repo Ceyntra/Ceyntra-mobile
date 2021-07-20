@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "661169785077",
-    "project_id": "ceyntra-363db",
-    "storage_bucket": "ceyntra-363db.appspot.com"
+    "project_number": "1081262731288",
+    "project_id": "ceyntra-project",
+    "storage_bucket": "ceyntra-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:661169785077:android:c0e3e4ade297dec81cddbc",
+        "mobilesdk_app_id": "1:1081262731288:android:cab4116af966907679536d",
         "android_client_info": {
           "package_name": "com.example.ceyntra_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "661169785077-etaf4umurolge0l4av9gqk24uj1gdnsr.apps.googleusercontent.com",
+          "client_id": "1081262731288-e7hsbm9uto44tve8dhu1fbt6j5ajf9dj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ceyntra_mobile",
+            "certificate_hash": "b0a4f376a1186238e9bd912dd32379b963bf3c7b"
+          }
+        },
+        {
+          "client_id": "1081262731288-9dj22734uo4n9klnr1snugcon2mjjc7p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBRbQTWCaep_O6MAbvZ7qgIlIRCSJ8B9Bw"
+          "current_key": "AIzaSyBaMUEZFxNdOjxoM20gk8YDNczTP5NpU2Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "661169785077-etaf4umurolge0l4av9gqk24uj1gdnsr.apps.googleusercontent.com",
+              "client_id": "1081262731288-9dj22734uo4n9klnr1snugcon2mjjc7p.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
