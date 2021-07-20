@@ -8,6 +8,7 @@ import 'package:ceyntra_mobile/views/screens/profileScreens/guideProfile.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/hotelProfile.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/travellerProfile.dart';
 import 'package:ceyntra_mobile/views/screens/signUpScreen/travellerSignUp.dart';
+import 'package:ceyntra_mobile/views/screens/signUpScreen/travellerSignUpTwo.dart';
 import 'package:ceyntra_mobile/views/screens/startApp.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/secondaryFeed.dart';
 import 'package:ceyntra_mobile/views/screens/weatherScreen.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: TravellerSignUp(),
+      home: FirstPageScreen(),
     );
   }
 }

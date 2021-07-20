@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
+import 'package:ceyntra_mobile/views/screens/signUpScreen/travellerSignUpTwo.dart';
 import 'package:ceyntra_mobile/views/serviceProviderSignup.dart';
 import 'package:ceyntra_mobile/views/widgets/signUpwidget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
         backgroundColor: Color(0xff031925),
         title: Text(
           "Ceyntra Sign Up",
-          style: GoogleFonts.montserrat(),
+          style: GoogleFonts.montserrat(fontSize: 20),
         ),
       ),
       body: ListView(
@@ -31,7 +32,7 @@ class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
             description:
                 "If you are a traveller who eger to travel around Sri Lanka. Please sign up to use our amazing support for you.",
             image: AssetImage('assets/images/signup1.png'),
-            widget: LoginScreen(),
+            widget: TravellerSignUpTwo(),
           ),
           SizedBox(
             height: 20,

@@ -1,179 +1,58 @@
+import 'package:ceyntra_mobile/views/screens/signUpScreen/addTravallerDetails.dart';
+import 'package:ceyntra_mobile/views/screens/signUpScreen/travellerSignUp.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class TravellerSignUp extends StatefulWidget {
-  final Function signIn;
-  TravellerSignUp({this.signIn});
+class TravellerSignUpTwo extends StatefulWidget {
   @override
-  _TravellerSignUpState createState() => _TravellerSignUpState();
+  _TravellerSignUpTwoState createState() => _TravellerSignUpTwoState();
 }
 
-class _TravellerSignUpState extends State<TravellerSignUp> {
-  // final FirebaseAuth auth = FirebaseAuth.instance;
-  // final googleSingIn = GoogleSignIn();
-  // GoogleSignInAccount user;
+class _TravellerSignUpTwoState extends State<TravellerSignUpTwo> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final googleSingIn = GoogleSignIn();
+  GoogleSignInAccount user;
 
-  // Future signUp() async {
-  //   final googleUser = await googleSingIn.signIn();
-  //   if (googleUser == null) return;
-  //   user = googleUser;
-  //   final googleAuth = await googleUser.authentication;
+  Future signUp() async {
+    final googleUser = await googleSingIn.signIn();
+    if (googleUser == null) return;
+    user = googleUser;
+    final googleAuth = await googleUser.authentication;
 
-  //   final credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
-  //   print(googleUser.displayName);
+    print(googleUser.displayName);
 
-  //   await auth.signInWithCredential(credential).then((value) => {print(value)});
-  // }
+    await auth.signInWithCredential(credential).then((value) => {print(value)});
+  }
 
-  // Future signOut() async {
-  //   final signOut = await googleSingIn.signOut();
-  //   print("skdjfh");
-  //   print(signOut);
-  // }
+  Future signOut() async {
+    final signOut = await googleSingIn.disconnect();
+    auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff031925),
-      appBar: AppBar(
-        backgroundColor: Color(0xff031925),
-        title: Text(
-          "Travaller Sign Up",
-          style: GoogleFonts.montserrat(),
-        ),
-      ),
-      body: SafeArea(
-        child: ListView(
-          physics: ClampingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                //Facebook btn
-                Expanded(
-                  flex: 1,
-                  child: LoginButton(
-                    function: () {},
-                    title: "Facebook",
-                    icon: FaIcon(
-                      FontAwesomeIcons.facebook,
-                      color: Colors.white,
-                    ),
-                    color: Color(0xFF0D47A1),
-                    paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
-                    //color: Colors.blue[900],
-                  ),
-                ),
-
-                //twitter btn
-                Expanded(
-                  flex: 1,
-                  child: LoginButton(
-                    function: () {
-                      widget.signIn();
-                    },
-                    title: "Google",
-
-                    icon: FaIcon(
-                      FontAwesomeIcons.google,
-                      color: Colors.white,
-                    ),
-                    color: Color(0xFF81D4FA),
-                    paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
-                    //color: Colors.lightBlue,
-                  ),
-                ),
-              ],
-            ),
-            TextWidget(
-              textstring: "or sign up with email",
-              paddingtext: EdgeInsets.only(top: 40.0),
-              fntcolor: Colors.white,
-              fntweight: FontWeight.w300,
-            ),
-            Container(
-                padding: EdgeInsets.only(
-                    left: 25.0, right: 25.0, top: 20.0, bottom: 10.0),
-                child: Column(
-                  children: [
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Email",
-                        filled: true,
-                        contentPadding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(5.0))),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Password",
-                        filled: true,
-                        contentPadding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(5.0))),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                  ],
-                )),
-            Container(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-              height: 60.0,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                style: ButtonStyle(
-                    alignment: Alignment.center,
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF64B5F6)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)))),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Row(
-                children: [
-                  TextWidget(
-                    textstring: "Already have an account?",
-                    paddingtext: EdgeInsets.only(top: 30.0, bottom: 25.0),
-                    fntcolor: Colors.white,
-                    fntweight: FontWeight.w500,
-                  ),
-                  TextWidget(
-                    textstring: "  Log in",
-                    paddingtext: EdgeInsets.only(top: 30.0, bottom: 25.0),
-                    fntcolor: Colors.blue,
-                    fntweight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            return AddTravallerDetailsScreen(
+              signOut: signOut,
+            );
+          } else {
+            return TravellerSignUp(
+              signIn: signUp,
+            );
+          }
+        },
       ),
     );
   }
