@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainFeed/mainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainFeedScreen(),
+      home:TaxiHomeScreen(),
     );
   }
 }
