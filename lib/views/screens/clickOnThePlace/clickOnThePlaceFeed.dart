@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickedPlaceDetails
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/hotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/guideFeed.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/taxiFeed.dart';
 import 'package:flutter/material.dart';
 
 class ClickOnThePlaceFeedScreen extends StatefulWidget {
@@ -39,6 +40,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
         setClickedHotel: widget.setClickedHotel,
       );
     else if (feedState == "guide") return GuideFeedScreen();
+    else if (feedState == "taxi") return TaxiFeedScreen();
     return null;
   }
 

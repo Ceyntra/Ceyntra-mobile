@@ -14,6 +14,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ceyntra_mobile/views/screens/mainFeed/mainFeed.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: FirstPageScreen(),
+      home:FirstPageScreen(),
     );
   }
 }
