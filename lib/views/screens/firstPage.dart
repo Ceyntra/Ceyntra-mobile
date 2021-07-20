@@ -112,12 +112,11 @@ class FirstPageScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => LoginScreen()));
                       },
-                      child: Text('Click here',
+                      child: Text('Log in',
                           style: GoogleFonts.montserrat(
-                              decoration: TextDecoration.underline,
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400)),
+                              fontSize: 17,
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.w600)),
                     ),
                   ],
                 ),

@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -124,6 +125,12 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                     width: 50,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FirstSignUpScreen()));
+                    },
                     child: Container(
                       child: Row(
                         children: [

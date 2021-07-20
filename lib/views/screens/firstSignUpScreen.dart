@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
+import 'package:ceyntra_mobile/views/serviceProviderSignup.dart';
 import 'package:ceyntra_mobile/views/widgets/signUpwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,7 +41,7 @@ class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
             description:
                 "If you wish to join our service provider community to support travellers and earn profits. Join us.",
             image: AssetImage('assets/images/signup3.png'),
-            widget: LoginScreen(),
+            widget: ServiceProviderSignUp(),
           ),
           Container(
             margin: EdgeInsets.only(top: 30, bottom: 30),

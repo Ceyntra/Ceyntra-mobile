@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661169785077",
+    "project_id": "ceyntra-363db",
+    "storage_bucket": "ceyntra-363db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661169785077:android:c0e3e4ade297dec81cddbc",
+        "android_client_info": {
+          "package_name": "com.example.ceyntra_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661169785077-etaf4umurolge0l4av9gqk24uj1gdnsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRbQTWCaep_O6MAbvZ7qgIlIRCSJ8B9Bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661169785077-etaf4umurolge0l4av9gqk24uj1gdnsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
