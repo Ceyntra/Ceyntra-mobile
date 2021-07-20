@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServiceProviderSignIn extends StatefulWidget {
-  const ServiceProviderSignIn({Key? key}) : super(key: key);
+  const ServiceProviderSignIn({Key key}) : super(key: key);
 
   @override
   _ServiceProviderSignInState createState() => _ServiceProviderSignInState();
@@ -718,11 +718,11 @@ class _ServiceProviderSignInState extends State<ServiceProviderSignIn> {
 }
 class LoginButton extends StatelessWidget {
   const LoginButton(
-      {Key? key,
-      required this.title,
-      required this.icon,
-      required this.color,
-      required this.paddingbutton})
+      {Key key,
+      @required this.title,
+      @required this.icon,
+      @required this.color,
+      @required this.paddingbutton})
       : super(key: key);
 
   final String title;
@@ -766,11 +766,11 @@ class LoginButton extends StatelessWidget {
 
 class TextWidget extends StatelessWidget {
   const TextWidget({
-    Key? key,
-    required this.textstring,
-    required this.paddingtext,
-    required this.fntcolor,
-    required this.fntweight,
+    Key key,
+    @required this.textstring,
+    @required this.paddingtext,
+    @required this.fntcolor,
+    @required this.fntweight,
   }) : super(key: key);
 
   final String textstring;
