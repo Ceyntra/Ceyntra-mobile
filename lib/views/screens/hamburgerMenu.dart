@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -263,8 +264,9 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                    logout(context);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   child: Container(
                     alignment: Alignment.center,
