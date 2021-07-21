@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key? key}) : super(key: key);
+  final String isCreated;
+  LoginScreen({this.isCreated});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -34,6 +36,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
 
+              widget.isCreated != null
+                  ? Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        bottom: 20.0,
+                      ),
+                      child: Text(
+                        "Account created! please log in.",
+                        style: GoogleFonts.montserrat(
+                          color: Colors.green,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    )
+                  : Container(),
               //btn-bar
               Container(
                 // color: Colors.amber,

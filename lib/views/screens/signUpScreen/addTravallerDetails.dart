@@ -38,7 +38,7 @@ class _AddTravallerDetailsScreenState extends State<AddTravallerDetailsScreen> {
     TextEditingController emailTEC = new TextEditingController(text: email);
     TextEditingController contactNumberTec = new TextEditingController();
     TextEditingController passwordTec = new TextEditingController();
-
+    bool isProgress = false;
     var dio = Dio();
     void updateDetails() async {
       Map<String, String> userDetails = {
@@ -50,13 +50,24 @@ class _AddTravallerDetailsScreenState extends State<AddTravallerDetailsScreen> {
         "password": passwordTec.text
       };
 
+      setState(() {
+        isProgress = true;
+      });
+
       var response = await dio.post("http://10.0.2.2:9092/getUserDetails",
           data: userDetails);
+      setState(() {
+        isProgress = false;
+      });
 
       if (response.toString() == "done") {
         widget.signOut();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => LoginScreen(
+                      isCreated: "created",
+                    )));
       } else {
         setState(() {
           isError = true;
@@ -269,13 +280,26 @@ class _AddTravallerDetailsScreenState extends State<AddTravallerDetailsScreen> {
                     updateDetails();
                   }
                 },
-                child: Text(
-                  "Update details",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Update details",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    isProgress
+                        ? Container(
+                            margin: EdgeInsets.only(left: 15),
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(),
+                  ],
                 ),
                 style: ButtonStyle(
                     alignment: Alignment.center,
