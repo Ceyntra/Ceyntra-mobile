@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 
+import 'package:ceyntra_mobile/views/screens/firstPage.dart';
+import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Auth {
 
 
-  Future signInWithGoogle() async {
+  Future signInWithGoogle(BuildContext context) async {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) return null;
       final GoogleSignInAuthentication googleAuth = await googleUser
@@ -27,9 +29,87 @@ class Auth {
         idToken: googleAuth.idToken,
       );
 
+
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(credential);
+
+      //Check user type & redirect to the relevant page
+      User user = FirebaseAuth.instance.currentUser;
+
+      var url = Uri.parse("http://10.0.2.2:9092/usertype");
+      var response = await http.post(url,body: user.email);
+
+      if(response.statusCode==200){
+        var userType= jsonDecode(response.body);
+
+        setPreferences(context,userType,user.email);
+
+        //Login success add shared preferences
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setString("email", user.email);
+        // await prefs.setString("userType",userType);
+        //
+        // switch(userType) {
+        //   case 1: {print("Redirect to hotel page");}
+        //   break;
+        //
+        //   case 2: {  print("Redirect to Taxi page"); }
+        //   break;
+        //
+        //   case 3: {  print("Redirect to Guide page"); }
+        //   break;
+        //
+        //   case 4: {
+        //     print("Redirect to Traveller page");
+        //     Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
+        //   }
+        //   break;
+        //
+        //   default: { print("Stay here"); }
+        //   break;
+        // }
+
+      }
+
+
     }
+  }
+
+  Future setPreferences(BuildContext context, int userType,  String email) async{
+
+    //Login success add shared preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("email", email);
+    await prefs.setInt("userType",userType); //User Type
+
+    await prefs.setInt("isLoggedIn", 1);
+
+    if(prefs.getInt("isFirstTime") ==null){
+      await prefs.setInt("isFirstTime", 1);
+    }
+
+
+    //Redirect Users to relevant pages
+    switch(userType) {
+      case 1: {print("Redirect to hotel page");}
+      break;
+
+      case 2: {  print("Redirect to Taxi page"); }
+      break;
+
+      case 3: {  print("Redirect to Guide page"); }
+      break;
+
+      case 4: {
+        print("Redirect to Traveller page");
+        Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+      break;
+
+      default: { print("Stay here"); }
+      break;
+    }
+
   }
 
   Future login(String email, String password, BuildContext context) async{
@@ -42,12 +122,76 @@ class Auth {
       //User type
       var userType= userData["userType"];
 
-      //Login success add shared preferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("email", userData["email"]);
-      await prefs.setString("password", userData["hashedPassword"]); //Hashed
+      setPreferences(context, userType,userData["email"]);
 
-      //Redirect Users to relevant pages
+      // //Login success add shared preferences
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // await prefs.setString("email", userData["email"]);
+      // await prefs.setString("userType",userType); //User Type
+      //
+      // await prefs.setInt("isLoggedIn", 1);
+      //
+      // if(prefs.getInt("isFirstTime") ==null){
+      //   await prefs.setInt("isFirstTime", 1);
+      // }
+      //
+      //
+      // //Redirect Users to relevant pages
+      // switch(userType) {
+      //   case 1: {print("Redirect to hotel page");}
+      //   break;
+      //
+      //   case 2: {  print("Redirect to Taxi page"); }
+      //   break;
+      //
+      //   case 3: {  print("Redirect to Guide page"); }
+      //   break;
+      //
+      //   case 4: {
+      //     print("Redirect to Traveller page");
+      //     Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
+      //   }
+      //   break;
+      //
+      //   default: { print("Stay here"); }
+      //   break;
+      // }
+
+    }
+  }
+
+  Future logout(BuildContext context) async{
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var url = Uri.parse("http://10.0.2.2:9092/userlogout");
+    var response = await http.post(url,headers: {"Content-Type": "application/json"}, body: json.encode({'email': preferences.getString("email"), 'password': ""}));
+
+    await preferences.remove('email');
+    await preferences.remove('userType');
+    await preferences.setInt("isLoggedIn", 0);
+
+    Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
+
+  }
+
+  Future<Widget> userRedirect() async{
+    //Check user isloggedIn or isFirstTime user login
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    var isFirstTime= await preferences.getInt("isFirstTime") ==null ? 0 : preferences.getInt("isFirstTime");
+    var isLoggedIn=await preferences.getInt("isLoggedIn")==null ? 0 : preferences.getInt("isLoggedIn");
+
+    print('isFirst-'+ isFirstTime.toString());
+    print('isLogged-'+ isLoggedIn.toString());
+
+    if(isFirstTime == 0){
+      return FirstPageScreen();
+    }else if(isLoggedIn == 0 ){
+      return LoginScreen();
+    }else{
+      //Check userType & redirect to relevant page
+      var userType=  preferences.getInt("userType");
+
       switch(userType) {
         case 1: {print("Redirect to hotel page");}
         break;
@@ -60,7 +204,7 @@ class Auth {
 
         case 4: {
           print("Redirect to Traveller page");
-          Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
+          return MainScreen();
         }
         break;
 
