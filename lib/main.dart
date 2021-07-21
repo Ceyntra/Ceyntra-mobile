@@ -16,22 +16,43 @@ import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ceyntra_mobile/views/screens/mainFeed/mainFeed.dart';
 import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ceyntra_mobile/auth.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget  {
+  //Check user isloggedIn or isFirstTime user login
+  // SharedPreferences preferences = await SharedPreferences.getInstance();
+  //
+  // var isFirstTime= preferences.getInt("isFirstTime") ==null ? 0 : preferences.getInt("isFirstTime");
+  // var isLoggedIn= preferences.getInt("isLoggedIn")==null ? 0 : preferences.getInt("isLoggedIn");
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home:FirstPageScreen(),
+      home: FutureBuilder(
+        future: userRedirect(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            return snapshot.data;
+          }else{
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      // child: FirstPageScreen()
     );
   }
 }
