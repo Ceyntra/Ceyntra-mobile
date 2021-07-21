@@ -20,7 +20,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
           children: [
             //get help quote
             Container(
-              margin: EdgeInsets.only(top: 50, right: 60, left: 60, bottom: 0),
+              margin: EdgeInsets.only(top: 40, right: 60, left: 60, bottom: 0),
               child: Text(
                 "Get help for your next trip around Sri Lanka",
                 style: GoogleFonts.montserrat(
@@ -30,27 +30,6 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            // Container(
-            //   alignment: Alignment.center,
-            //   child: Text(
-            //     "next trip around",
-            //     style: GoogleFonts.montserrat(
-            //         color: Colors.white,
-            //         fontWeight: FontWeight.w700,
-            //         fontSize: 24.0),
-            //   ),
-            // ),
-            // Container(
-            //   padding: EdgeInsets.only(bottom: 30.0),
-            //   alignment: Alignment.center,
-            //   child: Text(
-            //     "Sri Lanka",
-            //     style: GoogleFonts.montserrat(
-            //         color: Colors.white,
-            //         fontWeight: FontWeight.w700,
-            //         fontSize: 24.0),
-            //   ),
-            // ),
             Container(
               child: Row(
                 children: [
@@ -100,52 +79,52 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.white.withOpacity(0.1)),
+                    ),
+                    onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("Back",
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 16, color: Colors.white))
-                        ],
-                      ),
+                    child: Row(
+                      children: [
+                        Text("Back",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 16, color: Colors.white)),
+
+                        // Icon(
+                        //   Icons.arrow_forward,
+                        //   color: Colors.white,
+                        // ),
+                      ],
                     ),
                   ),
                   SizedBox(
-                    width: 50,
+                    width: 30,
                   ),
-                  GestureDetector(
-                    onTap: () {
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.white.withOpacity(0.1)),
+                    ),
+                    onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => FirstSignUpScreen()));
                     },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Text("Next",
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 16, color: Colors.white)),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      children: [
+                        Text("Next",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 16, color: Colors.white)),
+
+                        // Icon(
+                        //   Icons.arrow_forward,
+                        //   color: Colors.white,
+                        // ),
+                      ],
                     ),
                   )
                 ],

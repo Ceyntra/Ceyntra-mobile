@@ -35,9 +35,16 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
   //   print("skdjfh");
   //   print(signOut);
   // }
-
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    bool isError = false;
+    TextEditingController firstNameTec = new TextEditingController();
+    TextEditingController lastNameTec = new TextEditingController();
+    TextEditingController nicTec = new TextEditingController();
+    TextEditingController emailTEC = new TextEditingController();
+    TextEditingController contactNumberTec = new TextEditingController();
+    TextEditingController passwordTec = new TextEditingController();
     return Scaffold(
       backgroundColor: Color(0xff031925),
       appBar: AppBar(
@@ -54,100 +61,370 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
             SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                //Facebook btn
-                Expanded(
-                  flex: 1,
-                  child: LoginButton(
-                    function: () {},
-                    title: "Facebook",
-                    icon: FaIcon(
-                      FontAwesomeIcons.facebook,
-                      color: Colors.white,
+            Container(
+              // color: Colors.amber,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //Facebook btn
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xFF0D47A1),
+                        borderRadius: BorderRadius.circular(5)),
+                    padding: EdgeInsets.all(8),
+                    width: 115,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.facebook,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Facebook",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )
+                      ],
                     ),
-                    color: Color(0xFF0D47A1),
-                    paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
-                    //color: Colors.blue[900],
                   ),
-                ),
-
-                //twitter btn
-                Expanded(
-                  flex: 1,
-                  child: LoginButton(
-                    function: () {
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xFF00acee),
+                        borderRadius: BorderRadius.circular(5)),
+                    padding: EdgeInsets.all(8),
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.twitter,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Twitter",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
                       widget.signIn();
                     },
-                    title: "Google",
-
-                    icon: FaIcon(
-                      FontAwesomeIcons.google,
-                      color: Colors.white,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color(0xFF4285F4),
+                                Color(0xFFDB4437),
+                                Color(0xFFF4B400),
+                                Color(0xFF0F9D58),
+                              ]),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Google",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
-                    color: Color(0xFF81D4FA),
-                    paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
-                    //color: Colors.lightBlue,
                   ),
-                ),
-              ],
+
+                  // Container(
+                  //   width: 150,
+                  //   child: LoginButton(
+                  //     title: "Facebook",
+                  //     icon: FaIcon(
+                  //       FontAwesomeIcons.facebook,
+                  //       color: Colors.white,
+                  //     ),
+                  //     color: Color(0xFF0D47A1),
+                  //     paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
+                  //     //color: Colors.blue[900],
+                  //   ),
+                  // ),
+
+                  // //twitter btn
+                  // Container(
+                  //   width: 150,
+                  //   child: LoginButton(
+                  //     title: "Twitter",
+                  //     icon: FaIcon(
+                  //       FontAwesomeIcons.twitter,
+                  //       color: Colors.white,
+                  //     ),
+                  //     color: Color(0xFF81D4FA),
+                  //     paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
+                  //     //color: Colors.lightBlue,
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
-            TextWidget(
-              textstring: "or sign up with email",
-              paddingtext: EdgeInsets.only(top: 40.0),
-              fntcolor: Colors.white,
-              fntweight: FontWeight.w300,
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 30),
+              // color: Colors.amber,
+              child: Text(
+                "Or Sign up with Email and Password",
+                style: GoogleFonts.montserrat(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
+              ),
             ),
             Container(
                 padding: EdgeInsets.only(
-                    left: 25.0, right: 25.0, top: 20.0, bottom: 10.0),
+                    left: 25.0, right: 25.0, top: 10.0, bottom: 10.0),
                 child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Email",
-                        filled: true,
-                        contentPadding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(5.0))),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Password",
-                        filled: true,
-                        contentPadding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(5.0))),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                    isError
+                        ? Container(
+                            alignment: Alignment.center,
+                            // color: Colors.amber,
+                            child: Text(
+                              "Details not added. Please try again!",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          )
+                        : Container(),
+                    Container(
+                        // color: Colors.amber,
+
+                        padding: EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 20.0, bottom: 10.0),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                controller: firstNameTec,
+                                validator: (val) {
+                                  return val.isEmpty || val.length < 4
+                                      ? "First name should be greater than 4"
+                                      : null;
+                                },
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(FontAwesomeIcons.solidUser),
+                                  hintText: "First Name",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                controller: lastNameTec,
+                                validator: (val) {
+                                  return val.isEmpty || val.length < 4
+                                      ? "Last name should be greater than 4"
+                                      : null;
+                                },
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(FontAwesomeIcons.solidUser),
+                                  hintText: "Last Name",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                controller: nicTec,
+                                validator: (val) {
+                                  return val.isEmpty || val.length < 4
+                                      ? "NIC/Passport should be greater than 4"
+                                      : null;
+                                },
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.perm_identity),
+                                  hintText: "NIC / Passport",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                controller: emailTEC,
+                                validator: (val) {
+                                  return RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(val)
+                                      ? null
+                                      : "please enter the valid email";
+                                },
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.email),
+                                  hintText: "Email",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                controller: contactNumberTec,
+                                validator: (val) {
+                                  return val.isEmpty || val.length < 9
+                                      ? "Contact num should be greater than 9"
+                                      : null;
+                                },
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.phone_android),
+                                  hintText: "Contact Number",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                              TextFormField(
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                                obscureText: true,
+                                validator: (val) {
+                                  return val.length > 6
+                                      ? null
+                                      : "Please provide passowrd greater than 6";
+                                },
+                                controller: passwordTec,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.lock),
+                                  hintText: "Password",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 10.0),
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5.0))),
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                            ],
+                          ),
+                        )),
                   ],
                 )),
+            // Container(
+            //   padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+            //   height: 60.0,
+            //   child: TextButton(
+            //     onPressed: () {},
+            //     child: Text(
+            //       "Sign Up",
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontWeight: FontWeight.w400,
+            //       ),
+            //     ),
+            //     style: ButtonStyle(
+            //         alignment: Alignment.center,
+            //         backgroundColor:
+            //             MaterialStateProperty.all(Color(0xFF64B5F6)),
+            //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //             RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(10.0)))),
+            //   ),
+            // ),
             Container(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-              height: 60.0,
+              // color: Colors.amber,
+              padding: EdgeInsets.only(
+                left: 35.0,
+                right: 35.0,
+              ),
+              height: 40.0,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState.validate()) {
+                    // updateDetails();
+                  }
+                },
                 child: Text(
-                  "Sign Up",
-                  style: TextStyle(
+                  "Update details",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 style: ButtonStyle(
                     alignment: Alignment.center,
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF64B5F6)),
+                    backgroundColor: MaterialStateProperty.all(
+                      Color(0xFF0D47A1),
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)))),

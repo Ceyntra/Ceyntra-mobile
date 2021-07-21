@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -261,7 +262,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     left: 15.0, right: 15.0, top: 15.0, bottom: 60),
                 height: 40.0,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FirstSignUpScreen()));
+                  },
                   child: Text(
                     "Sign up",
                     style: GoogleFonts.montserrat(

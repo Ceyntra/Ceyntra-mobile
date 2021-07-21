@@ -121,52 +121,52 @@ class IntroSlideScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () {
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white.withOpacity(0.1)),
+                  ),
+                  onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("Back",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 16, color: Colors.white))
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Text("Back",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 16, color: Colors.white)),
+
+                      // Icon(
+                      //   Icons.arrow_forward,
+                      //   color: Colors.white,
+                      // ),
+                    ],
                   ),
                 ),
                 SizedBox(
-                  width: 50,
+                  width: 30,
                 ),
-                GestureDetector(
-                  onTap: () {
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white.withOpacity(0.1)),
+                  ),
+                  onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => GetHelpScreen()));
                   },
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Text("Next",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 16, color: Colors.white)),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Text("Next",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 16, color: Colors.white)),
+
+                      // Icon(
+                      //   Icons.arrow_forward,
+                      //   color: Colors.white,
+                      // ),
+                    ],
                   ),
                 )
               ],
