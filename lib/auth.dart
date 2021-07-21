@@ -4,6 +4,7 @@ import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
 import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +78,8 @@ class Auth {
       case 2:
         {
           print("Redirect to Taxi page");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => TaxiHomeScreen()));
         }
         break;
 

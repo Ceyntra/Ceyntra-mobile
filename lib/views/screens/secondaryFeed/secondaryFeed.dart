@@ -39,7 +39,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff192537),
+      backgroundColor: Color(0xff031925),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
@@ -62,7 +62,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                     Icons.menu,
                   )),
           elevation: 20,
-          backgroundColor: Color(0xff192537),
+          backgroundColor: Color(0xff031925),
           actions: [
             Container(
               // color: Colors.amber,
