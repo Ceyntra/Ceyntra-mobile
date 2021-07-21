@@ -26,6 +26,8 @@ import 'package:ceyntra_mobile/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // SharedPreferences preferences = await SharedPreferences.getInstance();
+  // await preferences.clear();
 
   runApp(MyApp());
 }
@@ -40,11 +42,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Auth auth = new Auth();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: FutureBuilder(
-        future: userRedirect(),
+        future: auth.userRedirect(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return snapshot.data;

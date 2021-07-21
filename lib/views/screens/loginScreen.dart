@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Auth auth = new Auth();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -142,10 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       ),
-                      onTap: (){
-                        Auth().signInWithGoogle(context).catchError((onError)=>{
-                          print(onError.toString())
-                        });
+                      onTap: () {
+                        new Auth().signInWithGoogle(context).catchError(
+                            (onError) => {print(onError.toString())});
                       },
                     ),
 
@@ -253,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => MainScreen()));
-                    login(emailTec.text,passwordTec.text,context);
+                    auth.login(emailTec.text, passwordTec.text, context);
                   },
                   child: Text(
                     "Login",
