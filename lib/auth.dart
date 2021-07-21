@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
@@ -39,37 +37,17 @@ class Auth {
       var url = Uri.parse("http://10.0.2.2:9092/usertype");
       var response = await http.post(url,body: user.email);
 
-      if(response.statusCode==200){
-        var userType= jsonDecode(response.body);
+      // print(jsonDecode(response.body));
 
-        setPreferences(context,userType,user.email);
-
-        //Login success add shared preferences
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setString("email", user.email);
-        // await prefs.setString("userType",userType);
-        //
-        // switch(userType) {
-        //   case 1: {print("Redirect to hotel page");}
-        //   break;
-        //
-        //   case 2: {  print("Redirect to Taxi page"); }
-        //   break;
-        //
-        //   case 3: {  print("Redirect to Guide page"); }
-        //   break;
-        //
-        //   case 4: {
-        //     print("Redirect to Traveller page");
-        //     Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
-        //   }
-        //   break;
-        //
-        //   default: { print("Stay here"); }
-        //   break;
-        // }
-
-      }
+      // if(jsonDecode(response.body) != 404){
+      //   var userType= response.body;
+      //   print(userType);
+      //   setPreferences(context,int.parse(userType),user.email);
+      // }else{
+      //   //User does not exists in system
+      //   user.delete();
+      //   print("User 404");
+      // }
 
 
     }
@@ -175,8 +153,12 @@ class Auth {
   }
 
   Future<Widget> userRedirect() async{
+
+
     //Check user isloggedIn or isFirstTime user login
     SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    // preferences.clear();
 
     var isFirstTime= await preferences.getInt("isFirstTime") ==null ? 0 : preferences.getInt("isFirstTime");
     var isLoggedIn=await preferences.getInt("isLoggedIn")==null ? 0 : preferences.getInt("isLoggedIn");
