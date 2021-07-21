@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           ),
                           onTap: (){
-                              Auth().signInWithGoogle().catchError((onError)=>{
+                              Auth().signInWithGoogle(context).catchError((onError)=>{
                                 print(onError.toString())
                               });
                           },
