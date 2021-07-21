@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../auth.dart';
+
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key? key}) : super(key: key);
   final String isCreated;
@@ -108,36 +110,43 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                Color(0xFF4285F4),
-                                Color(0xFFDB4437),
-                                Color(0xFFF4B400),
-                                Color(0xFF0F9D58),
-                              ]),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      width: 100,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.google,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            "Google",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          )
-                        ],
+                    GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color(0xFF4285F4),
+                                  Color(0xFFDB4437),
+                                  Color(0xFFF4B400),
+                                  Color(0xFF0F9D58),
+                                ]),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.all(8),
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              "Google",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
+                      onTap: (){
+                        Auth().signInWithGoogle(context).catchError((onError)=>{
+                          print(onError.toString())
+                        });
+                      },
                     ),
 
                     // Container(
@@ -242,8 +251,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40.0,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MainScreen()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => MainScreen()));
+                    login(emailTec.text,passwordTec.text,context);
                   },
                   child: Text(
                     "Login",

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1081262731288-4slc0bfedlo2032r1407qih0d8pahv1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ceyntra_mobile",
+            "certificate_hash": "d6b853904da33ac8e242b00620fec19249f066f5"
+          }
+        },
+        {
           "client_id": "1081262731288-e7hsbm9uto44tve8dhu1fbt6j5ajf9dj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

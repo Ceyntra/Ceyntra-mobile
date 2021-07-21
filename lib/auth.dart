@@ -36,15 +36,16 @@ class Auth {
 
     // print(jsonDecode(response.body));
 
-    // if(jsonDecode(response.body) != 404){
-    //   var userType= response.body;
-    //   print(userType);
-    //   setPreferences(context,int.parse(userType),user.email);
-    // }else{
-    //   //User does not exists in system
-    //   user.delete();
-    //   print("User 404");
-    // }
+    if(jsonDecode(response.body) != 404){
+      var userType= response.body;
+      print(userType);
+      setPreferences(context,int.parse(userType),user.email);
+    }else{
+      //User does not exists in system
+      await FirebaseAuth.instance.signOut();
+      user.delete();
+      print("User 404");
+    }
   }
 }
 
@@ -146,6 +147,11 @@ Future login(String email, String password, BuildContext context) async {
 }
 
 Future logout(BuildContext context) async {
+
+  if( FirebaseAuth.instance.currentUser != null){
+    await FirebaseAuth.instance.signOut();
+  }
+
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var url = Uri.parse("http://10.0.2.2:9092/userlogout");
   var response = await http.post(url,
