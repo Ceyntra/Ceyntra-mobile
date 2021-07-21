@@ -17,6 +17,25 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
+
+  bool userNotRegistered=false;
+  bool wrongCredential=false;
+
+  Auth auth =new Auth();
+
+  VoidCallback isUserNotRegistered() {
+    setState(() {
+       userNotRegistered=true;
+    });
+  }
+
+  VoidCallback isCredentialWrong() {
+    setState(() {
+      userNotRegistered=true;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     TextEditingController emailTec = new TextEditingController();
@@ -143,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onTap: (){
-                        Auth().signInWithGoogle(context).catchError((onError)=>{
+                        auth.signInWithGoogle(context,isUserNotRegistered).catchError((onError)=>{
                           print(onError.toString())
                         });
                       },
@@ -188,13 +207,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   top: 30,
                   bottom: 10,
                 ),
-                child: Text(
-                  "or login with email",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                ),
+                child: Column(
+                  children: [
+                    userNotRegistered ? Text(
+                      "User has not registered",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.red),
+                    ): Text(""),
+                    Text(
+                      "or login with email",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
+
+
+                  ],
+                )
               ),
 
               Container(
@@ -253,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => MainScreen()));
-                    login(emailTec.text,passwordTec.text,context);
+                    auth.login(emailTec.text,passwordTec.text,context,isUserNotRegistered,isCredentialWrong);
                   },
                   child: Text(
                     "Login",

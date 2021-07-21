@@ -264,7 +264,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
-                    logout(context);
+                    Auth().logout(context);
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },

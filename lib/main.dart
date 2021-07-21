@@ -31,11 +31,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  //Check user isloggedIn or isFirstTime user login
-  // SharedPreferences preferences = await SharedPreferences.getInstance();
-  //
-  // var isFirstTime= preferences.getInt("isFirstTime") ==null ? 0 : preferences.getInt("isFirstTime");
-  // var isLoggedIn= preferences.getInt("isLoggedIn")==null ? 0 : preferences.getInt("isLoggedIn");
 
   // This widget is the root of your application.
   @override
@@ -44,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: FutureBuilder(
-        future: userRedirect(),
+        future: new Auth().userRedirect(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return snapshot.data;
