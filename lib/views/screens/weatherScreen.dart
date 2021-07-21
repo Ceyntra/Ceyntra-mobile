@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:ceyntra_mobile/models/weatherModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 /*
 *  WeatherScreen(place: 'Sigiriya',country: 'Sri Lanka')
@@ -179,24 +180,27 @@ class NextDayWeather extends StatelessWidget {
           style: GoogleFonts.montserrat(
               color: Colors.black, fontSize: 11, fontWeight: FontWeight.w400),
         ),
-        Container(
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.grey[300]),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              Text(
-                weatherIcon.toString(),
-                style: TextStyle(
-                  fontSize: 14.0,
+        FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Colors.grey[300]),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  weatherIcon.toString(),
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
                 ),
-              ),
-              Text(
-                  '${(weatherForecast[dayIndex - 1]['temp']['day'].toDouble() - 273.15).toStringAsFixed(0)}°'),
-              Text('C'),
-            ],
+                Text(
+                    '${(weatherForecast[dayIndex - 1]['temp']['day'].toDouble() - 273.15).toStringAsFixed(0)}°'),
+                Text('C'),
+              ],
+            ),
           ),
         ),
       ],
@@ -221,10 +225,13 @@ class WeatherDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(children: [
-        Text(
-          title,
-          style: GoogleFonts.montserrat(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+        FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            title,
+            style: GoogleFonts.montserrat(
+                color: Colors.white, fontWeight: FontWeight.w700),
+          ),
         ),
         SizedBox(
           height: 8,
@@ -316,12 +323,13 @@ class WeatherContent extends StatelessWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w400),
                   ),
-                  Text(
+                  AutoSizeText(
                     weatherModel.place,
                     style: GoogleFonts.montserrat(
                         color: Colors.white,
-                        fontSize: 45,
+                        fontSize: 30,
                         fontWeight: FontWeight.w700),
+                    maxLines: 2,
                   ),
                   Text('${weatherModel.country}',
                       style: GoogleFonts.montserrat(
@@ -335,26 +343,41 @@ class WeatherContent extends StatelessWidget {
 
           //Temp Circle
           Expanded(
-            flex: 6,
+            flex: 5,
             child: Container(
-              width: 300.0,
-              height: 300.0,
+              width: double.maxFinite,
+              height: double.maxFinite,
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     weatherModel
                         .getWeatherIcon(weatherModel.condition)
                         .toString(),
-                    style: fontStyleCircle,
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w300),
+                    minFontSize: 30,
+                    maxLines: 1,
                   ),
-                  Text(
+
+                  AutoSizeText(
                     '${weatherModel.tempeture.toStringAsFixed(0)}°C',
-                    style: fontStyleCircle,
-                  )
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w300),
+                    minFontSize: 30,
+                    maxLines: 1,
+                  ),
+
+                  // Text(weatherModel.getWeatherIcon(weatherModel.condition).toString(), style: fontStyleCircle,),
+                  // Text('${weatherModel.tempeture.toStringAsFixed(0)}°C', style: fontStyleCircle,)
                 ],
               ),
             ),

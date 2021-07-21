@@ -14,8 +14,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailTec = new TextEditingController();
+    TextEditingController passwordTec = new TextEditingController();
     return Scaffold(
         backgroundColor: Color(0xff031925),
         body: SafeArea(
@@ -188,33 +191,38 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: EdgeInsets.only(
                     left: 15.0, right: 15.0, top: 20.0, bottom: 10.0),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Your email",
-                        filled: true,
-                        contentPadding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0))),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: emailTec,
+                        decoration: const InputDecoration(
+                          hintText: "Your email",
+                          filled: true,
+                          contentPadding: EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0))),
+                        ),
                       ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        filled: true,
-                        hintText: "password",
-                        contentPadding: EdgeInsets.all(15.0),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0))),
-                      ),
-                    )
-                  ],
+                      Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                      TextFormField(
+                        controller: passwordTec,
+                        decoration: const InputDecoration(
+                          filled: true,
+                          hintText: "password",
+                          contentPadding: EdgeInsets.all(15.0),
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0))),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Container(
