@@ -16,12 +16,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Auth auth = new Auth();
   final formKey = GlobalKey<FormState>();
 
   bool userNotRegistered=false;
   bool wrongCredential=false;
 
-  Auth auth =new Auth();
 
   VoidCallback isUserNotRegistered() {
     setState(() {
@@ -165,37 +165,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         auth.signInWithGoogle(context,isUserNotRegistered).catchError((onError)=>{
                           print(onError.toString())
                         });
+
                       },
                     ),
-
-                    // Container(
-                    //   width: 150,
-                    //   child: LoginButton(
-                    //     title: "Facebook",
-                    //     icon: FaIcon(
-                    //       FontAwesomeIcons.facebook,
-                    //       color: Colors.white,
-                    //     ),
-                    //     color: Color(0xFF0D47A1),
-                    //     paddingbutton: EdgeInsets.only(left: 15.0, right: 5.0),
-                    //     //color: Colors.blue[900],
-                    //   ),
-                    // ),
-
-                    // //twitter btn
-                    // Container(
-                    //   width: 150,
-                    //   child: LoginButton(
-                    //     title: "Twitter",
-                    //     icon: FaIcon(
-                    //       FontAwesomeIcons.twitter,
-                    //       color: Colors.white,
-                    //     ),
-                    //     color: Color(0xFF81D4FA),
-                    //     paddingbutton: EdgeInsets.only(left: 5.0, right: 15.0),
-                    //     //color: Colors.lightBlue,
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -238,6 +210,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       TextFormField(
                         controller: emailTec,
+                        validator: (val) {
+                          return RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(val)
+                              ? null
+                              : "please enter the valid email";
+                        },
                         decoration: const InputDecoration(
                           hintText: "Your email",
                           filled: true,
@@ -252,6 +231,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(padding: EdgeInsets.only(bottom: 15.0)),
                       TextFormField(
                         controller: passwordTec,
+                        validator: (val) {
+                          return val.length > 6
+                              ? null
+                              : "Please provide passowrd greater than 6";
+                        },
                         decoration: const InputDecoration(
                           filled: true,
                           hintText: "password",
@@ -283,9 +267,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40.0,
                 child: TextButton(
                   onPressed: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => MainScreen()));
-                    auth.login(emailTec.text,passwordTec.text,context,isUserNotRegistered,isCredentialWrong);
+
+                    if (formKey.currentState.validate()) {
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => MainScreen()));
+                      auth.login(emailTec.text,passwordTec.text,context,isUserNotRegistered,isCredentialWrong);
+                    }
+
                   },
                   child: Text(
                     "Login",

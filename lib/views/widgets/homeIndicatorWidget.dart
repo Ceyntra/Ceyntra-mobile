@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeIIndicatorWidget extends StatelessWidget {
-
   final String offerCount;
   final double percentage;
   final String footerName;
   final Color bgColor;
   final Color progressColor;
 
-  HomeIIndicatorWidget(this.offerCount, this.percentage, this.footerName, this.bgColor, this.progressColor);
+  HomeIIndicatorWidget(this.offerCount, this.percentage, this.footerName,
+      this.bgColor, this.progressColor);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,15 @@ class HomeIIndicatorWidget extends StatelessWidget {
         center: Text(
           offerCount,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-          ),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        footer: Text(
-          footerName, 
-          style: TextStyle(
-            color: Colors.white,
+        footer: Container(
+          margin: EdgeInsets.only(top: 20),
+          child: Text(
+            footerName,
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
         circularStrokeCap: CircularStrokeCap.round,

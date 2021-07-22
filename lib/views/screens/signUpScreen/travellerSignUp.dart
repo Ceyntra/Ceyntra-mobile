@@ -342,9 +342,10 @@ class _TravellerSignUpState extends State<TravellerSignUp> {
                                     fontSize: 15, fontWeight: FontWeight.w500),
                                 controller: contactNumberTec,
                                 validator: (val) {
-                                  return val.isEmpty || val.length < 9
-                                      ? "Contact num should be greater than 9"
-                                      : null;
+                                  return RegExp(r"^[0-9]*$").hasMatch(val) &&
+                                          val.length > 8
+                                      ? null
+                                      : "please enter valid phone number";
                                 },
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.phone_android),

@@ -93,9 +93,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
       );
     else if (mainFeedState == "profile")
-      return TravellerProfileScreen(
-        
-      );
+      return TravellerProfileScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
         place: clickedPlace,
@@ -162,9 +160,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
             isPressed ? BorderRadius.circular(40) : BorderRadius.circular(0),
         child: Scaffold(
           body: mainFeed(context),
-          backgroundColor: Color(0xff192537),
+          backgroundColor: Color(0xff031925),
           bottomNavigationBar: Container(
-            color: Color(0xff192537),
+            color: Color(0xff031925),
             padding: EdgeInsets.all(10),
             height: 60,
             child: Row(

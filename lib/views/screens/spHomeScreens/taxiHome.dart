@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:ceyntra_mobile/auth.dart';
+import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/taxiPackages.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -7,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class TaxiHomeScreen extends StatelessWidget {
-  Function logIn(){}
+  Auth auth = new Auth();
+  Function logIn() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,16 @@ class TaxiHomeScreen extends StatelessWidget {
               Icons.notifications,
               color: Colors.white,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () {
+              auth.logout(context);
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -35,7 +48,7 @@ class TaxiHomeScreen extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child:Row(
+              child: Row(
                 children: [
                   Expanded(
                     child: CircularPercentIndicator(
@@ -69,9 +82,7 @@ class TaxiHomeScreen extends StatelessWidget {
                           ),
                           Text(
                             'REACH',
-                            style: TextStyle(
-                              color: Colors.white
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                           RichText(
                             text: TextSpan(
@@ -99,7 +110,6 @@ class TaxiHomeScreen extends StatelessWidget {
                     ),
                     flex: 1,
                   ),
-
                   Expanded(
                     child: Image.asset('assets/images/taxi.png'),
                     flex: 1,
@@ -107,17 +117,26 @@ class TaxiHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             Divider(
               color: Colors.white.withOpacity(0.5),
               thickness: 1,
             ),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 children: [
-                  HomeOptionWidget(Colors.purple, '  Offers', Icons.local_offer, logIn),
+                  HomeOptionWidget(
+                    Colors.purple,
+                    '  Offers',
+                    Icons.local_offer,
+                    () {
+                      print("object");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TaxiPackageScreen()));
+                    },
+                  ),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
@@ -125,30 +144,41 @@ class TaxiHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 children: [
-                  HomeOptionWidget(Colors.red, '  Complaints', Icons.warning, logIn),
+                  HomeOptionWidget(
+                    Colors.red,
+                    '  Complaints',
+                    Icons.warning,
+                    () {
+                      print("object");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ComplaintPage()));
+                    },
+                  ),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
-                  HomeOptionWidget(Colors.blue, '  Settings', Icons.settings, logIn),
+                  HomeOptionWidget(
+                      Colors.blue, '  Settings', Icons.settings, logIn),
                 ],
               ),
             ),
-
             GreenTagWidget(
               title: 'Successed Offers',
             ),
-
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child:Row(
+              child: Row(
                 children: [
-                  HomeIIndicatorWidget('54 OFFERS', 0.54, 'LAST MONTH', Colors.grey, Colors.white),
-                  HomeIIndicatorWidget('67 OFFERS', 0.67, 'THIS MONTH', Colors.grey, Colors.pink[100]),
+                  HomeIIndicatorWidget('54 OFFERS', 0.54, 'LAST MONTH',
+                      Colors.grey, Colors.white),
+                  HomeIIndicatorWidget('67 OFFERS', 0.67, 'THIS MONTH',
+                      Colors.grey, Colors.pink[100]),
                 ],
               ),
             ),

@@ -16,6 +16,7 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
+  Auth auth = new Auth();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -264,7 +265,8 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
-                    Auth().logout(context);
+                    auth.logout(context);
+
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
