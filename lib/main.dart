@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
   // var isFirstTime= preferences.getInt("isFirstTime") ==null ? 0 : preferences.getInt("isFirstTime");
   // var isLoggedIn= preferences.getInt("isLoggedIn")==null ? 0 : preferences.getInt("isLoggedIn");
 
-  // This widget is the root of your application.
+  //This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     Auth auth = new Auth();
@@ -62,3 +62,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Flutter Demo',
+//       home:MainScreen(),
+//     );
+//   }
+// }
