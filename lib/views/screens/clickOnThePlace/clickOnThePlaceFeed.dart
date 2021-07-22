@@ -35,7 +35,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "weather")
       return WeatherScreen(
-        place: widget.place,
+        place: widget.place,country: 'Sri Lanka',
       );
     else if (feedState == "hotel")
       return HotelFeedScreen(
@@ -229,6 +229,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
+
           feed(context),
         ],
       ),
