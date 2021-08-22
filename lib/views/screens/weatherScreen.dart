@@ -76,85 +76,33 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.blueGrey[900],
-        body: SafeArea(
-          child: Column(
-            children: [
-              //Top menu
-              Container(
-                  height: 70,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.menu_outlined,
-                          color: Colors.white,
-                          size: 35.0,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: TopIcon(
-                            title: 'Place', topIcon: Icons.room_outlined),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: TopIcon(
-                          title: 'Weather',
-                          topIcon: Icons.ac_unit_outlined,
-                          color: Colors.green,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: TopIcon(
-                            title: 'Hotel', topIcon: Icons.hotel_outlined),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child:
-                            TopIcon(title: 'Taxi', topIcon: Icons.local_taxi),
-                      ),
-                    ],
-                  )),
-
-              //Body container Box
-              Expanded(
-                flex: 10,
-                child: Container(
-                  margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  //Body box style
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment
-                          .center, // 10% of the width, so there are ten blinds.
-                      colors: <Color>[
-                        Colors.green[400],
-                        Colors.teal[900],
-                      ], // red to yellow
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                  ),
-
-                  child: Container(
-                    //move
-                    width: double.infinity,
-                    child: weatherModel == null
-                        ? LoadingSpinner()
-                        : WeatherContent(
-                            weatherModel: weatherModel,
-                          ),
-                  ),
-                ),
-              ),
-            ],
+    return Expanded(
+      child: Container(
+        height: MediaQuery.of(context).size.height/1.3,
+        margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment
+                .center, // 10% of the width, so there are ten blinds.
+            colors: <Color>[
+              Colors.green[400],
+              Colors.teal[900],
+            ], // red to yellow
           ),
-        ));
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        ),
+       child: Container(
+          //move
+          width: double.infinity,
+          child: weatherModel == null
+              ? LoadingSpinner()
+              : WeatherContent(
+                  weatherModel: weatherModel,
+                ),
+        ),
+      ),
+    );
   }
 }
 

@@ -17,45 +17,56 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
 class Auth {
-  final googleSignIn = GoogleSignIn();
-  Future signInWithGoogle(BuildContext context) async {
-    final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    if (googleUser == null) return null;
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
 
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+  GoogleSignIn googleSignIn= GoogleSignIn();
 
-    //Check user type & redirect to the relevant page
-    User user = FirebaseAuth.instance.currentUser;
-    print("ksjdf");
-    print(user.email);
-    var url = Uri.parse("http://10.0.2.2:9092/usertype");
-    var response = await http.post(url, body: user.email);
-    print(response.body);
+  Future signInWithGoogle(BuildContext context,Function isUserNotRegistered) async {
 
-    // print(jsonDecode(response.body));
+    try {
+      final GoogleSignInAccount googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return null;
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
 
-    if (jsonDecode(response.body) != 404) {
-      var userType = response.body;
-      print(userType);
-      setPreferences(context, int.parse(userType), user.email);
-    } else {
-      //User does not exists in system
-      await FirebaseAuth.instance.signOut();
-      user.delete();
-      print("User 404");
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      //Check user type & redirect to the relevant page
+      User user = FirebaseAuth.instance.currentUser;
+
+      var url = Uri.parse("http://10.0.2.2:9092/usertype");
+      var response = await http.post(url, body: user.email);
+
+      // print(jsonDecode(response.body));
+
+      if (jsonDecode(response.body) != 404) {
+        var userType = response.body;
+        print(userType);
+        setPreferences(context, int.parse(userType), user.email);
+      } else {
+        //User does not exists in system
+        user.delete();
+
+        await FirebaseAuth.instance.signOut();
+        googleSignIn.disconnect();
+        isUserNotRegistered();
+        print("User 404");
+      }
+    }on FirebaseAuthException catch  (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
     }
   }
 
-  Future setPreferences(
-      BuildContext context, int userType, String email) async {
+
+  Future setPreferences(BuildContext context, int userType,
+      String email) async {
     //Login success add shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("email", email);
@@ -63,6 +74,54 @@ class Auth {
 
     await prefs.setInt("isLoggedIn", 1);
 
+// =======
+//   final googleSignIn = GoogleSignIn();
+//   Future signInWithGoogle(BuildContext context) async {
+//     final GoogleSignInAccount googleUser = await googleSignIn.signIn();
+//     if (googleUser == null) return null;
+//     final GoogleSignInAuthentication googleAuth =
+//         await googleUser.authentication;
+//
+//     final credential = GoogleAuthProvider.credential(
+//       accessToken: googleAuth.accessToken,
+//       idToken: googleAuth.idToken,
+//     );
+//
+//     UserCredential userCredential =
+//         await FirebaseAuth.instance.signInWithCredential(credential);
+//
+//     //Check user type & redirect to the relevant page
+//     User user = FirebaseAuth.instance.currentUser;
+//     print("ksjdf");
+//     print(user.email);
+//     var url = Uri.parse("http://10.0.2.2:9092/usertype");
+//     var response = await http.post(url, body: user.email);
+//     print(response.body);
+//
+//     // print(jsonDecode(response.body));
+//
+//     if (jsonDecode(response.body) != 404) {
+//       var userType = response.body;
+//       print(userType);
+//       setPreferences(context, int.parse(userType), user.email);
+//     } else {
+//       //User does not exists in system
+//       await FirebaseAuth.instance.signOut();
+//       user.delete();
+//       print("User 404");
+//     }
+//   }
+//
+//   Future setPreferences(
+//       BuildContext context, int userType, String email) async {
+//     //Login success add shared preferences
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString("email", email);
+//     await prefs.setInt("userType", userType); //User Type
+//
+//     await prefs.setInt("isLoggedIn", 1);
+//
+// >>>>>>> 36a182fd0e8a830b8b4909f3b2648732a53a71ab
     if (prefs.getInt("isFirstTime") == null) {
       await prefs.setInt("isFirstTime", 1);
     }
@@ -106,7 +165,10 @@ class Auth {
     }
   }
 
-  Future login(String email, String password, BuildContext context) async {
+
+  Future login(String email, String password, BuildContext context,
+      Function isUserNotRegistered, Function isCredentialWrong) async {
+
     var url = Uri.parse("http://10.0.2.2:9092/userlogin");
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"},
@@ -118,6 +180,13 @@ class Auth {
       var userType = userData["userType"];
 
       setPreferences(context, userType, userData["email"]);
+
+    } else if (response.statusCode == 401) {
+      //Credential not matching
+      isCredentialWrong();
+    } else {
+      isUserNotRegistered();
+
 
       // //Login success add shared preferences
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -157,9 +226,9 @@ class Auth {
 
   Future logout(BuildContext context) async {
     if (FirebaseAuth.instance.currentUser != null) {
-      print("slkdfjsdlkfjsdlkfjslkdfj");
-      googleSignIn.disconnect();
+      print("Google logout!");
       await FirebaseAuth.instance.signOut();
+      googleSignIn.disconnect();
     }
 
     SharedPreferences preferences = await SharedPreferences.getInstance();

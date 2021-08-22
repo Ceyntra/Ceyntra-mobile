@@ -266,6 +266,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
                     auth.logout(context);
+
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },

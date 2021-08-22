@@ -1,10 +1,45 @@
+import 'dart:io';
+
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class FirstPageScreen extends StatelessWidget {
+class FirstPageScreen extends StatefulWidget {
+  @override
+  _FirstPageScreenState createState() => _FirstPageScreenState();
+}
+
+class _FirstPageScreenState extends State<FirstPageScreen> {
   void logIn() {}
+
+  // var url;
+  // final storage = FirebaseStorage.instance;
+
+  // void getPhoto() async {
+  //   // await storage
+  //   //     .ref()
+  //   //     .child("place")
+  //   //     .putString("ksfhksdjfhskdjfh")
+  //   //     .whenComplete(() => {print("dod")});
+
+  //   var url1 = await storage.ref().child("place/start3.jpg").getDownloadURL();
+  //   print("ksdhf");
+  //   print(url1);
+  //   setState(() {
+  //     url = url1;
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getPhoto();
+  // }
+
+  // AssetImage("assets/images/start3.jpg")
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
