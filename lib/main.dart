@@ -26,8 +26,8 @@ import 'package:ceyntra_mobile/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.clear();
+  // SharedPreferences preferences = await SharedPreferences.getInstance();
+  // await preferences.clear();
 
   runApp(MyApp());
 }

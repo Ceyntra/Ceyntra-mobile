@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FeedPlaceWidget extends StatefulWidget {
+  final int placeId;
+  final double latitude;
+  final double longitude;
   final String imagePath;
   final String placeName;
   final double rating;
@@ -11,7 +14,10 @@ class FeedPlaceWidget extends StatefulWidget {
   final Function setNullClickedOnThePlaceState;
 
   FeedPlaceWidget(
-      {this.imagePath,
+      {this.placeId,
+      this.latitude,
+      this.longitude,
+      this.imagePath,
       this.placeName,
       this.rating,
       this.votes,
@@ -59,7 +65,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     image: DecorationImage(
-                        image: AssetImage(widget.imagePath),
+                        image: NetworkImage(widget.imagePath),
                         fit: BoxFit.fitWidth)),
               ),
               Positioned(
