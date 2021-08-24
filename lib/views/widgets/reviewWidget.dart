@@ -5,6 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ReviewWidget extends StatelessWidget {
   // const ReviewWidget({ Key? key }) : super(key: key);
+  final String comment;
+  final String profile_photo;
+  final String firstName;
+  final String secondeName;
+  final double rating;
+  final String date;
+
+  ReviewWidget(
+      {this.comment,
+      this.date,
+      this.descriptionText,
+      this.firstName,
+      this.profile_photo,
+      this.rating,
+      this.secondeName});
   String descriptionText =
       'This example shows a message that was posted by a user. The username is always visible right before the text and tapping on it opens the user profile. The text is truncated after two lines and can be expanded by tapping on the link show more at the end or the text itself. After the text was expanded it cannot be collapsed again as no collapseText was provided. Links, @mentions and #hashtags in the text are styled differently and can be tapped to open the browser or the user profile.';
 
@@ -26,7 +41,7 @@ class ReviewWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage('assets/images/profile1.jpg'))),
+                          image: NetworkImage('assets/images/profile1.jpg'))),
                 ),
                 Container(
                   height: 40,

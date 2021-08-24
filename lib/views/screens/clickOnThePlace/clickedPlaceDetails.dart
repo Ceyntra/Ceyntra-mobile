@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/service/PlaceService.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -20,10 +21,25 @@ class ClickedPlaceDetails extends StatefulWidget {
 class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
+  PlaceService placeService = new PlaceService();
+  var pageData;
+
+  void setPageData(data) {
+    setState(() {
+      pageData = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    placeService.loadAllReviewsAndScreenData(
+        setPageData, 3, widget.place.placeId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(favourite);
     String descriptionText = widget.place.description;
     double myRating = 0;
     return Column(
@@ -313,8 +329,25 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
         GreenTagWidget(
           title: "Reviews(54)",
         ),
-        ReviewWidget(),
-        ReviewWidget(),
+        // ReviewWidget(),
+        // ReviewWidget(),
+        Column(
+          children: pageData != null
+              ? []
+              : [
+                  Container(
+                    // color: Colors.green,
+                    width: 100,
+                    height: 250,
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: 60,
+                        height: 60,
+                        // color: Colors.red,
+                        child: CircularProgressIndicator()),
+                  )
+                ],
+        ),
         SizedBox(
           height: 600,
         ),

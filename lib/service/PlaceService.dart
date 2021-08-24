@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
+import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,8 @@ class PlaceService {
   //   });
   // }
 
+  var dio = Dio();
+
   loadAllPlaces(Function setPlaceList) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
     //     desiredAccuracy: LocationAccuracy.high);
@@ -36,7 +39,7 @@ class PlaceService {
       "latitude": 7.9573,
       "longitude": 80.7600
     };
-    var dio = Dio();
+
     var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
         data: currentLocation);
 
@@ -83,6 +86,33 @@ class PlaceService {
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedPlace: setClickedPlace,
         setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
+      ),
+    );
+    return items;
+  }
+
+  loadAllReviewsAndScreenData(Function setData, userId, placeId) async {
+    Map<String, int> userAndPlaceData = {
+      "user_id": userId,
+      "place_id": placeId
+    };
+
+    var response = await dio.post("http://10.0.2.2:9092/getMetadataInPlace",
+        data: userAndPlaceData);
+
+    setData(response.data);
+  }
+
+  List<Widget> loadReviews(
+    BuildContext context,
+    pageData,
+  ) {
+    var reviewList = pageData['list'];
+    final items = List<Widget>.generate(
+      reviewList.length,
+      (index) => ReviewWidget(
+        comment: reviewList[index]['placeReviewEntity']['comment'],
+        rating: reviewList[index]['placeReviewEntity']['rating'],
       ),
     );
     return items;
