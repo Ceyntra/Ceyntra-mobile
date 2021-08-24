@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/service/PlaceService.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:geolocator/geolocator.dart';
 
@@ -22,52 +23,20 @@ class NearYouFeedScreen extends StatefulWidget {
 }
 
 class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
+  PlaceService placeService = new PlaceService();
   var placeList;
-  void loadAllPlaces() async {
-    // final geoPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // Map<String, double> currentLocation = {
-    //   "latitude": geoPosition.latitude,
-    //   "longitude": geoPosition.longitude
-    // };
 
-    Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
-    };
-    var dio = Dio();
-    var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
-        data: currentLocation);
-
+  void setPlaceList(res) {
     setState(() {
-      placeList = response.data;
+      placeList = res;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    loadAllPlaces();
-  }
-
-  List<Widget> loadNearMePlaces(BuildContext context) {
-    final items = List<Widget>.generate(
-      placeList.length,
-      (index) => FeedPlaceWidget(
-        placeId: placeList[index]['place_id'],
-        latitude: placeList[index]['latitude'],
-        longitude: placeList[index]['longitude'],
-        imagePath: placeList[index]['photo'],
-        placeName: placeList[index]['place_name'],
-        votes: placeList[index]['number_of_votes'],
-        rating: placeList[index]['rating'],
-        description: placeList[index]['description'],
-        changeMainFeedStateState: widget.changeMainFeedStateState,
-        setClickedPlace: widget.setClickedPlace,
-        setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
-      ),
-    );
-    return items;
+    placeService.loadAllPlaces(setPlaceList);
+    // loadAllPlaces();
   }
 
   @override
@@ -177,7 +146,12 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
         ),
         Column(
           children: placeList != null
-              ? loadNearMePlaces(context)
+              ? placeService.loadNearMePlaces(
+                  context,
+                  placeList,
+                  widget.changeMainFeedStateState,
+                  widget.setClickedPlace,
+                  widget.setNullClickedOnThePlaceState)
               : [
                   Container(
                     // color: Colors.green,

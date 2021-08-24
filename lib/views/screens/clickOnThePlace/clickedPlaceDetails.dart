@@ -23,6 +23,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print(favourite);
     String descriptionText = widget.place.description;
     double myRating = 0;
     return Column(
@@ -64,6 +65,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                     setState(() {
                       !favourite ? favourite = true : favourite = false;
                     });
+                    print(favourite);
                   },
                   child: Icon(
                     favourite ? Icons.favorite_sharp : Icons.favorite_border,

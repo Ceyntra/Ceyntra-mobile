@@ -86,7 +86,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                   right: 20,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
+                        color: Colors.black.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(10)),
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
