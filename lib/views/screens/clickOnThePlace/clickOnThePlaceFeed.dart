@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickedPlaceDetails.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/hotelFeed.dart';
@@ -11,7 +12,7 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedHotel;
   final Function setNullChangedFeedState;
-  final String place;
+  final PlaceModel place;
   String changedFeedState;
   ClickOnThePlaceFeedScreen(
       {this.place,
@@ -35,7 +36,8 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "weather")
       return WeatherScreen(
-        place: widget.place,country: 'Sri Lanka',
+        place: widget.place.placeName,
+        country: 'Sri Lanka',
       );
     else if (feedState == "hotel")
       return HotelFeedScreen(
@@ -229,7 +231,6 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-
           feed(context),
         ],
       ),

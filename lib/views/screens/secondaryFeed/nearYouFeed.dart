@@ -11,7 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NearYouFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function setNullClickedOnThePlaceState;
   NearYouFeedScreen(
       {this.changeMainFeedStateState,
@@ -47,7 +47,7 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
   @override
   void initState() {
     super.initState();
-    // loadAllPlaces();
+    loadAllPlaces();
   }
 
   List<Widget> loadNearMePlaces(BuildContext context) {
@@ -61,6 +61,7 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
         placeName: placeList[index]['place_name'],
         votes: placeList[index]['number_of_votes'],
         rating: placeList[index]['rating'],
+        description: placeList[index]['description'],
         changeMainFeedStateState: widget.changeMainFeedStateState,
         setClickedPlace: widget.setClickedPlace,
         setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,

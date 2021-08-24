@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,10 +8,11 @@ class FeedPlaceWidget extends StatefulWidget {
   final double longitude;
   final String imagePath;
   final String placeName;
+  final String description;
   final double rating;
   final int votes;
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function setNullClickedOnThePlaceState;
 
   FeedPlaceWidget(
@@ -23,7 +25,8 @@ class FeedPlaceWidget extends StatefulWidget {
       this.votes,
       this.changeMainFeedStateState,
       this.setClickedPlace,
-      this.setNullClickedOnThePlaceState});
+      this.setNullClickedOnThePlaceState,
+      this.description});
 
   @override
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
@@ -49,7 +52,15 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
         widget.setNullClickedOnThePlaceState();
-        widget.setClickedPlace(widget.placeName);
+        widget.setClickedPlace(PlaceModel(
+            placeId: widget.placeId,
+            description: widget.description,
+            latitude: widget.latitude,
+            longitude: widget.longitude,
+            numberOfVotes: widget.votes,
+            photo: widget.imagePath,
+            placeName: widget.placeName,
+            rating: widget.rating));
         widget.changeMainFeedStateState(
           "clickOnThePlace",
         );

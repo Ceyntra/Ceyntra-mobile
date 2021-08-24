@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/nearYouFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/suggestionsFeed.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 class SecondaryFeedScreen extends StatefulWidget {
   final bool isPressed;
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function pressed;
   final Function setNullClickedOnThePlaceState;
   SecondaryFeedScreen(

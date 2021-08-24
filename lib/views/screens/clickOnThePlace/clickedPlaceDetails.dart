@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ClickedPlaceDetails extends StatefulWidget {
   // const ClickedPlaceDetails({ Key? key }) : super(key: key);
-  final String place;
+  final PlaceModel place;
   ClickedPlaceDetails({this.place});
 
   @override
@@ -19,11 +20,11 @@ class ClickedPlaceDetails extends StatefulWidget {
 class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
-  double myRating = 0;
-  String descriptionText =
-      'This examplefgdfd shows a message that was posted by a user. The username is always visible right before the text and tapping on it opens the user profile. The text is truncated after two lines and can be expanded by tapping on the link show more at the end or the text itself. After the text was expanded it cannot be collapsed again as no collapseText was provided. Links, @mentions and #hashtags in the text are styled differently and can be tapped to open the browser or the user profile.';
+
   @override
   Widget build(BuildContext context) {
+    String descriptionText = widget.place.description;
+    double myRating = 0;
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -119,8 +120,8 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             DisplayRatingWidget(
-                              rating: 4.8,
-                              votes: 4539,
+                              rating: widget.place.rating,
+                              votes: widget.place.numberOfVotes,
                             ),
                             Container(
                               alignment: Alignment.topRight,
@@ -163,7 +164,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                       Container(
                         margin: EdgeInsets.only(top: 0),
                         child: Text(
-                          widget.place,
+                          widget.place.placeName,
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600,
                               fontSize: 20,
@@ -177,7 +178,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
               Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
-                  "Central Province, Matale District, Dambulla",
+                  "Sri Lanka, " + widget.place.placeName,
                   style:
                       GoogleFonts.montserrat(fontSize: 15, color: Colors.grey),
                 ),

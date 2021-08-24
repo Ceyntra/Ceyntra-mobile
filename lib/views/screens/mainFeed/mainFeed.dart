@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
@@ -25,7 +26,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   double scaleFactor = 1;
   bool isPressed = false;
   String mainFeedState = 'explore';
-  String clickedPlace;
+  PlaceModel clickedPlace;
   String clickedHotel;
   String clickedOnThePlaceState;
 
@@ -53,7 +54,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
 // this function call from FeedPlaceWidget
-  void setClickedPlace(String place) {
+  void setClickedPlace(PlaceModel place) {
     setState(() {
       clickedPlace = place;
     });
