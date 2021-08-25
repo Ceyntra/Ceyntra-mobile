@@ -22,6 +22,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
   double myRating = 0;
+  var userId = 3;
 
   PlaceService placeService = new PlaceService();
   var pageData;
@@ -30,6 +31,9 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   void setPageData(data) {
     setState(() {
       pageData = data;
+      favourite = data['favourite'];
+      myRating = data['myRating'];
+      numOfReviews = data['list'].length;
     });
   }
 
@@ -38,18 +42,11 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
     super.initState();
 
     placeService.loadAllReviewsAndScreenData(
-        setPageData, 3, widget.place.placeId);
+        setPageData, userId, widget.place.placeId);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (pageData != null) {
-      setState(() {
-        favourite = pageData['favourite'];
-        myRating = pageData['myRating'];
-        numOfReviews = pageData['list'].length;
-      });
-    }
     String descriptionText = widget.place.description;
 
     return Column(
@@ -91,7 +88,8 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                     setState(() {
                       !favourite ? favourite = true : favourite = false;
                     });
-                    print(favourite);
+                    placeService.updateFavouritePlace(
+                        favourite, userId, widget.place.placeId);
                   },
                   child: Icon(
                     favourite ? Icons.favorite_sharp : Icons.favorite_border,
@@ -147,45 +145,48 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            DisplayRatingWidget(
-                              rating: widget.place.rating,
-                              votes: widget.place.numberOfVotes,
-                            ),
                             Container(
-                              alignment: Alignment.topRight,
-                              // color: Colors.redAccent,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Text(
-                                      "Check In",
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        !toggle
-                                            ? toggle = true
-                                            : toggle = false;
-                                      });
-                                    },
-                                    child: Icon(
-                                      toggle
-                                          ? Icons.toggle_on
-                                          : Icons.toggle_off,
-                                      color:
-                                          toggle ? Colors.green : Colors.grey,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: DisplayRatingWidget(
+                                rating: widget.place.rating,
+                                votes: widget.place.numberOfVotes,
                               ),
-                            )
+                            ),
+                            // Container(
+                            //   alignment: Alignment.topRight,
+                            //   // color: Colors.redAccent,
+                            //   child: Row(
+                            //     children: [
+                            //       Container(
+                            //         margin: EdgeInsets.only(right: 10),
+                            //         child: Text(
+                            //           "Check In",
+                            //           style: GoogleFonts.montserrat(
+                            //             fontSize: 15,
+                            //             color: Colors.white,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       GestureDetector(
+                            //         onTap: () {
+                            //           setState(() {
+                            //             !toggle
+                            //                 ? toggle = true
+                            //                 : toggle = false;
+                            //           });
+                            //         },
+                            //         child: Icon(
+                            //           toggle
+                            //               ? Icons.toggle_on
+                            //               : Icons.toggle_off,
+                            //           color:
+                            //               toggle ? Colors.green : Colors.grey,
+                            //           size: 40,
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         ),
                       ),

@@ -121,4 +121,14 @@ class PlaceService {
     );
     return items;
   }
+
+  void updateFavouritePlace(bool favourite, userId, placeId) async {
+    Map<String, dynamic> details = {
+      "favouriteStatus": favourite,
+      "userId": userId,
+      "placeId": placeId
+    };
+    var response = await dio.post('http://10.0.2.2:9092/updateFavouritePlace',
+        data: details);
+  }
 }
