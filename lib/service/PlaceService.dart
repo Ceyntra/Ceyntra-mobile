@@ -112,7 +112,11 @@ class PlaceService {
       reviewList.length,
       (index) => ReviewWidget(
         comment: reviewList[index]['placeReviewEntity']['comment'],
-        rating: reviewList[index]['placeReviewEntity']['rating'],
+        rating: reviewList[index]['rating'],
+        date: reviewList[index]['placeReviewEntity']['timestamp'],
+        firstName: reviewList[index]['travellerEntity']['firstName'],
+        profile_photo: reviewList[index]['travellerEntity']['photo'],
+        secondeName: reviewList[index]['travellerEntity']['lastName'],
       ),
     );
     return items;

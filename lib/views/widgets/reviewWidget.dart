@@ -15,16 +15,14 @@ class ReviewWidget extends StatelessWidget {
   ReviewWidget(
       {this.comment,
       this.date,
-      this.descriptionText,
       this.firstName,
       this.profile_photo,
       this.rating,
       this.secondeName});
-  String descriptionText =
-      'This example shows a message that was posted by a user. The username is always visible right before the text and tapping on it opens the user profile. The text is truncated after two lines and can be expanded by tapping on the link show more at the end or the text itself. After the text was expanded it cannot be collapsed again as no collapseText was provided. Links, @mentions and #hashtags in the text are styled differently and can be tapped to open the browser or the user profile.';
 
   @override
   Widget build(BuildContext context) {
+    var rateDate = date.substring(0, 10);
     return Container(
       // height: 50,
       // color: Colors.amber,
@@ -40,8 +38,8 @@ class ReviewWidget extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage('assets/images/profile1.jpg'))),
+                      image:
+                          DecorationImage(image: NetworkImage(profile_photo))),
                 ),
                 Container(
                   height: 40,
@@ -55,7 +53,7 @@ class ReviewWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "Stephanie",
+                              firstName + " " + secondeName,
                               style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 color: Colors.white,
@@ -65,7 +63,7 @@ class ReviewWidget extends StatelessWidget {
                               width: 10,
                             ),
                             Text(
-                              "October, 2019",
+                              rateDate,
                               style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 color: Colors.grey,
@@ -81,7 +79,7 @@ class ReviewWidget extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(right: 10),
                                 child: Text(
-                                  "4.5",
+                                  rating.toString(),
                                   style: GoogleFonts.montserrat(
                                       fontSize: 15, color: Colors.white),
                                 ),
@@ -90,7 +88,7 @@ class ReviewWidget extends StatelessWidget {
                                 child: RatingBar.builder(
                                   itemSize: 20,
                                   ignoreGestures: true,
-                                  initialRating: 4.5,
+                                  initialRating: rating,
                                   minRating: 1,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
@@ -123,7 +121,7 @@ class ReviewWidget extends StatelessWidget {
             child: Container(
               // padding: EdgeInsets.symmetric(horizontal: 10),
               child: ExpandableText(
-                descriptionText,
+                comment,
                 expandText: 'Read more',
                 collapseText: 'show less',
                 maxLines: 3,

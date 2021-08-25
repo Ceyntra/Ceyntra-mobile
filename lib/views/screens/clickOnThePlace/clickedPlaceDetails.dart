@@ -21,8 +21,11 @@ class ClickedPlaceDetails extends StatefulWidget {
 class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
+  double myRating = 0;
+
   PlaceService placeService = new PlaceService();
   var pageData;
+  var numOfReviews = 0;
 
   void setPageData(data) {
     setState(() {
@@ -40,8 +43,15 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
 
   @override
   Widget build(BuildContext context) {
+    if (pageData != null) {
+      setState(() {
+        favourite = pageData['favourite'];
+        myRating = pageData['myRating'];
+        numOfReviews = pageData['list'].length;
+      });
+    }
     String descriptionText = widget.place.description;
-    double myRating = 0;
+
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -327,13 +337,13 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
           ),
         ),
         GreenTagWidget(
-          title: "Reviews(54)",
+          title: "Reviews(" + numOfReviews.toString() + ")",
         ),
         // ReviewWidget(),
         // ReviewWidget(),
         Column(
           children: pageData != null
-              ? []
+              ? placeService.loadReviews(context, pageData)
               : [
                   Container(
                     // color: Colors.green,
