@@ -131,4 +131,18 @@ class PlaceService {
     var response = await dio.post('http://10.0.2.2:9092/updateFavouritePlace',
         data: details);
   }
+
+  Future<int> addReview(comment, rating, placeId, userId) async {
+    Map<String, dynamic> reviewData = {
+      "comment": comment,
+      "rating": rating,
+      "placeId": placeId,
+      "userId": userId
+    };
+
+    var response =
+        await dio.post('http://10.0.2.2:9092/addReview', data: reviewData);
+
+    return response.data;
+  }
 }

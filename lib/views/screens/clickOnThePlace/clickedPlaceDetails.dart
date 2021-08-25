@@ -19,6 +19,7 @@ class ClickedPlaceDetails extends StatefulWidget {
 }
 
 class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
+  TextEditingController comment = new TextEditingController();
   bool favourite = false;
   bool toggle = false;
   double myRating = 0;
@@ -43,6 +44,19 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
 
     placeService.loadAllReviewsAndScreenData(
         setPageData, userId, widget.place.placeId);
+  }
+
+  void popUpDialog(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text("Comment Field Is Empty"),
+      content: Text("Please fill and try again"),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
   }
 
   @override
@@ -290,10 +304,11 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                 width: (MediaQuery.of(context).size.width / 100) * 70,
                 height: 40,
                 child: TextField(
+                  controller: comment,
                   style: GoogleFonts.montserrat(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white),
+                      color: Colors.black),
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -318,14 +333,24 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                           fontWeight: FontWeight.w500)),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                height: 40,
-                width: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.green,
-                ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.green),
+                onPressed: () {
+                  if (comment.text.isNotEmpty) {
+                    var isDone = placeService.addReview(
+                        comment.text, myRating, widget.place.placeId, userId);
+                    isDone.then((value) => {
+                          if (value == 1)
+                            {
+                              comment.clear(),
+                              placeService.loadAllReviewsAndScreenData(
+                                  setPageData, userId, widget.place.placeId)
+                            }
+                        });
+                  } else {
+                    popUpDialog(context);
+                  }
+                },
                 child: Text(
                   "Post",
                   style: GoogleFonts.montserrat(
@@ -333,7 +358,23 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                       color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
-              )
+              ),
+              // Container(
+              //   alignment: Alignment.center,
+              //   height: 40,
+              //   width: 70,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10),
+              //     color: Colors.green,
+              //   ),
+              //   child: Text(
+              //     "Post",
+              //     style: GoogleFonts.montserrat(
+              //         fontSize: 15,
+              //         color: Colors.white,
+              //         fontWeight: FontWeight.w600),
+              //   ),
+              // )
             ],
           ),
         ),
