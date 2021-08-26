@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/PlaceService.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -25,6 +26,7 @@ class NearYouFeedScreen extends StatefulWidget {
 class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
   PlaceService placeService = new PlaceService();
   var placeList;
+  var topPlacePhotos = [];
 
   void setPlaceList(res) {
     setState(() {
@@ -32,10 +34,16 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
     });
   }
 
+  void setPlacePhotos(res) {
+    setState(() {
+      topPlacePhotos = res;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    placeService.loadAllPlaces(setPlaceList);
+    placeService.loadAllPlaces(setPlaceList, setPlacePhotos);
     // loadAllPlaces();
   }
 
@@ -49,10 +57,34 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
             children: [
               Container(
                 height: 250,
-                child: Image(
-                  image: AssetImage("assets/images/sigiriya.jpg"),
-                  fit: BoxFit.fitHeight,
-                ),
+                child: topPlacePhotos.length != 0
+                    ? Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          NetworkImage(topPlacePhotos[1]),
+                          NetworkImage(topPlacePhotos[0]),
+                          NetworkImage(topPlacePhotos[2])
+                        ],
+                      )
+                    : Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg")
+                        ],
+                      ),
               ),
               Container(
                 color: Colors.black.withOpacity(0.3),

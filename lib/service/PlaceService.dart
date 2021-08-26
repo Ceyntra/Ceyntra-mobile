@@ -27,7 +27,7 @@ class PlaceService {
 
   var dio = Dio();
 
-  loadAllPlaces(Function setPlaceList) async {
+  loadAllPlaces(Function setPlaceList, Function setPlacePhotos) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
     //     desiredAccuracy: LocationAccuracy.high);
     // Map<String, double> currentLocation = {
@@ -42,6 +42,16 @@ class PlaceService {
 
     var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
         data: currentLocation);
+
+    if (response != null) {
+      print("inner");
+      var id = response.data[0]['place_id'];
+      var response2 =
+          await dio.get("http://10.0.2.2:9092/getTopPlacePhotos/$id");
+
+      // print(response2.data[0]);
+      setPlacePhotos(response2.data);
+    }
 
     setPlaceList(response.data);
   }

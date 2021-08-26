@@ -26,6 +26,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   double placeRating = 0.0;
   int numOfVotes = 0;
   var userId = 3;
+  var photoList = [];
 
   PlaceService placeService = new PlaceService();
   var pageData;
@@ -39,6 +40,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
       numOfReviews = data['list'].length;
       numOfVotes = data['numOfVotesForPlace'];
       placeRating = data['placeRating'];
+      photoList = data['photoList'];
     });
   }
 
@@ -80,18 +82,34 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
-                child: Carousel(
-                  dotSize: 6.0,
-                  boxFit: BoxFit.cover,
-                  dotBgColor: Colors.transparent,
-                  indicatorBgPadding: 8,
-                  dotPosition: DotPosition.bottomRight,
-                  images: [
-                    AssetImage("assets/images/sigiriya.jpg"),
-                    AssetImage("assets/images/polo.jpg"),
-                    AssetImage("assets/images/dambulla.jpg")
-                  ],
-                ),
+                child: photoList.length != 0
+                    ? Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          NetworkImage(photoList[0]),
+                          NetworkImage(photoList[1]),
+                          NetworkImage(photoList[2])
+                        ],
+                      )
+                    : Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg")
+                        ],
+                      ),
               ),
             ),
             Positioned(
