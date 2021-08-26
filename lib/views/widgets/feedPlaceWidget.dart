@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -104,26 +105,35 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                               color: Colors.white,
                               fontWeight: FontWeight.w500),
                         )),
+                        SizedBox(
+                          height: 2,
+                        ),
                         Container(
                           child: Container(
                             child: Row(
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    widget.rating.toString(),
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 15, color: Colors.white),
-                                  ),
+                                // Container(
+                                //   margin: EdgeInsets.only(right: 10),
+                                //   child: Text(
+                                //     widget.rating.toStringAsFixed(1),
+                                //     style: GoogleFonts.montserrat(
+                                //         fontSize: 15, color: Colors.white),
+                                //   ),
+                                // ),
+                                // Row(children: items),
+
+                                DisplayRatingWidget(
+                                  rating: double.parse(
+                                      widget.rating.toStringAsFixed(1)),
+                                  votes: widget.votes,
                                 ),
-                                Row(children: items),
-                                Container(
-                                  child: Text(
-                                    "(" + widget.votes.toString() + ")",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 10, color: Colors.white),
-                                  ),
-                                ),
+                                // Container(
+                                //   child: Text(
+                                //     "(" + widget.votes.toString() + ")",
+                                //     style: GoogleFonts.montserrat(
+                                //         fontSize: 10, color: Colors.white),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),

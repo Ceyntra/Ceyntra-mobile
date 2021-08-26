@@ -23,6 +23,8 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   bool favourite = false;
   bool toggle = false;
   double myRating = 0;
+  double placeRating = 0.0;
+  int numOfVotes = 0;
   var userId = 3;
 
   PlaceService placeService = new PlaceService();
@@ -35,6 +37,8 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
       favourite = data['favourite'];
       myRating = data['myRating'];
       numOfReviews = data['list'].length;
+      numOfVotes = data['numOfVotesForPlace'];
+      placeRating = data['placeRating'];
     });
   }
 
@@ -162,8 +166,9 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 10),
                               child: DisplayRatingWidget(
-                                rating: widget.place.rating,
-                                votes: widget.place.numberOfVotes,
+                                rating: double.parse(
+                                    placeRating.toStringAsFixed(1)),
+                                votes: numOfVotes,
                               ),
                             ),
                             // Container(
