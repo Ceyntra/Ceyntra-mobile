@@ -77,9 +77,6 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                         indicatorBgPadding: 8,
                         dotPosition: DotPosition.bottomRight,
                         images: [
-                          // AssetImage("assets/images/sigiriya.jpg"),
-                          // AssetImage("assets/images/sigiriya.jpg"),
-                          // AssetImage("assets/images/sigiriya.jpg"),
                           AssetImage("assets/images/notFound.jpg"),
                           AssetImage("assets/images/notFound.jpg"),
                           AssetImage("assets/images/notFound.jpg")
@@ -139,7 +136,9 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sigiriya",
+                          placeList != null
+                              ? placeList[0]['place_name']
+                              : "loading...",
                           style: GoogleFonts.montserrat(
                               color: Colors.white,
                               fontSize: 25,
@@ -149,11 +148,14 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                           height: 10,
                         ),
                         Text(
-                          "The natural setting is stunning with a rich architectural and historical heritage",
+                          placeList != null
+                              ? placeList[0]["description"]
+                              : "loading...",
                           style: GoogleFonts.montserrat(
                             color: Colors.white.withOpacity(0.4),
                             fontSize: 15,
                           ),
+                          maxLines: 3,
                         ),
                       ],
                     ),
@@ -163,8 +165,13 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                   left: 20,
                   child: Container(
                     child: DisplayRatingWidget(
-                      rating: 4.9,
-                      votes: 5823,
+                      rating: placeList != null
+                          ? double.parse(
+                              placeList[0]["rating"].toStringAsFixed(1))
+                          : 0,
+                      votes: placeList != null
+                          ? placeList[0]["number_of_votes"]
+                          : 0,
                     ),
                   ))
             ],
