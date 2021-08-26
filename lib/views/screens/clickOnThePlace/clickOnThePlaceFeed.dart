@@ -14,12 +14,14 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   final Function setNullChangedFeedState;
   final PlaceModel place;
   String changedFeedState;
+  String secondaryFeedState;
   ClickOnThePlaceFeedScreen(
       {this.place,
       this.changeMainFeedStateState,
       this.setClickedHotel,
       this.changedFeedState,
-      this.setNullChangedFeedState});
+      this.setNullChangedFeedState,
+      this.secondaryFeedState});
 
   @override
   _ClickOnThePlaceFeedScreenState createState() =>

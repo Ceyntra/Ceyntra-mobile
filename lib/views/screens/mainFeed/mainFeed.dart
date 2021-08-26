@@ -30,6 +30,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   String clickedHotel;
   String clickedOnThePlaceState;
 
+  String secondaryFeedState = "nearMe";
+
   // this function call from FeedPlaceWidget
   void changeMainFeedStateState(String state) {
     setState(() {
@@ -51,6 +53,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   void setHamburgerStateNull() {
     widget.hamburgerState = null;
+  }
+
+  // this function call on secondary feed place widget//////////////////////////
+  void changeSecondaryFeedState(String state) {
+    setState(() {
+      secondaryFeedState = state;
+    });
   }
 
 // this function call from FeedPlaceWidget
@@ -87,6 +96,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   Widget mainFeed(BuildContext context) {
     if (mainFeedState == "explore")
       return SecondaryFeedScreen(
+        initialFeedState: secondaryFeedState,
+        setSecondaryFeedState: changeSecondaryFeedState,
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedPlace: setClickedPlace,
         pressed: pressed,
