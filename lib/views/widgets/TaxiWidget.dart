@@ -2,6 +2,8 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 
 class TaxiWidget extends StatefulWidget {
+  final Function setClickedTaxi;
+  final ValueChanged<String> changeMainFeedStateState;
   final int taxiId;
   final String driverLicense;
   final String firstName;
@@ -21,7 +23,9 @@ class TaxiWidget extends StatefulWidget {
       this.profilePhoto,
       this.rating,
       this.taxiId,
-      this.taxiPhoto});
+      this.taxiPhoto,
+      this.setClickedTaxi,
+      this.changeMainFeedStateState});
 
   @override
   _TaxiWidgetState createState() => _TaxiWidgetState();
@@ -30,9 +34,21 @@ class TaxiWidget extends StatefulWidget {
 class _TaxiWidgetState extends State<TaxiWidget> {
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> clickedTaxiDetails = {
+      "driverLicense": widget.driverLicense,
+      "firstName": widget.firstName,
+      "lastName": widget.lastName,
+      "numOfVotes": widget.numOfVotes,
+      "perKmPrice": widget.perKmPrice,
+      "profilePhoto": widget.profilePhoto,
+      "rating": widget.rating,
+      "taxiId": widget.taxiId,
+      "taxiPhoto": widget.taxiPhoto,
+    };
     return GestureDetector(
       onTap: () {
-        print("taxi clicked");
+        widget.changeMainFeedStateState("clickOnTheTaxi");
+        widget.setClickedTaxi(clickedTaxiDetails);
       },
       child: Container(
         margin: EdgeInsets.only(top: 20, left: 20),

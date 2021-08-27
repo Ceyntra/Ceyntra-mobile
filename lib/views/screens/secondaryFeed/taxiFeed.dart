@@ -4,7 +4,7 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 
 class TaxiFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedTaxi;
+  final Function setClickedTaxi;
 
   TaxiFeedScreen({this.changeMainFeedStateState, this.setClickedTaxi});
   @override
@@ -32,7 +32,8 @@ class _TaxiFeedScreenState extends State<TaxiFeedScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: taxiDriverList != null
-          ? taxiDriverService.loadTaxiWidgets(context, taxiDriverList)
+          ? taxiDriverService.loadTaxiWidgets(context, taxiDriverList,
+              widget.setClickedTaxi, widget.changeMainFeedStateState)
           : [],
     );
   }

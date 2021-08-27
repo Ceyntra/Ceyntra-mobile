@@ -13,6 +13,7 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   final ValueChanged<String> setClickedHotel;
   final Function setNullChangedFeedState;
   final PlaceModel place;
+  final Function setClickedTaxi;
   String changedFeedState;
   String secondaryFeedState;
   ClickOnThePlaceFeedScreen(
@@ -21,7 +22,8 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
       this.setClickedHotel,
       this.changedFeedState,
       this.setNullChangedFeedState,
-      this.secondaryFeedState});
+      this.secondaryFeedState,
+      this.setClickedTaxi});
 
   @override
   _ClickOnThePlaceFeedScreenState createState() =>
@@ -48,7 +50,11 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "guide")
       return GuideFeedScreen();
-    else if (feedState == "taxi") return TaxiFeedScreen();
+    else if (feedState == "taxi")
+      return TaxiFeedScreen(
+        setClickedTaxi: widget.setClickedTaxi,
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+      );
     return null;
   }
 

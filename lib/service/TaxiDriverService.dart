@@ -24,13 +24,13 @@ class TaxiDriverService {
     setTaxis(response.data);
   }
 
-  List<Widget> loadTaxiWidgets(
-    BuildContext context,
-    taxiList,
-  ) {
+  List<Widget> loadTaxiWidgets(BuildContext context, taxiList, setClickedTaxi,
+      changeMainFeedStateState) {
     final items = List<Widget>.generate(
       taxiList.length,
       (index) => TaxiWidget(
+        changeMainFeedStateState: changeMainFeedStateState,
+        setClickedTaxi: setClickedTaxi,
         driverLicense: taxiList[index]['driver_license'],
         firstName: taxiList[index]['first_name'],
         lastName: taxiList[index]['last_name'],

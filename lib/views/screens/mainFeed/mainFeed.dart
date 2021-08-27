@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheTaxiFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
 
@@ -116,6 +117,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return TravellerProfileScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
+        setClickedTaxi: setClickedTaxi,
         place: clickedPlace,
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedHotel: setClickedHotel,
@@ -149,6 +151,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     else if (mainFeedState == "clickOnTheHotel")
       return ClickOnTheHotelFeed(
         clickedHotel: clickedHotel,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "clickOnTheTaxi")
+      return ClickOnTheTaxiFeed(
+        clickedTaxi: clickedTaxi,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
