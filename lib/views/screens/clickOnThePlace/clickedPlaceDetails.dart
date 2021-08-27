@@ -25,7 +25,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   double myRating = 0;
   double placeRating = 0.0;
   int numOfVotes = 0;
-  var userId = 3;
+  var userId = 5;
   var photoList = [];
 
   PlaceService placeService = new PlaceService();
@@ -47,7 +47,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   @override
   void initState() {
     super.initState();
-
+    print(widget.place.placeId);
     placeService.loadAllReviewsAndScreenData(
         setPageData, userId, widget.place.placeId);
   }

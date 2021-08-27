@@ -38,8 +38,10 @@ class ReviewWidget extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      image:
-                          DecorationImage(image: NetworkImage(profile_photo))),
+                      image: DecorationImage(
+                          image: profile_photo != null
+                              ? NetworkImage(profile_photo)
+                              : AssetImage("assets/images/notFound.jpg"))),
                 ),
                 Container(
                   height: 40,

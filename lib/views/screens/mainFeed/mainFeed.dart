@@ -28,6 +28,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   String mainFeedState = 'explore';
   PlaceModel clickedPlace;
   String clickedHotel;
+  var clickedTaxi;
   String clickedOnThePlaceState;
 
   String secondaryFeedState = "nearMe";
@@ -73,6 +74,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void setClickedHotel(String hotel) {
     setState(() {
       clickedHotel = hotel;
+    });
+  }
+
+  // this function call from FeedPlaceWidget
+  void setClickedTaxi(var taxi) {
+    setState(() {
+      clickedTaxi = taxi;
     });
   }
 

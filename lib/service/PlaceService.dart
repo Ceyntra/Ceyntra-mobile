@@ -56,6 +56,36 @@ class PlaceService {
     setPlaceList(response.data);
   }
 
+  loadAllPlacesForPopulerFeed(
+      Function setPlaceList, Function setPlacePhotos) async {
+    // final geoPosition = await Geolocator.getCurrentPosition(
+    //     desiredAccuracy: LocationAccuracy.high);
+    // Map<String, double> currentLocation = {
+    //   "latitude": geoPosition.latitude,
+    //   "longitude": geoPosition.longitude
+    // };
+
+    Map<String, double> currentLocation = {
+      "latitude": 7.9573,
+      "longitude": 80.7600
+    };
+
+    var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
+        data: currentLocation);
+
+    if (response != null) {
+      print("inner");
+      var id = response.data[0]['place_id'];
+      var response2 =
+          await dio.get("http://10.0.2.2:9092/getTopPlacePhotos/$id");
+
+      // print(response2.data[0]);
+      setPlacePhotos(response2.data);
+    }
+
+    setPlaceList(response.data);
+  }
+
   // List<Widget> loadNearMePlaces(BuildContext context) {
   //   final items = List<Widget>.generate(
   //     placeList.length,

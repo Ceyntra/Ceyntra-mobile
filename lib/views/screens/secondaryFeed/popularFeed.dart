@@ -43,7 +43,7 @@ class _PopularFeedScreenState extends State<PopularFeedScreen> {
   @override
   void initState() {
     super.initState();
-    placeService.loadAllPlaces(setPlaceList, setPlacePhotos);
+    placeService.loadAllPlacesForPopulerFeed(setPlaceList, setPlacePhotos);
     // loadAllPlaces();
   }
 
