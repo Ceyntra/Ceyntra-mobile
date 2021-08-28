@@ -1,3 +1,5 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/service/PlaceService.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -9,7 +11,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ClickedPlaceDetails extends StatefulWidget {
   // const ClickedPlaceDetails({ Key? key }) : super(key: key);
-  final String place;
+  final PlaceModel place;
   ClickedPlaceDetails({this.place});
 
   @override
@@ -17,13 +19,56 @@ class ClickedPlaceDetails extends StatefulWidget {
 }
 
 class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
+  TextEditingController comment = new TextEditingController();
   bool favourite = false;
   bool toggle = false;
   double myRating = 0;
-  String descriptionText =
-      'This examplefgdfd shows a message that was posted by a user. The username is always visible right before the text and tapping on it opens the user profile. The text is truncated after two lines and can be expanded by tapping on the link show more at the end or the text itself. After the text was expanded it cannot be collapsed again as no collapseText was provided. Links, @mentions and #hashtags in the text are styled differently and can be tapped to open the browser or the user profile.';
+  double placeRating = 0.0;
+  int numOfVotes = 0;
+  var userId = 5;
+  var photoList = [];
+
+  PlaceService placeService = new PlaceService();
+  var pageData;
+  var numOfReviews = 0;
+
+  void setPageData(data) {
+    setState(() {
+      pageData = data;
+      favourite = data['favourite'];
+      myRating = data['myRating'];
+      numOfReviews = data['list'].length;
+      numOfVotes = data['numOfVotesForPlace'];
+      placeRating = data['placeRating'];
+      photoList = data['photoList'];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.place.placeId);
+    placeService.loadAllReviewsAndScreenData(
+        setPageData, userId, widget.place.placeId);
+  }
+
+  void popUpDialog(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text("Comment Field Is Empty"),
+      content: Text("Please fill and try again"),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String descriptionText = widget.place.description;
+
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,18 +82,34 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
-                child: Carousel(
-                  dotSize: 6.0,
-                  boxFit: BoxFit.cover,
-                  dotBgColor: Colors.transparent,
-                  indicatorBgPadding: 8,
-                  dotPosition: DotPosition.bottomRight,
-                  images: [
-                    AssetImage("assets/images/sigiriya.jpg"),
-                    AssetImage("assets/images/polo.jpg"),
-                    AssetImage("assets/images/dambulla.jpg")
-                  ],
-                ),
+                child: photoList.length != 0
+                    ? Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          NetworkImage(photoList[0]),
+                          NetworkImage(photoList[1]),
+                          NetworkImage(photoList[2])
+                        ],
+                      )
+                    : Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg")
+                        ],
+                      ),
               ),
             ),
             Positioned(
@@ -63,6 +124,8 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                     setState(() {
                       !favourite ? favourite = true : favourite = false;
                     });
+                    placeService.updateFavouritePlace(
+                        favourite, userId, widget.place.placeId);
                   },
                   child: Icon(
                     favourite ? Icons.favorite_sharp : Icons.favorite_border,
@@ -118,52 +181,56 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            DisplayRatingWidget(
-                              rating: 4.8,
-                              votes: 4539,
-                            ),
                             Container(
-                              alignment: Alignment.topRight,
-                              // color: Colors.redAccent,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Text(
-                                      "Check In",
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        !toggle
-                                            ? toggle = true
-                                            : toggle = false;
-                                      });
-                                    },
-                                    child: Icon(
-                                      toggle
-                                          ? Icons.toggle_on
-                                          : Icons.toggle_off,
-                                      color:
-                                          toggle ? Colors.green : Colors.grey,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: DisplayRatingWidget(
+                                rating: double.parse(
+                                    placeRating.toStringAsFixed(1)),
+                                votes: numOfVotes,
                               ),
-                            )
+                            ),
+                            // Container(
+                            //   alignment: Alignment.topRight,
+                            //   // color: Colors.redAccent,
+                            //   child: Row(
+                            //     children: [
+                            //       Container(
+                            //         margin: EdgeInsets.only(right: 10),
+                            //         child: Text(
+                            //           "Check In",
+                            //           style: GoogleFonts.montserrat(
+                            //             fontSize: 15,
+                            //             color: Colors.white,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       GestureDetector(
+                            //         onTap: () {
+                            //           setState(() {
+                            //             !toggle
+                            //                 ? toggle = true
+                            //                 : toggle = false;
+                            //           });
+                            //         },
+                            //         child: Icon(
+                            //           toggle
+                            //               ? Icons.toggle_on
+                            //               : Icons.toggle_off,
+                            //           color:
+                            //               toggle ? Colors.green : Colors.grey,
+                            //           size: 40,
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 0),
                         child: Text(
-                          widget.place,
+                          widget.place.placeName,
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600,
                               fontSize: 20,
@@ -177,7 +244,7 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
               Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
-                  "Central Province, Matale District, Dambulla",
+                  "Sri Lanka, " + widget.place.placeName,
                   style:
                       GoogleFonts.montserrat(fontSize: 15, color: Colors.grey),
                 ),
@@ -260,10 +327,11 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                 width: (MediaQuery.of(context).size.width / 100) * 70,
                 height: 40,
                 child: TextField(
+                  controller: comment,
                   style: GoogleFonts.montserrat(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white),
+                      color: Colors.black),
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -288,14 +356,24 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                           fontWeight: FontWeight.w500)),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                height: 40,
-                width: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.green,
-                ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.green),
+                onPressed: () {
+                  if (comment.text.isNotEmpty) {
+                    var isDone = placeService.addReview(
+                        comment.text, myRating, widget.place.placeId, userId);
+                    isDone.then((value) => {
+                          if (value == 1)
+                            {
+                              comment.clear(),
+                              placeService.loadAllReviewsAndScreenData(
+                                  setPageData, userId, widget.place.placeId)
+                            }
+                        });
+                  } else {
+                    popUpDialog(context);
+                  }
+                },
                 child: Text(
                   "Post",
                   style: GoogleFonts.montserrat(
@@ -303,15 +381,48 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                       color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
-              )
+              ),
+              // Container(
+              //   alignment: Alignment.center,
+              //   height: 40,
+              //   width: 70,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10),
+              //     color: Colors.green,
+              //   ),
+              //   child: Text(
+              //     "Post",
+              //     style: GoogleFonts.montserrat(
+              //         fontSize: 15,
+              //         color: Colors.white,
+              //         fontWeight: FontWeight.w600),
+              //   ),
+              // )
             ],
           ),
         ),
         GreenTagWidget(
-          title: "Reviews(54)",
+          title: "Reviews(" + numOfReviews.toString() + ")",
         ),
-        ReviewWidget(),
-        ReviewWidget(),
+        // ReviewWidget(),
+        // ReviewWidget(),
+        Column(
+          children: pageData != null
+              ? placeService.loadReviews(context, pageData)
+              : [
+                  Container(
+                    // color: Colors.green,
+                    width: 100,
+                    height: 250,
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: 60,
+                        height: 60,
+                        // color: Colors.red,
+                        child: CircularProgressIndicator()),
+                  )
+                ],
+        ),
         SizedBox(
           height: 600,
         ),

@@ -1,4 +1,6 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/service/PlaceService.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:geolocator/geolocator.dart';
 
@@ -11,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NearYouFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function setNullClickedOnThePlaceState;
   NearYouFeedScreen(
       {this.changeMainFeedStateState,
@@ -22,51 +24,27 @@ class NearYouFeedScreen extends StatefulWidget {
 }
 
 class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
+  PlaceService placeService = new PlaceService();
   var placeList;
-  void loadAllPlaces() async {
-    // final geoPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // Map<String, double> currentLocation = {
-    //   "latitude": geoPosition.latitude,
-    //   "longitude": geoPosition.longitude
-    // };
+  var topPlacePhotos = [];
 
-    Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
-    };
-    var dio = Dio();
-    var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
-        data: currentLocation);
-
+  void setPlaceList(res) {
     setState(() {
-      placeList = response.data;
+      placeList = res;
+    });
+  }
+
+  void setPlacePhotos(res) {
+    setState(() {
+      topPlacePhotos = res;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    placeService.loadAllPlaces(setPlaceList, setPlacePhotos);
     // loadAllPlaces();
-  }
-
-  List<Widget> loadNearMePlaces(BuildContext context) {
-    final items = List<Widget>.generate(
-      placeList.length,
-      (index) => FeedPlaceWidget(
-        placeId: placeList[index]['place_id'],
-        latitude: placeList[index]['latitude'],
-        longitude: placeList[index]['longitude'],
-        imagePath: placeList[index]['photo'],
-        placeName: placeList[index]['place_name'],
-        votes: placeList[index]['number_of_votes'],
-        rating: placeList[index]['rating'],
-        changeMainFeedStateState: widget.changeMainFeedStateState,
-        setClickedPlace: widget.setClickedPlace,
-        setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
-      ),
-    );
-    return items;
   }
 
   @override
@@ -79,10 +57,31 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
             children: [
               Container(
                 height: 250,
-                child: Image(
-                  image: AssetImage("assets/images/sigiriya.jpg"),
-                  fit: BoxFit.fitHeight,
-                ),
+                child: topPlacePhotos.length != 0
+                    ? Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          NetworkImage(topPlacePhotos[1]),
+                          NetworkImage(topPlacePhotos[0]),
+                          NetworkImage(topPlacePhotos[2])
+                        ],
+                      )
+                    : Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg")
+                        ],
+                      ),
               ),
               Container(
                 color: Colors.black.withOpacity(0.3),
@@ -137,7 +136,9 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sigiriya",
+                          placeList != null
+                              ? placeList[0]['place_name']
+                              : "loading...",
                           style: GoogleFonts.montserrat(
                               color: Colors.white,
                               fontSize: 25,
@@ -147,11 +148,14 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                           height: 10,
                         ),
                         Text(
-                          "The natural setting is stunning with a rich architectural and historical heritage",
+                          placeList != null
+                              ? placeList[0]["description"]
+                              : "loading...",
                           style: GoogleFonts.montserrat(
                             color: Colors.white.withOpacity(0.4),
                             fontSize: 15,
                           ),
+                          maxLines: 3,
                         ),
                       ],
                     ),
@@ -161,8 +165,13 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                   left: 20,
                   child: Container(
                     child: DisplayRatingWidget(
-                      rating: 4.9,
-                      votes: 5823,
+                      rating: placeList != null
+                          ? double.parse(
+                              placeList[0]["rating"].toStringAsFixed(1))
+                          : 0,
+                      votes: placeList != null
+                          ? placeList[0]["number_of_votes"]
+                          : 0,
                     ),
                   ))
             ],
@@ -176,7 +185,12 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
         ),
         Column(
           children: placeList != null
-              ? loadNearMePlaces(context)
+              ? placeService.loadNearMePlaces(
+                  context,
+                  placeList,
+                  widget.changeMainFeedStateState,
+                  widget.setClickedPlace,
+                  widget.setNullClickedOnThePlaceState)
               : [
                   Container(
                     // color: Colors.green,

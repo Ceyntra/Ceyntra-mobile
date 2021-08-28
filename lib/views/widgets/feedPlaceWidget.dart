@@ -1,3 +1,5 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,10 +9,11 @@ class FeedPlaceWidget extends StatefulWidget {
   final double longitude;
   final String imagePath;
   final String placeName;
+  final String description;
   final double rating;
   final int votes;
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function setNullClickedOnThePlaceState;
 
   FeedPlaceWidget(
@@ -23,7 +26,8 @@ class FeedPlaceWidget extends StatefulWidget {
       this.votes,
       this.changeMainFeedStateState,
       this.setClickedPlace,
-      this.setNullClickedOnThePlaceState});
+      this.setNullClickedOnThePlaceState,
+      this.description});
 
   @override
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
@@ -49,7 +53,15 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
         widget.setNullClickedOnThePlaceState();
-        widget.setClickedPlace(widget.placeName);
+        widget.setClickedPlace(PlaceModel(
+            placeId: widget.placeId,
+            description: widget.description,
+            latitude: widget.latitude,
+            longitude: widget.longitude,
+            numberOfVotes: widget.votes,
+            photo: widget.imagePath,
+            placeName: widget.placeName,
+            rating: widget.rating));
         widget.changeMainFeedStateState(
           "clickOnThePlace",
         );
@@ -75,7 +87,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                   right: 20,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
+                        color: Colors.black.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(10)),
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -93,26 +105,35 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
                               color: Colors.white,
                               fontWeight: FontWeight.w500),
                         )),
+                        SizedBox(
+                          height: 2,
+                        ),
                         Container(
                           child: Container(
                             child: Row(
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    widget.rating.toString(),
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 15, color: Colors.white),
-                                  ),
+                                // Container(
+                                //   margin: EdgeInsets.only(right: 10),
+                                //   child: Text(
+                                //     widget.rating.toStringAsFixed(1),
+                                //     style: GoogleFonts.montserrat(
+                                //         fontSize: 15, color: Colors.white),
+                                //   ),
+                                // ),
+                                // Row(children: items),
+
+                                DisplayRatingWidget(
+                                  rating: double.parse(
+                                      widget.rating.toStringAsFixed(1)),
+                                  votes: widget.votes,
                                 ),
-                                Row(children: items),
-                                Container(
-                                  child: Text(
-                                    "(" + widget.votes.toString() + ")",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 10, color: Colors.white),
-                                  ),
-                                ),
+                                // Container(
+                                //   child: Text(
+                                //     "(" + widget.votes.toString() + ")",
+                                //     style: GoogleFonts.montserrat(
+                                //         fontSize: 10, color: Colors.white),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),

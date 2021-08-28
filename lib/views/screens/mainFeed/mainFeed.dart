@@ -1,4 +1,6 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheTaxiFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
 
@@ -25,9 +27,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   double scaleFactor = 1;
   bool isPressed = false;
   String mainFeedState = 'explore';
-  String clickedPlace;
+  PlaceModel clickedPlace;
   String clickedHotel;
+  var clickedTaxi;
   String clickedOnThePlaceState;
+
+  String secondaryFeedState = "nearMe";
 
   // this function call from FeedPlaceWidget
   void changeMainFeedStateState(String state) {
@@ -52,8 +57,15 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     widget.hamburgerState = null;
   }
 
+  // this function call on secondary feed place widget//////////////////////////
+  void changeSecondaryFeedState(String state) {
+    setState(() {
+      secondaryFeedState = state;
+    });
+  }
+
 // this function call from FeedPlaceWidget
-  void setClickedPlace(String place) {
+  void setClickedPlace(PlaceModel place) {
     setState(() {
       clickedPlace = place;
     });
@@ -63,6 +75,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void setClickedHotel(String hotel) {
     setState(() {
       clickedHotel = hotel;
+    });
+  }
+
+  // this function call from FeedPlaceWidget
+  void setClickedTaxi(var taxi) {
+    setState(() {
+      clickedTaxi = taxi;
     });
   }
 
@@ -86,6 +105,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   Widget mainFeed(BuildContext context) {
     if (mainFeedState == "explore")
       return SecondaryFeedScreen(
+        initialFeedState: secondaryFeedState,
+        setSecondaryFeedState: changeSecondaryFeedState,
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedPlace: setClickedPlace,
         pressed: pressed,
@@ -96,6 +117,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return TravellerProfileScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
+        setClickedTaxi: setClickedTaxi,
         place: clickedPlace,
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedHotel: setClickedHotel,
@@ -129,6 +151,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     else if (mainFeedState == "clickOnTheHotel")
       return ClickOnTheHotelFeed(
         clickedHotel: clickedHotel,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "clickOnTheTaxi")
+      return ClickOnTheTaxiFeed(
+        clickedTaxi: clickedTaxi,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );

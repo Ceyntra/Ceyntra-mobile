@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/nearYouFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/suggestionsFeed.dart';
@@ -7,21 +8,32 @@ import 'package:flutter/material.dart';
 class SecondaryFeedScreen extends StatefulWidget {
   final bool isPressed;
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedPlace;
+  final ValueChanged<PlaceModel> setClickedPlace;
   final Function pressed;
   final Function setNullClickedOnThePlaceState;
+  final Function setSecondaryFeedState;
+  final initialFeedState;
   SecondaryFeedScreen(
       {this.changeMainFeedStateState,
       this.setClickedPlace,
       this.pressed,
       this.isPressed,
-      this.setNullClickedOnThePlaceState});
+      this.setNullClickedOnThePlaceState,
+      this.setSecondaryFeedState,
+      this.initialFeedState});
   @override
   _SecondaryFeedScreenState createState() => _SecondaryFeedScreenState();
 }
 
 class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
-  String feedState = 'nearMe';
+  String feedState = "nearMe";
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      feedState = widget.initialFeedState;
+    });
+  }
 
   Widget feed(BuildContext context) {
     if (feedState == "nearMe")
@@ -31,7 +43,11 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
         setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
       );
     else if (feedState == "popular")
-      return PopularFeedScreen();
+      return PopularFeedScreen(
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+        setClickedPlace: widget.setClickedPlace,
+        setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
+      );
     else if (feedState == "suggestions") return SuggestionsFeedScreen();
     return null;
   }
@@ -73,6 +89,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                 children: [
                   InkWell(
                       onTap: () {
+                        widget.setSecondaryFeedState("nearMe");
                         setState(() {
                           feedState = "nearMe";
                         });
@@ -100,6 +117,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.setSecondaryFeedState("popular");
                         setState(() {
                           feedState = "popular";
                         });
@@ -126,6 +144,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                           ))),
                   InkWell(
                       onTap: () {
+                        widget.setSecondaryFeedState("suggestions");
                         setState(() {
                           feedState = "suggestions";
                         });

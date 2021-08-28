@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickedPlaceDetails.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/popularFeed.dart';
 import 'package:ceyntra_mobile/views/screens/secondaryFeed/hotelFeed.dart';
@@ -11,14 +12,18 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<String> setClickedHotel;
   final Function setNullChangedFeedState;
-  final String place;
+  final PlaceModel place;
+  final Function setClickedTaxi;
   String changedFeedState;
+  String secondaryFeedState;
   ClickOnThePlaceFeedScreen(
       {this.place,
       this.changeMainFeedStateState,
       this.setClickedHotel,
       this.changedFeedState,
-      this.setNullChangedFeedState});
+      this.setNullChangedFeedState,
+      this.secondaryFeedState,
+      this.setClickedTaxi});
 
   @override
   _ClickOnThePlaceFeedScreenState createState() =>
@@ -35,7 +40,8 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "weather")
       return WeatherScreen(
-        place: widget.place,country: 'Sri Lanka',
+        place: widget.place.placeName,
+        country: 'Sri Lanka',
       );
     else if (feedState == "hotel")
       return HotelFeedScreen(
@@ -44,7 +50,11 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "guide")
       return GuideFeedScreen();
-    else if (feedState == "taxi") return TaxiFeedScreen();
+    else if (feedState == "taxi")
+      return TaxiFeedScreen(
+        setClickedTaxi: widget.setClickedTaxi,
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+      );
     return null;
   }
 
@@ -229,7 +239,6 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-
           feed(context),
         ],
       ),
