@@ -1,3 +1,5 @@
+import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
+import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidgetBig.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/lineBarIndicatorWidget.dart';
@@ -20,11 +22,61 @@ class ClickedTaxiInfoScreen extends StatefulWidget {
 }
 
 class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
+  TextEditingController comment = new TextEditingController();
   bool favourite = false;
-  bool toggle = false;
   double myRating = 0;
-  String descriptionText =
-      'This example shows a message that was posted by a user. The username is always visible right before the text and tapping on it opens the user profile. The text is truncated after ';
+  double placeRating = 0.0;
+  int numOfVotes = 0;
+  var userId = 3;
+
+  TaxiDriverService taxiDriverService = TaxiDriverService();
+  var pageData;
+  var numOfReviews;
+
+  void setPageData(data) {
+    setState(() {
+      pageData = data;
+      favourite = data['favourite'];
+      myRating = data['myRating'];
+      numOfReviews = data['list'].length;
+      numOfVotes = data['numOfVotesForPlace'];
+      placeRating = data['placeRating'];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.clickedTaxiInfo);
+    taxiDriverService.loadAllReviewsAndScreenData(
+        setPageData, userId, widget.clickedTaxiInfo["taxiId"]);
+  }
+
+  void popUpDialog(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text("Comment Field Is Empty"),
+      content: Text("Please fill and try again"),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
+  // Map<String, dynamic> clickedTaxiDetails = {
+  //     "driverLicense": widget.driverLicense,
+  //     "firstName": widget.firstName,
+  //     "lastName": widget.lastName,
+  //     "numOfVotes": widget.numOfVotes,
+  //     "perKmPrice": widget.perKmPrice,
+  //     "profilePhoto": widget.profilePhoto,
+  //     "rating": widget.rating,
+  //     "taxiId": widget.taxiId,
+  //     "taxiPhoto": widget.taxiPhoto,
+  //   };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,177 +91,70 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 //color: Colors.red,
-                child: Carousel(
-                  dotSize: 6.0,
-                  boxFit: BoxFit.cover,
-                  dotBgColor: Colors.transparent,
-                  indicatorBgPadding: 8,
-                  dotPosition: DotPosition.bottomRight,
-                  images: [
-                    AssetImage("assets/images/hotel1.jpg"),
-                    AssetImage("assets/images/hotel2.jpg"),
-                    AssetImage("assets/images/hotel3.jpg")
-                  ],
-                ),
+                child: widget.clickedTaxiInfo != null
+                    ? Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          NetworkImage(widget.clickedTaxiInfo['taxiPhoto']),
+                          NetworkImage(widget.clickedTaxiInfo['profilePhoto'])
+                        ],
+                      )
+                    : Carousel(
+                        dotSize: 6.0,
+                        boxFit: BoxFit.cover,
+                        dotBgColor: Colors.transparent,
+                        indicatorBgPadding: 8,
+                        dotPosition: DotPosition.bottomRight,
+                        images: [
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          // AssetImage("assets/images/sigiriya.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg"),
+                          AssetImage("assets/images/notFound.jpg")
+                        ],
+                      ),
               ),
             ),
             Container(
-              child: Row(children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.only(left: 40),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.white,
-                  ),
-                  child: Stack(
-                    children: [
-                      Icon(
-                        Icons.favorite_border_outlined,
-                        //color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 30),
-                  child: ElevatedButton.icon(
-                    icon: Icon(
-                      Icons.directions,
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      'Directions',
-                      //style: GoogleFonts.montserrat(fontSize: 14,color: Colors.black)),
-                    ),
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      //primary: Colors.white,
-                      textStyle: GoogleFonts.montserrat(color: Colors.black),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 14),
-                  child: Row(
-                    children: [
-                      Container(
-                        child: Text(
-                          "Check In",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
+              // color: Colors.red,
+              margin: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 35,
+                      height: 35,
+                      alignment: Alignment.center,
+                      child: GestureDetector(
                         onTap: () {
                           setState(() {
-                            !toggle ? toggle = true : toggle = false;
+                            !favourite ? favourite = true : favourite = false;
                           });
+                          // placeService.updateFavouritePlace(
+                          //     favourite, userId, widget.place.placeId);
                         },
                         child: Icon(
-                          toggle ? Icons.toggle_on : Icons.toggle_off,
-                          color: toggle ? Colors.green : Colors.grey,
-                          size: 40,
+                          favourite
+                              ? Icons.favorite_sharp
+                              : Icons.favorite_border,
+                          color: Colors.redAccent,
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ]),
-            ),
-            GreenTagWidget(
-              title: "Description",
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: ExpandableText(
-                descriptionText,
-                expandText: 'Read more',
-                collapseText: 'show less',
-                maxLines: 5,
-                linkColor: Colors.blue[900],
-                style: GoogleFonts.montserrat(
-                    fontSize: 15, color: Colors.grey, height: 1.5),
-              ),
-            ),
-            GreenTagWidget(title: "Rating"),
-            Container(
-              child: Row(
-                children: [
-                  DisplayRatingBigWidget(
-                    rating: 4.6,
-                    votes: 546,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                children: [
-                  Container(
-                    width: 100,
-                    child: Text(
-                      'Interesting',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14, color: Colors.grey),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(35))),
                     ),
-                  ),
-                  LineBarIndicatorWidget(1.0),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                children: [
-                  Container(
-                    width: 100,
-                    child: Text(
-                      'Guide',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14, color: Colors.grey),
+                    DisplayRatingWidget(
+                      rating: double.parse(placeRating.toStringAsFixed(1)),
+                      votes: numOfVotes,
                     ),
-                  ),
-                  LineBarIndicatorWidget(1.0),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                children: [
-                  Container(
-                    width: 100,
-                    child: Text(
-                      'Service',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14, color: Colors.grey),
-                    ),
-                  ),
-                  LineBarIndicatorWidget(0.9),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                children: [
-                  Container(
-                    width: 100,
-                    child: Text(
-                      'Price',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14, color: Colors.grey),
-                    ),
-                  ),
-                  LineBarIndicatorWidget(0.7),
-                ],
-              ),
+                  ]),
             ),
             GreenTagWidget(
               title: "My Rating",
@@ -268,10 +213,11 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                     width: (MediaQuery.of(context).size.width / 100) * 70,
                     height: 40,
                     child: TextField(
+                      controller: comment,
                       style: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white),
+                          color: Colors.black),
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -296,14 +242,26 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                               fontWeight: FontWeight.w500)),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 40,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.green,
-                    ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.green),
+                    onPressed: () {
+                      if (comment.text.isNotEmpty) {
+                        var isDone = taxiDriverService.addReview(comment.text,
+                            myRating, widget.clickedTaxiInfo["taxiId"], userId);
+                        isDone.then((value) => {
+                              if (value == 1)
+                                {
+                                  comment.clear(),
+                                  taxiDriverService.loadAllReviewsAndScreenData(
+                                      setPageData,
+                                      userId,
+                                      widget.clickedTaxiInfo["taxiId"])
+                                }
+                            });
+                      } else {
+                        popUpDialog(context);
+                      }
+                    },
                     child: Text(
                       "Post",
                       style: GoogleFonts.montserrat(
@@ -315,9 +273,27 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                 ],
               ),
             ),
-            ReviewWidget(),
-            ReviewWidget(),
-            ReviewWidget(),
+
+            GreenTagWidget(
+              title: "Reviews(" + numOfReviews.toString() + ")",
+            ),
+            Column(
+              children: pageData != null
+                  ? taxiDriverService.loadReviews(context, pageData)
+                  : [
+                      Container(
+                        // color: Colors.green,
+                        width: 100,
+                        height: 250,
+                        child: Container(
+                            alignment: Alignment.center,
+                            width: 60,
+                            height: 60,
+                            // color: Colors.red,
+                            child: CircularProgressIndicator()),
+                      )
+                    ],
+            )
           ],
         ),
       ),

@@ -80,6 +80,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   // this function call from FeedPlaceWidget
   void setClickedTaxi(var taxi) {
+    print(taxi);
     setState(() {
       clickedTaxi = taxi;
     });

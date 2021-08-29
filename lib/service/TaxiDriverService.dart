@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/widgets/TaxiWidget.dart';
+import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -43,5 +44,47 @@ class TaxiDriverService {
       ),
     );
     return items;
+  }
+
+  void loadAllReviewsAndScreenData(Function setData, userId, spId) async {
+    Map<String, int> userAndSpData = {"traveller_id": userId, "sp_id": spId};
+
+    var response = await dio.post("http://10.0.2.2:9092/getMetadataInSp",
+        data: userAndSpData);
+
+    setData(response.data);
+  }
+
+  List<Widget> loadReviews(
+    BuildContext context,
+    pageData,
+  ) {
+    var reviewList = pageData['list'];
+    final items = List<Widget>.generate(
+      reviewList.length,
+      (index) => ReviewWidget(
+        comment: reviewList[index]['spReviewEntity']['comment'],
+        rating: reviewList[index]['rating'],
+        date: reviewList[index]['spReviewEntity']['timestamp'],
+        firstName: reviewList[index]['travellerEntity']['firstName'],
+        profile_photo: reviewList[index]['travellerEntity']['photo'],
+        secondeName: reviewList[index]['travellerEntity']['lastName'],
+      ),
+    );
+    return items;
+  }
+
+  Future<int> addReview(comment, rating, placeId, userId) async {
+    Map<String, dynamic> reviewData = {
+      "comment": comment,
+      "rating": rating,
+      "placeId": placeId,
+      "userId": userId
+    };
+
+    var response =
+        await dio.post('http://10.0.2.2:9092/addReviewToSp', data: reviewData);
+
+    return response.data;
   }
 }
