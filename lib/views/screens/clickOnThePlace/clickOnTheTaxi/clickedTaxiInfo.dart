@@ -136,8 +136,8 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                           setState(() {
                             !favourite ? favourite = true : favourite = false;
                           });
-                          // placeService.updateFavouritePlace(
-                          //     favourite, userId, widget.place.placeId);
+                          taxiDriverService.updateFavouritePlace(favourite,
+                              userId, widget.clickedTaxiInfo["taxiId"]);
                         },
                         child: Icon(
                           favourite

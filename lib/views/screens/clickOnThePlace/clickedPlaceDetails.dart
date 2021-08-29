@@ -382,30 +382,13 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              // Container(
-              //   alignment: Alignment.center,
-              //   height: 40,
-              //   width: 70,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(10),
-              //     color: Colors.green,
-              //   ),
-              //   child: Text(
-              //     "Post",
-              //     style: GoogleFonts.montserrat(
-              //         fontSize: 15,
-              //         color: Colors.white,
-              //         fontWeight: FontWeight.w600),
-              //   ),
-              // )
             ],
           ),
         ),
         GreenTagWidget(
           title: "Reviews(" + numOfReviews.toString() + ")",
         ),
-        // ReviewWidget(),
-        // ReviewWidget(),
+
         Column(
           children: pageData != null
               ? placeService.loadReviews(context, pageData)

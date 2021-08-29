@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TaxiWidget extends StatefulWidget {
   final Function setClickedTaxi;
@@ -87,9 +88,10 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                 children: [
                   Text(
                     widget.firstName + " " + widget.lastName,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                   SizedBox(height: 10),
                   DisplayRatingWidget(
@@ -100,14 +102,13 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                   RichText(
                     text: TextSpan(
                       text: widget.perKmPrice.toString(),
-                      style: DefaultTextStyle.of(context)
-                          .style
-                          .apply(color: Colors.white),
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       children: [
                         TextSpan(
-                          text: 'per km',
+                          text: ' per km',
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             color: Colors.white.withOpacity(0.5),
                           ),
                         ),

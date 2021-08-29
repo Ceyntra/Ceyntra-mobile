@@ -87,4 +87,14 @@ class TaxiDriverService {
 
     return response.data;
   }
+
+  void updateFavouritePlace(bool favourite, userId, spId) async {
+    Map<String, dynamic> details = {
+      "favouriteStatus": favourite,
+      "userId": userId,
+      "placeId": spId
+    };
+    var response =
+        await dio.post('http://10.0.2.2:9092/updateFavouriteSp', data: details);
+  }
 }
