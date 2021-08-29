@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/views/screens/GlobalChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheTaxiFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
@@ -116,6 +117,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       );
     else if (mainFeedState == "profile")
       return TravellerProfileScreen();
+    else if(mainFeedState == "global")
+      return GlobalChatScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
         setClickedTaxi: setClickedTaxi,

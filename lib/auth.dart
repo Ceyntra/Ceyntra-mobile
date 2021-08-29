@@ -39,15 +39,16 @@ class Auth {
       //Check user type & redirect to the relevant page
       User user = FirebaseAuth.instance.currentUser;
 
-      var url = Uri.parse("http://10.0.2.2:9092/usertype");
+      var url = Uri.parse("http://10.0.2.2:9092/userByEmail");
       var response = await http.post(url, body: user.email);
 
       // print(jsonDecode(response.body));
 
-      if (jsonDecode(response.body) != 404) {
-        var userType = response.body;
-        print(userType);
-        setPreferences(context, int.parse(userType), user.email);
+      if (response.statusCode != 404) {
+        var user1 = jsonDecode(response.body);
+        print(user1);
+        setPreferences(context, int.parse(user1["userID"]),
+            int.parse(user1["userType"]), user.email);
       } else {
         //User does not exists in system
         user.delete();
@@ -64,11 +65,12 @@ class Auth {
   }
 
   Future setPreferences(
-      BuildContext context, int userType, String email) async {
+      BuildContext context, int userID, int userType, String email) async {
     //Login success add shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("email", email);
     await prefs.setInt("userType", userType); //User Type
+    await prefs.setInt("userID", userID); //User ID
 
     await prefs.setInt("isLoggedIn", 1);
 
@@ -174,8 +176,9 @@ class Auth {
     if (response.statusCode == 200) {
       //User type
       var userType = userData["userType"];
+      var userID = userData["userID"];
 
-      setPreferences(context, userType, userData["email"]);
+      setPreferences(context, userID, userType, userData["email"]);
     } else if (response.statusCode == 401) {
       //Credential not matching
       isCredentialWrong();
