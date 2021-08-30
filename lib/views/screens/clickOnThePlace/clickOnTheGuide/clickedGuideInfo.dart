@@ -9,26 +9,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:shape_of_view/shape_of_view.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ClickedHotelInfoScreen extends StatefulWidget {
-  // const ClickedHotelInfoScreen({ Key? key }) : super(key: key);
-  var clickedHotelInfo;
-  ClickedHotelInfoScreen({this.clickedHotelInfo});
+class clickedGuideInfoScreen extends StatefulWidget {
+  // const clickedGuideInfoScreen({ Key? key }) : super(key: key);
+  var clickedGuideInfo;
+  clickedGuideInfoScreen({this.clickedGuideInfo});
+
   @override
-  _ClickedHotelInfoScreenState createState() => _ClickedHotelInfoScreenState();
+  _clickedGuideInfoScreenState createState() => _clickedGuideInfoScreenState();
 }
 
-class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
+class _clickedGuideInfoScreenState extends State<clickedGuideInfoScreen> {
   TextEditingController comment = new TextEditingController();
   bool favourite = false;
   double myRating = 0;
   double placeRating = 0.0;
   int numOfVotes = 0;
   var userId = 3;
-  var photoList = [];
 
   TaxiDriverService taxiDriverService = TaxiDriverService();
   var pageData;
@@ -42,16 +41,15 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
       numOfReviews = data['list'].length;
       numOfVotes = data['numOfVotesForPlace'];
       placeRating = data['placeRating'];
-      photoList = data['photoList'];
     });
   }
 
   @override
   void initState() {
     super.initState();
-    print(widget.clickedHotelInfo);
+
     taxiDriverService.loadAllReviewsAndScreenData(
-        setPageData, userId, widget.clickedHotelInfo["hotelId"]);
+        setPageData, userId, widget.clickedGuideInfo["guideId"]);
   }
 
   void popUpDialog(BuildContext context) {
@@ -67,16 +65,18 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
         });
   }
 
-  //  Widget build(BuildContext context) {
-  //   Map<String, dynamic> clickedHotelDetails = {
-  //     "description": widget.description,
-  //     "name": widget.name,
-  //     "regNum": widget.regNumber,
-  //     "numOfVotes": widget.numOfVotes,
-  //     "profilePhoto": widget.profilePhoto,
-  //     "rating": widget.rating,
-  //     "hotelId": widget.hotelId,
-  //   };
+  // Map<String, dynamic> clickedGuideDetails = {
+  //   "description": widget.description,
+  //   "firstName": widget.firstName,
+  //   "lastName": widget.lastName,
+  //   "nic": widget.nic,
+  //   "numOfVotes": widget.numOfVotes,
+  //   "profilePhoto": widget.profilePhoto,
+  //   "photo": widget.photo,
+  //   "rating": widget.rating,
+  //   "guideId": widget.guideId,
+  //   "vehicleState": widget.vehicleState
+  // };
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 //color: Colors.red,
-                child: photoList.length != 0
+                child: widget.clickedGuideInfo != null
                     ? Carousel(
                         dotSize: 6.0,
                         boxFit: BoxFit.cover,
@@ -100,9 +100,8 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                         indicatorBgPadding: 8,
                         dotPosition: DotPosition.bottomRight,
                         images: [
-                          NetworkImage(photoList[0]),
-                          NetworkImage(photoList[1]),
-                          // NetworkImage(photoList[2])
+                          NetworkImage(widget.clickedGuideInfo['profilePhoto']),
+                          NetworkImage(widget.clickedGuideInfo['photo'])
                         ],
                       )
                     : Carousel(
@@ -123,26 +122,23 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
               ),
             ),
             Container(
+              // color: Colors.red,
               margin: EdgeInsets.only(top: 10),
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 35,
                       width: 35,
+                      height: 35,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
-                      ),
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
                             !favourite ? favourite = true : favourite = false;
                           });
                           taxiDriverService.updateFavouritePlace(favourite,
-                              userId, widget.clickedHotelInfo["hotelId"]);
+                              userId, widget.clickedGuideInfo["guideId"]);
                         },
                         child: Icon(
                           favourite
@@ -151,30 +147,9 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                           color: Colors.redAccent,
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 20),
-                      child: ElevatedButton(
-                        child: Icon(
-                          Icons.directions,
+                      decoration: BoxDecoration(
                           color: Colors.white,
-                        ),
-                        // icon: Icon(
-                        //   Icons.directions,
-                        //   color: Colors.white,
-                        // ),
-                        // label: Text(
-                        //   'Directions',
-                        //   //style: GoogleFonts.montserrat(fontSize: 14,color: Colors.black)),
-                        // ),
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          //primary: Colors.white,
-
-                          textStyle:
-                              GoogleFonts.montserrat(color: Colors.black),
-                        ),
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(35))),
                     ),
                     DisplayRatingWidget(
                       rating: double.parse(placeRating.toStringAsFixed(1)),
@@ -182,13 +157,14 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                     ),
                   ]),
             ),
+
             GreenTagWidget(
               title: "Description",
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: ExpandableText(
-                widget.clickedHotelInfo["description"],
+                widget.clickedGuideInfo["description"],
                 expandText: 'Read more',
                 collapseText: 'show less',
                 maxLines: 5,
@@ -197,7 +173,6 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                     fontSize: 15, color: Colors.grey, height: 1.5),
               ),
             ),
-
             GreenTagWidget(
               title: "My Rating",
             ),
@@ -291,7 +266,7 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                         var isDone = taxiDriverService.addReview(
                             comment.text,
                             myRating,
-                            widget.clickedHotelInfo["hotelId"],
+                            widget.clickedGuideInfo["guideId"],
                             userId);
                         isDone.then((value) => {
                               if (value == 1)
@@ -300,7 +275,7 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                                   taxiDriverService.loadAllReviewsAndScreenData(
                                       setPageData,
                                       userId,
-                                      widget.clickedHotelInfo["hotelId"])
+                                      widget.clickedGuideInfo["guideId"])
                                 }
                             });
                       } else {

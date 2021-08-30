@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 class ClickOnThePlaceFeedScreen extends StatefulWidget {
   // const ClickOnThePlaceFeedScreen({ Key? key }) : super(key: key);
   final ValueChanged<String> changeMainFeedStateState;
-  final Function setClickedHotel;
+
   final Function setNullChangedFeedState;
   final PlaceModel place;
   final Function setClickedTaxi;
+  final Function setClickedHotel;
+  final Function setClickedGuide;
   String changedFeedState;
   String secondaryFeedState;
   ClickOnThePlaceFeedScreen(
@@ -23,7 +25,8 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
       this.changedFeedState,
       this.setNullChangedFeedState,
       this.secondaryFeedState,
-      this.setClickedTaxi});
+      this.setClickedTaxi,
+      this.setClickedGuide});
 
   @override
   _ClickOnThePlaceFeedScreenState createState() =>
@@ -49,7 +52,10 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
         setClickedHotel: widget.setClickedHotel,
       );
     else if (feedState == "guide")
-      return GuideFeedScreen();
+      return GuideFeedScreen(
+        changeMainFeedStateState: widget.changeMainFeedStateState,
+        setClickedGuide: widget.setClickedGuide,
+      );
     else if (feedState == "taxi")
       return TaxiFeedScreen(
         setClickedTaxi: widget.setClickedTaxi,

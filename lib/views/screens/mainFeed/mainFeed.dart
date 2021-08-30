@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/GlobalChat.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheGuideFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheTaxiFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
@@ -31,6 +32,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   PlaceModel clickedPlace;
   var clickedHotel;
   var clickedTaxi;
+  var clickedGuide;
   String clickedOnThePlaceState;
 
   String secondaryFeedState = "nearMe";
@@ -87,6 +89,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     });
   }
 
+  // this function call from FeedPlaceWidget
+  void setClickedGuide(var guide) {
+    setState(() {
+      clickedGuide = guide;
+    });
+  }
+
   void pressed(double xOff, double yOff, double scaleFac, bool pressed) {
     print(xOff);
     print(yOff);
@@ -123,6 +132,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return ClickOnThePlaceFeedScreen(
         setClickedTaxi: setClickedTaxi,
         place: clickedPlace,
+        setClickedGuide: setClickedGuide,
         changeMainFeedStateState: changeMainFeedStateState,
         setClickedHotel: setClickedHotel,
         changedFeedState: clickedOnThePlaceState,
@@ -161,6 +171,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     else if (mainFeedState == "clickOnTheTaxi")
       return ClickOnTheTaxiFeed(
         clickedTaxi: clickedTaxi,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "clickOnTheGuide")
+      return clickOnTheGuideFeed(
+        clickedGuide: clickedGuide,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
