@@ -23,12 +23,6 @@ class clickOnTheGuideFeed extends StatefulWidget {
 
 class _clickOnTheGuideFeedState extends State<clickOnTheGuideFeed> {
   @override
-  void initState() {
-    super.initState();
-    print(widget.clickedGuide);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,

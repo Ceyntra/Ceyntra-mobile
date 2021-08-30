@@ -27,7 +27,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
   double myRating = 0;
   double placeRating = 0.0;
   int numOfVotes = 0;
-  var userId = 3;
+  var userId = 0;
 
   TaxiDriverService taxiDriverService = TaxiDriverService();
   var pageData;
@@ -47,7 +47,11 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.clickedTaxiInfo);
+    taxiDriverService.getUsertId().then((value) {
+      setState(() {
+        userId = value;
+      });
+    });
     taxiDriverService.loadAllReviewsAndScreenData(
         setPageData, userId, widget.clickedTaxiInfo["taxiId"]);
   }

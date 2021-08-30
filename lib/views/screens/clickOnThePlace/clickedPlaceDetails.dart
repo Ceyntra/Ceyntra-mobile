@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/PlaceService.dart';
+import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -25,10 +26,11 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   double myRating = 0;
   double placeRating = 0.0;
   int numOfVotes = 0;
-  var userId = 5;
+  var userId = 0;
   var photoList = [];
 
   PlaceService placeService = new PlaceService();
+  TaxiDriverService taxiDriverService = new TaxiDriverService();
   var pageData;
   var numOfReviews = 0;
 
@@ -47,7 +49,11 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   @override
   void initState() {
     super.initState();
-    print(widget.place.placeId);
+    taxiDriverService.getUsertId().then((value) {
+      setState(() {
+        userId = value;
+      });
+    });
     placeService.loadAllReviewsAndScreenData(
         setPageData, userId, widget.place.placeId);
   }

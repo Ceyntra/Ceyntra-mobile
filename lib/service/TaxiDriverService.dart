@@ -2,9 +2,16 @@ import 'package:ceyntra_mobile/views/widgets/TaxiWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaxiDriverService {
   var dio = Dio();
+  Future<int> getUsertId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int res = prefs.getInt("userID");
+
+    return res;
+  }
 
   loadAllTaxis(Function setTaxis) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
