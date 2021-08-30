@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class ClickOnThePlaceFeedScreen extends StatefulWidget {
   // const ClickOnThePlaceFeedScreen({ Key? key }) : super(key: key);
   final ValueChanged<String> changeMainFeedStateState;
-  final ValueChanged<String> setClickedHotel;
+  final Function setClickedHotel;
   final Function setNullChangedFeedState;
   final PlaceModel place;
   final Function setClickedTaxi;

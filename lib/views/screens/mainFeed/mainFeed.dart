@@ -29,7 +29,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   bool isPressed = false;
   String mainFeedState = 'explore';
   PlaceModel clickedPlace;
-  String clickedHotel;
+  var clickedHotel;
   var clickedTaxi;
   String clickedOnThePlaceState;
 
@@ -73,7 +73,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
 // this function call from FeedPlaceWidget
-  void setClickedHotel(String hotel) {
+  void setClickedHotel(var hotel) {
     setState(() {
       clickedHotel = hotel;
     });
@@ -117,7 +117,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       );
     else if (mainFeedState == "profile")
       return TravellerProfileScreen();
-    else if(mainFeedState == "global")
+    else if (mainFeedState == "global")
       return GlobalChatScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(

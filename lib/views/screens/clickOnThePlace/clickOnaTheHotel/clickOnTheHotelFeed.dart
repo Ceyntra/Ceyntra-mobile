@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class ClickOnTheHotelFeed extends StatefulWidget {
   // const ClickOnTheHotelFeed({ Key? key }) : super(key: key);
 
-  String clickedHotel;
+  var clickedHotel;
   final ValueChanged<String> changeClickedOnThePlaceState;
   final ValueChanged<String> changeMainFeedStateState;
   ClickOnTheHotelFeed(
@@ -29,7 +29,7 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
         appBar: AppBar(
           backgroundColor: Color(0xff192537),
           title: Text(
-            widget.clickedHotel,
+            widget.clickedHotel["name"],
             style: GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
           ),
           leading: InkWell(
@@ -69,7 +69,9 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
         ),
         body: TabBarView(
           children: [
-            ClickedHotelInfoScreen(),
+            ClickedHotelInfoScreen(
+              clickedHotelInfo: widget.clickedHotel,
+            ),
             ClickedHotelChatScreen(),
             ClickedHotelPackagesScreen()
           ],
