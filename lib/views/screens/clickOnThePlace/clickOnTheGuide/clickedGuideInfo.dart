@@ -12,16 +12,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ClickedTaxiInfoScreen extends StatefulWidget {
-  // const ClickedTaxiInfoScreen({ Key? key }) : super(key: key);
-  var clickedTaxiInfo;
-  ClickedTaxiInfoScreen({this.clickedTaxiInfo});
+class clickedGuideInfoScreen extends StatefulWidget {
+  // const clickedGuideInfoScreen({ Key? key }) : super(key: key);
+  var clickedGuideInfo;
+  clickedGuideInfoScreen({this.clickedGuideInfo});
 
   @override
-  _ClickedTaxiInfoScreenState createState() => _ClickedTaxiInfoScreenState();
+  _clickedGuideInfoScreenState createState() => _clickedGuideInfoScreenState();
 }
 
-class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
+class _clickedGuideInfoScreenState extends State<clickedGuideInfoScreen> {
   TextEditingController comment = new TextEditingController();
   bool favourite = false;
   double myRating = 0;
@@ -53,7 +53,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
       });
     });
     taxiDriverService.loadAllReviewsAndScreenData(
-        setPageData, userId, widget.clickedTaxiInfo["taxiId"]);
+        setPageData, userId, widget.clickedGuideInfo["guideId"]);
   }
 
   void popUpDialog(BuildContext context) {
@@ -69,17 +69,18 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
         });
   }
 
-  // Map<String, dynamic> clickedTaxiDetails = {
-  //     "driverLicense": widget.driverLicense,
-  //     "firstName": widget.firstName,
-  //     "lastName": widget.lastName,
-  //     "numOfVotes": widget.numOfVotes,
-  //     "perKmPrice": widget.perKmPrice,
-  //     "profilePhoto": widget.profilePhoto,
-  //     "rating": widget.rating,
-  //     "taxiId": widget.taxiId,
-  //     "taxiPhoto": widget.taxiPhoto,
-  //   };
+  // Map<String, dynamic> clickedGuideDetails = {
+  //   "description": widget.description,
+  //   "firstName": widget.firstName,
+  //   "lastName": widget.lastName,
+  //   "nic": widget.nic,
+  //   "numOfVotes": widget.numOfVotes,
+  //   "profilePhoto": widget.profilePhoto,
+  //   "photo": widget.photo,
+  //   "rating": widget.rating,
+  //   "guideId": widget.guideId,
+  //   "vehicleState": widget.vehicleState
+  // };
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 //color: Colors.red,
-                child: widget.clickedTaxiInfo != null
+                child: widget.clickedGuideInfo != null
                     ? Carousel(
                         dotSize: 6.0,
                         boxFit: BoxFit.cover,
@@ -103,8 +104,8 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                         indicatorBgPadding: 8,
                         dotPosition: DotPosition.bottomRight,
                         images: [
-                          NetworkImage(widget.clickedTaxiInfo['taxiPhoto']),
-                          NetworkImage(widget.clickedTaxiInfo['profilePhoto'])
+                          NetworkImage(widget.clickedGuideInfo['profilePhoto']),
+                          NetworkImage(widget.clickedGuideInfo['photo'])
                         ],
                       )
                     : Carousel(
@@ -141,7 +142,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                             !favourite ? favourite = true : favourite = false;
                           });
                           taxiDriverService.updateFavouritePlace(favourite,
-                              userId, widget.clickedTaxiInfo["taxiId"]);
+                              userId, widget.clickedGuideInfo["guideId"]);
                         },
                         child: Icon(
                           favourite
@@ -159,6 +160,22 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                       votes: numOfVotes,
                     ),
                   ]),
+            ),
+
+            GreenTagWidget(
+              title: "Description",
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: ExpandableText(
+                widget.clickedGuideInfo["description"],
+                expandText: 'Read more',
+                collapseText: 'show less',
+                maxLines: 5,
+                linkColor: Colors.blue[900],
+                style: GoogleFonts.montserrat(
+                    fontSize: 15, color: Colors.grey, height: 1.5),
+              ),
             ),
             GreenTagWidget(
               title: "My Rating",
@@ -250,8 +267,11 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                     style: ElevatedButton.styleFrom(primary: Colors.green),
                     onPressed: () {
                       if (comment.text.isNotEmpty) {
-                        var isDone = taxiDriverService.addReview(comment.text,
-                            myRating, widget.clickedTaxiInfo["taxiId"], userId);
+                        var isDone = taxiDriverService.addReview(
+                            comment.text,
+                            myRating,
+                            widget.clickedGuideInfo["guideId"],
+                            userId);
                         isDone.then((value) => {
                               if (value == 1)
                                 {
@@ -259,7 +279,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                                   taxiDriverService.loadAllReviewsAndScreenData(
                                       setPageData,
                                       userId,
-                                      widget.clickedTaxiInfo["taxiId"])
+                                      widget.clickedGuideInfo["guideId"])
                                 }
                             });
                       } else {

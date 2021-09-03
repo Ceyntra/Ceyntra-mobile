@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
@@ -17,17 +18,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
 class Auth {
+  GoogleSignIn googleSignIn = GoogleSignIn();
 
-
-  GoogleSignIn googleSignIn= GoogleSignIn();
-
-  Future signInWithGoogle(BuildContext context,Function isUserNotRegistered) async {
-
+  Future signInWithGoogle(
+      BuildContext context, Function isUserNotRegistered) async {
     try {
       final GoogleSignInAccount googleUser = await googleSignIn.signIn();
       if (googleUser == null) return null;
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -35,7 +34,7 @@ class Auth {
       );
 
       UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       //Check user type & redirect to the relevant page
       User user = FirebaseAuth.instance.currentUser;
@@ -45,11 +44,11 @@ class Auth {
 
       // print(jsonDecode(response.body));
 
-
       if (response.statusCode != 404) {
         var user1 = jsonDecode(response.body);
         print(user1);
-        setPreferences(context, int.parse(user1["userID"]),int.parse(user1["userType"]), user.email);
+        setPreferences(context, int.parse(user1["userID"]),
+            int.parse(user1["userType"]), user.email);
       } else {
         //User does not exists in system
         user.delete();
@@ -59,15 +58,14 @@ class Auth {
         isUserNotRegistered();
         print("User 404");
       }
-    }on FirebaseAuthException catch  (e) {
+    } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
       print(e.message);
     }
   }
 
-
-  Future setPreferences(BuildContext context,int userID, int userType,
-      String email) async {
+  Future setPreferences(
+      BuildContext context, int userID, int userType, String email) async {
     //Login success add shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("email", email);
@@ -167,10 +165,8 @@ class Auth {
     }
   }
 
-
   Future login(String email, String password, BuildContext context,
       Function isUserNotRegistered, Function isCredentialWrong) async {
-
     var url = Uri.parse("http://10.0.2.2:9092/userlogin");
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"},
@@ -180,16 +176,14 @@ class Auth {
     if (response.statusCode == 200) {
       //User type
       var userType = userData["userType"];
-      var userID= userData["userID"];
+      var userID = userData["userID"];
 
-      setPreferences(context, userID,userType, userData["email"]);
-
+      setPreferences(context, userID, userType, userData["email"]);
     } else if (response.statusCode == 401) {
       //Credential not matching
       isCredentialWrong();
     } else {
       isUserNotRegistered();
-
 
       // //Login success add shared preferences
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -296,6 +290,7 @@ class Auth {
         case 4:
           {
             print("Redirect to Traveller page");
+            // return ClickedTaxiInfoScreen();
             return MainScreen();
           }
           break;

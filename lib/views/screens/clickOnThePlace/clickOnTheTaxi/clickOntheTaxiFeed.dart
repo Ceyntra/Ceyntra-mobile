@@ -72,7 +72,7 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
         ),
         body: TabBarView(
           children: [
-            ClickedTaxiInfoScreen(),
+            ClickedTaxiInfoScreen(clickedTaxiInfo: widget.clickedTaxi),
             ClickedHotelChatScreen(),
             ClickedHotelPackagesScreen()
           ],

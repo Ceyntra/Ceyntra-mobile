@@ -1,25 +1,27 @@
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickedGuideInfo.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelPackages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ClickOnTheHotelFeed extends StatefulWidget {
-  // const ClickOnTheHotelFeed({ Key? key }) : super(key: key);
+class clickOnTheGuideFeed extends StatefulWidget {
+  // const clickOnTheGuideFeed({ Key? key }) : super(key: key);
 
-  var clickedHotel;
+  var clickedGuide;
   final ValueChanged<String> changeClickedOnThePlaceState;
   final ValueChanged<String> changeMainFeedStateState;
-  ClickOnTheHotelFeed(
-      {this.clickedHotel,
+  clickOnTheGuideFeed(
+      {this.clickedGuide,
       this.changeMainFeedStateState,
       this.changeClickedOnThePlaceState});
 
   @override
-  _ClickOnTheHotelFeedState createState() => _ClickOnTheHotelFeedState();
+  _clickOnTheGuideFeedState createState() => _clickOnTheGuideFeedState();
 }
 
-class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
+class _clickOnTheGuideFeedState extends State<clickOnTheGuideFeed> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,12 +31,14 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
         appBar: AppBar(
           backgroundColor: Color(0xff192537),
           title: Text(
-            widget.clickedHotel["name"],
+            widget.clickedGuide["firstName"] +
+                " " +
+                widget.clickedGuide["lastName"],
             style: GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
           ),
           leading: InkWell(
             onTap: () {
-              widget.changeClickedOnThePlaceState("hotel");
+              widget.changeClickedOnThePlaceState("guide");
               widget.changeMainFeedStateState("clickOnThePlace");
             },
             child: Icon(Icons.arrow_back),
@@ -69,9 +73,7 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
         ),
         body: TabBarView(
           children: [
-            ClickedHotelInfoScreen(
-              clickedHotelInfo: widget.clickedHotel,
-            ),
+            clickedGuideInfoScreen(clickedGuideInfo: widget.clickedGuide),
             ClickedHotelChatScreen(),
             ClickedHotelPackagesScreen()
           ],
