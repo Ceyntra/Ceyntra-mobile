@@ -25,7 +25,6 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text('Chat'),
         backgroundColor: Color(0xff031925),
       ),
-
       body: ListView(
         children: [
           ChatRoom(),
