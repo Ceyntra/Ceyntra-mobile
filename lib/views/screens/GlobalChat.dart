@@ -92,6 +92,12 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
    //jsonDecode(response.body)['candidates'][0]['geometry']['location'];
   }
 
+  void onDisConnect(){
+    stompClient.deactivate();
+    print('Disconnected......');
+  }
+
+
 
   @override
    initState() {
@@ -127,7 +133,11 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
         // leading: Icon(Icons.arrow_back),
         centerTitle: true,
         leading: InkWell(
-          onTap: null,
+          onTap: (){
+            //Disconnect stomp
+            onDisConnect();
+            Navigator.pop(context);
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Text('Ceyntra Chat'),
