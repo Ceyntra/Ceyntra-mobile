@@ -162,7 +162,7 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
         ),
 
       ),
-    );;
+    );
   }
 }
 
