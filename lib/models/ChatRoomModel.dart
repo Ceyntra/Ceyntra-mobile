@@ -32,7 +32,7 @@
 import 'package:ceyntra_mobile/models/ChatMessage.dart';
 import 'package:ceyntra_mobile/models/PrivateChatMessage.dart';
 
-class ChatRoom{
+class ChatRoomModel{
 
   final int chatRoomId;
   final int userId;   //SenderId
@@ -44,7 +44,7 @@ class ChatRoom{
   final bool active;
 
 
-  ChatRoom({
+  ChatRoomModel({
       this.chatRoomId,
       this.userId,
       this.travellerId,
@@ -65,7 +65,7 @@ class ChatRoom{
   //   this.isActive = false,
   // });
 
-  factory ChatRoom.fromJson(Map<String, dynamic> json) {
+  factory ChatRoomModel.fromJson(Map<String, dynamic> json) {
 
     //Extract ChatMessageSet
     List<PrivateChatMessage> chatMessages= [];
@@ -74,7 +74,7 @@ class ChatRoom{
         .map((message) => PrivateChatMessage.fromJson(message))
         .toList();
 
-    return ChatRoom(
+    return ChatRoomModel(
         chatRoomId: json['chatRoom']['chatRoomId'],
         userId: json['chatRoom']['senderId'],
         travellerId: json['travellerId'],
@@ -87,10 +87,10 @@ class ChatRoom{
 
   }
 
-
-
-
-
+  @override
+  String toString() {
+    return 'ChatRoomModel{chatRoomId: $chatRoomId, userId: $userId, travellerId: $travellerId, chatMessageSet: $chatMessageSet, travellerName: $travellerName, imageUrl: $imageUrl, lastMessage: $lastMessage, active: $active}';
+  }
 }
 //
 // List chatsData = [

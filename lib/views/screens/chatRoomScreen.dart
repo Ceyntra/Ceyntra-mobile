@@ -1,15 +1,57 @@
+import 'package:ceyntra_mobile/models/ChatRoomModel.dart';
+import 'package:ceyntra_mobile/service/ChatRoomService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key key}) : super(key: key);
+import 'ServiceChatScreen.dart';
+
+class ChatRoomScreen extends StatefulWidget {
+  const ChatRoomScreen({Key key}) : super(key: key);
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  _ChatRoomScreenState createState() => _ChatRoomScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatRoomScreenState extends State<ChatRoomScreen> {
+
+  int userID;
+
+  List<ChatRoomModel> chatRooms=[];
+
+
+  Future<void> loadData() async {
+
+    ChatRoomService chatRoomService=new ChatRoomService();
+    int id= await chatRoomService.getUserID();
+    List<ChatRoomModel> cr= await chatRoomService.loadChatRooms(id);
+
+    setState(() {
+      chatRooms=cr;
+      userID=id;
+    });
+    print(chatRooms[0].toString());
+  }
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //load data
+    loadData();
+  }
+
+  void onPressChatRoom(ChatRoomModel chatRoomModel){
+    print("You pressed");
+    print(chatRoomModel.lastMessage.content);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ServiceChatScreen(chatRoomModel: chatRoomModel,userID: userID)),
+    );
+  }
 
 
   @override
@@ -19,106 +61,126 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         brightness: Brightness.dark,
         leading: InkWell(
-          onTap: null,
+          onTap: (){
+            Navigator.pop(context);
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Text('Chat'),
         backgroundColor: Color(0xff031925),
       ),
-      body: ListView(
-        children: [
-          ChatRoom(),
-        ],
+      body: ListView.builder(
+          itemCount: chatRooms.length,
+          itemBuilder: (context,index) => ChatRoom(pressChatRoom: onPressChatRoom,chatRoomModel: chatRooms[index],),
       ),
     );
   }
 }
 
-class ChatRoom extends StatefulWidget {
-  ChatRoom({Key key,this.isOnline,this.senderName,this.unSeenMessages}) : super(key: key);
-  bool isOnline;
-  String senderName;
-  int unSeenMessages;
+class ChatRoom extends StatelessWidget {
 
-  @override
-  _ChatRoomState createState() => _ChatRoomState();
-}
+  const ChatRoom({Key key, @required this.pressChatRoom, @required this.chatRoomModel}) : super(key: key);
 
-class _ChatRoomState extends State<ChatRoom> {
+  final ChatRoomModel chatRoomModel;
+
+  final pressChatRoom;
+
+  // final VoidCallback pressChatRoom(ChatRoomModel chatRoomModel);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.green,
-      ),
-      child: Row(
-        children: [
-          Container(
-              padding: EdgeInsets.all(10.0),
-              child: Stack(
-                children: [
-                    Container(
-                      width: 100,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: Image.asset('assets/images/g1.jpeg',
+    return InkWell(
+      onTap: (){
+        pressChatRoom(chatRoomModel);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        child: Row(
+          children: [
+            Stack(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(chatRoomModel.imageUrl),
+                  radius: 35,
+                ),
+
+                Container(
+                  height: 16,
+                  width: 16,
+                  decoration: BoxDecoration(
+                    color: chatRoomModel.active ? Colors.green : Colors.amber,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding:const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //Name
+                    Text(
+                      chatRoomModel.travellerName,
+                      style: TextStyle(fontSize:15 ,color: Colors.white, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 8,),
+                    //last msg
+                    Opacity(
+                      opacity: 0.64,
+                      child: Text(
+                        chatRoomModel.lastMessage.content,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  Positioned(  // draw a red marble
-                    top: 0.0,
-                    left: 0.0,
-                    child: Icon(Icons.brightness_1, size: 20.0,
-                        color: Colors.redAccent),
-                  ),
-
-                ],
-              ),
-          ),
-          Container(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    Row(
-                      children: [
-                        Text("Elizabeth",
-                          style: GoogleFonts.montserrat(
-                                  color: Colors.white, fontWeight: FontWeight.w700),
-                          ),
-
-                        Text("12:30",
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white, fontWeight: FontWeight.w300, fontSize: 10),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-                        Text("Elizabeth :",
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white, fontWeight: FontWeight.w700),
-                        ),
-
-                        Text("Finally Found a way !",
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white, fontWeight: FontWeight.w300),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
-              )
-          ),
-        ],
+              ),
+            ),
+
+            Column(
+              children: [
+                Text(chatRoomModel.lastMessage.timestamp.minute.toString() +':' +chatRoomModel.lastMessage.timestamp.second.toString(), style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300,
+                ),
+                ),
+
+                SizedBox(height: 8,),
+
+                //Unseen # messages
+                Container(
+
+                  height: 24,
+                  width: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrange,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text('2',
+                      style:TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 
