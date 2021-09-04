@@ -25,7 +25,6 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text('Chat'),
         backgroundColor: Color(0xff031925),
       ),
-
       body: ListView(
         children: [
           ChatRoom(),
@@ -60,9 +59,12 @@ class _ChatRoomState extends State<ChatRoom> {
               padding: EdgeInsets.all(10.0),
               child: Stack(
                 children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(25.0),
-                      child: Image.asset('assets/images/g1.jpeg',
+                    Container(
+                      width: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: Image.asset('assets/images/g1.jpeg',
+                        ),
                       ),
                     ),
                   Positioned(  // draw a red marble
@@ -108,12 +110,8 @@ class _ChatRoomState extends State<ChatRoom> {
                           style: GoogleFonts.montserrat(
                               color: Colors.white, fontWeight: FontWeight.w300),
                         ),
-
-
-
                       ],
                     ),
-
                   ],
                 ),
               )

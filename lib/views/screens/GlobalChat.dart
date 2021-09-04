@@ -39,8 +39,13 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
     //acess to shared prefenrences
     preferences = await SharedPreferences.getInstance();
     //Get userID of the logged in user
-    userID=preferences.get("userID");
+
+    setState(() {
+      userID=preferences.get("userID");
+    });
+
     //userID=3;
+    print("User ID: "+ userID.toString());
 
     print("Connecting to ws server ...");
     stompClient.subscribe(
@@ -66,16 +71,22 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
   }
 
 
-  Future<void> loadAllData() async {
+  Future<List<ChatMessage>> loadAllData() async {
     http.Response response = await http.get(Uri.parse('http://10.0.2.2:8080/allmessages'));
 
     final messages = json.decode(response.body);
-    print(messages);
-    chatMessages = (messages as List)
+    // print(messages);
+    List<ChatMessage> chats= [];
+    chats = (messages as List)
         .map((message) => ChatMessage.fromJson(message))
         .toList();
 
-    print(chatMessages[0]);
+    setState(() {
+      chatMessages=chats;
+    });
+
+    print(chatMessages);
+    return chatMessages;
     //Display
 
    //jsonDecode(response.body)['candidates'][0]['geometry']['location'];
@@ -85,9 +96,13 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
   @override
    initState() {
     // TODO: implement initState
-    super.initState();
+
     //Load all messages
     loadAllData();
+
+    print("Len of msgs:"+ chatMessages.length.toString());
+
+    super.initState();
 
     if (stompClient == null) {
       stompClient = StompClient(
@@ -141,13 +156,13 @@ class _GlobalChatScreenState extends State<GlobalChatScreen> {
                   ),
               ),
               //Input field
-              ChatInputField(userID:userID,send: send,),
+              ChatInputField(userID: userID,send: send,),
             ],
           ),
         ),
 
       ),
-    );;
+    );
   }
 }
 
