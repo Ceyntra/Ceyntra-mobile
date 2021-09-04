@@ -15,5 +15,12 @@ class ProfileService{
     getProfileData(response);
   }
 
-  
+  Future<int> updateProfilePhoto(photo, uID) async{
+    Map<String, dynamic> photoData = {
+      "photo": photo,
+      "userID": uID,
+    };
+    var response = await dio.put('http://10.0.2.2:9092/updateProfilePhoto', data: photoData);
+    return response.data;
+  }
 }

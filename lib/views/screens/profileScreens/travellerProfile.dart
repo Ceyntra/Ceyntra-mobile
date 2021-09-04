@@ -26,6 +26,29 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
   File imageFile;
 
+  void popUpDialog(BuildContext context) {
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();  
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Something Went Wrong..."),
+      content: Text("Profile Photo Update Failed"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      });
+  }
+
   _imgFromCamera() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
@@ -33,6 +56,22 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
     setState(() {
       imageFile = File(pickedFile.path);
+      if(imageFile != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhoto="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=profileService.updateProfilePhoto(newPhoto, uID);
+        result.then((value) => {
+          if (value == 1){
+            photo=newPhoto,
+          }else{
+            popUpDialog(context)
+          }
+        });
+      }else{
+        // return;
+        print("no");
+      }
     });
   }
 
@@ -47,7 +86,17 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         //way to store the image and retreiving the link of it need to be done
         //here took a dummy link to proceed
         String newPhoto="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
-        // profileService.updateProfilePhoto(newPhoto, uID);
+        var result=profileService.updateProfilePhoto(newPhoto, uID);
+        result.then((value) => {
+          if (value == 1){
+            photo=newPhoto,
+          }else{
+            popUpDialog(context)
+          }
+        });
+      }else{
+        // return;
+        print("no");
       }
     });
   }
