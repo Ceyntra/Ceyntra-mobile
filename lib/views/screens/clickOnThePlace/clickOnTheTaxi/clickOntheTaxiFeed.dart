@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clic
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelPackages.dart';
+import 'package:ceyntra_mobile/views/screens/privateChatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -73,7 +74,7 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
         body: TabBarView(
           children: [
             ClickedTaxiInfoScreen(clickedTaxiInfo: widget.clickedTaxi),
-            ClickedHotelChatScreen(),
+            PrivateChatScreen(serviceProviderID:widget.clickedTaxi["taxiId"]),
             ClickedHotelPackagesScreen()
           ],
         ),
