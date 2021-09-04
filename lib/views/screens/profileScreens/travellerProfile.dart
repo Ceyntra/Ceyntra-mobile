@@ -1,12 +1,122 @@
+import 'package:ceyntra_mobile/service/ProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
 
-class TravellerProfileScreen extends StatelessWidget {
-
-  Function deleteAccount(){
-
+class TravellerProfileScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _TravellerProfileScreenState();
   }
+}
+
+class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
+
+  ProfileService profileService=new ProfileService();
+  int uID=0;
+  String fName="";
+  String lName="";
+  String nic="";
+  String email="";
+  String telephone="";
+  String photo="";
+
+  File imageFile;
+
+  _imgFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      imageFile = File(pickedFile.path);
+      if(imageFile != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhoto="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        // profileService.updateProfilePhoto(newPhoto, uID);
+      }
+    });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_library,
+                    color: Colors.black,
+                  ),
+                  title: Text('Photo Library'),
+                  onTap: () {
+                    _imgFromGallery();
+                    Navigator.of(context).pop();
+                  }
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_camera,
+                    color: Colors.black,
+                  ),
+                  title: Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  void deleteAccount() async{
+    
+  }
+
+  void getProfileData(response){
+    setState(() {
+      fName=response.data["traveller"]["firstName"];
+      lName=response.data["traveller"]["lastName"];
+      nic=response.data["traveller"]["nic"];
+      email=response.data["user"]["email"];
+      telephone=response.data["user"]["telephone"];
+      photo=response.data["traveller"]["photo"];
+    });
+  }
+
+  void initState() {
+    super.initState();
+    profileService.getUsertId().then((value) {
+      setState(() {
+        uID = value;
+      });
+      profileService.getProfileDetails(getProfileData, uID);
+    });
+    // getProfileData();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => getProfileData());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,12 +153,14 @@ class TravellerProfileScreen extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.brown,
+                  // color: Colors.brown,
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/g1.jpeg',
-                    ),
+                    image: photo != null
+                      ? NetworkImage(photo)
+                      : AssetImage(
+                          'assets/images/nodp.png',
+                        ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,7 +176,9 @@ class TravellerProfileScreen extends StatelessWidget {
                         Icons.camera_alt,
                         color: Colors.black,
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        _showPicker(context);
+                      },
                     ),
                   ),
                 ),
@@ -74,22 +188,18 @@ class TravellerProfileScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 30),
               child: Text(
-                'Ashen Perera',
+                '$fName $lName',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                 ),
               ),
             ),
-            ProfileDetailsWidget('NIC', '975311970V'),
+            ProfileDetailsWidget('NIC', '$nic'),
             DividerWidget(),
-            ProfileDetailsWidget('Email', 'ashanperera@gmail.com'),
+            ProfileDetailsWidget('Email', '$email'),
             DividerWidget(),
-            ProfileDetailsWidget('Phone', '077 6193417'),
-            DividerWidget(),
-            ProfileDetailsWidget('Date of Birth', 'March 27, 1997'),
-            DividerWidget(),
-            ProfileDetailsWidget('Address', 'NO.23, Borella, Colombo'),
+            ProfileDetailsWidget('Phone', '$telephone'),
             DividerWidget(),
             ProfileDetailsWidget('Account Type', 'Traveller'),
 
