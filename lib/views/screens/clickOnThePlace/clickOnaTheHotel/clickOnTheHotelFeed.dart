@@ -4,6 +4,8 @@ import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/cl
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../privateChatScreen.dart';
+
 class ClickOnTheHotelFeed extends StatefulWidget {
   // const ClickOnTheHotelFeed({ Key? key }) : super(key: key);
 
@@ -72,7 +74,7 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
             ClickedHotelInfoScreen(
               clickedHotelInfo: widget.clickedHotel,
             ),
-            ClickedHotelChatScreen(),
+            PrivateChatScreen(serviceProviderID:widget.clickedHotel["hotelId"]),
             ClickedHotelPackagesScreen()
           ],
         ),
