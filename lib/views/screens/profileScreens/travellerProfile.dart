@@ -25,6 +25,159 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
   String photo="";
 
   File imageFile;
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+  TextEditingController nicController;
+  TextEditingController emailController;
+  TextEditingController telephoneController;
+  
+  void getUpdatedData(){
+    Map<String, dynamic> updatedDetails = {
+      "userID": uID,
+      "firstName": firstNameController.text,
+      "lastName": lastNameController.text,
+      "nic": nicController.text,
+      "email": emailController.text,
+      "contactNumber": telephoneController.text,
+    };
+    var updatedResult=profileService.updateProfileDetails(updatedDetails);
+    updatedResult.then((value) => {
+      if (value == 1){
+        setState(() {
+          fName=firstNameController.text;
+          lName=lastNameController.text;
+          nic=nicController.text;
+          email=emailController.text;
+          telephone=telephoneController.text;
+        })
+      }else{
+        popUpDialog(context)
+      }
+    });
+  }
+
+  void detailsEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // backgroundColor: Colors.blueGrey,
+          // contentTextStyle: TextStyle(
+          //   color: Colors.red
+          // ),
+          scrollable: true,
+          title: Text('Edit Profile'),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    // style: TextStyle(
+                    //   color: Colors.white
+                    // ),
+                    controller: firstNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "First name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
+                      // labelStyle: TextStyle(
+                      //   fontSize: 25,
+                      //   color: Colors.blue,
+                      //   fontWeight: FontWeight.bold
+                      // )
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    controller: lastNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Last name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Last Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    controller: nicController,
+                    validator: (val) {
+                      return val.isEmpty || val.length < 4
+                        ? "NIC/Passport should be greater than 4"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'NIC',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    controller: emailController,
+                    validator: (val) {
+                      return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
+                        ? null
+                        : "Please enter a valid email";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    controller: telephoneController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Telephone',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                firstNameController.text=fName;
+                lastNameController.text=lName;
+                nicController.text=nic;
+                emailController.text=email;
+                telephoneController.text=telephone;
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes"),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getUpdatedData();
+                }
+              }
+            )
+          ],
+        );
+      }
+    );
+  }
 
   void popUpDialog(BuildContext context) {
     Widget okButton = TextButton(
@@ -36,7 +189,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
     AlertDialog alert = AlertDialog(
       title: Text("Something Went Wrong..."),
-      content: Text("Profile Photo Update Failed"),
+      content: Text("Update Failed"),
       actions: [
         okButton,
       ],
@@ -63,7 +216,9 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         var result=profileService.updateProfilePhoto(newPhoto, uID);
         result.then((value) => {
           if (value == 1){
-            photo=newPhoto,
+            setState(() {
+              photo=newPhoto;
+            })
           }else{
             popUpDialog(context)
           }
@@ -145,6 +300,11 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
   void getProfileData(response){
     setState(() {
+      firstNameController=new TextEditingController(text: response.data["traveller"]["firstName"]);
+      lastNameController=new TextEditingController(text: response.data["traveller"]["lastName"]);
+      nicController=new TextEditingController(text: response.data["traveller"]["nic"]);
+      emailController=new TextEditingController(text: response.data["user"]["email"]);
+      telephoneController=new TextEditingController(text: response.data["user"]["telephone"]);
       fName=response.data["traveller"]["firstName"];
       lName=response.data["traveller"]["lastName"];
       nic=response.data["traveller"]["nic"];
@@ -183,7 +343,9 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              detailsEditForm(context);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,
@@ -244,7 +406,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                 ),
               ),
             ),
-            ProfileDetailsWidget('NIC', '$nic'),
+            ProfileDetailsWidget('NIC/Passport', '$nic'),
             DividerWidget(),
             ProfileDetailsWidget('Email', '$email'),
             DividerWidget(),
