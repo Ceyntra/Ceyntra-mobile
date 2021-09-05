@@ -23,4 +23,9 @@ class ProfileService{
     var response = await dio.put('http://10.0.2.2:9092/updateProfilePhoto', data: photoData);
     return response.data;
   }
+
+  Future<int> updateProfileDetails(updatedDetails) async{
+    var response = await dio.put('http://10.0.2.2:9092/updateProfileDetails', data: updatedDetails);
+    return response.data;
+  }
 }
