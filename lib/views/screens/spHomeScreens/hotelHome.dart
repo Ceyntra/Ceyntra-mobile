@@ -6,6 +6,8 @@ import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../chatRoomScreen.dart';
+
 class HotelHomeScreen extends StatelessWidget {
   Function logIn(){}
   @override
@@ -121,7 +123,12 @@ class HotelHomeScreen extends StatelessWidget {
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
-                  HomeOptionWidget(Colors.green, '  Chat', Icons.chat, logIn),
+                  HomeOptionWidget(Colors.green, '  Chat', Icons.chat, (){
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatRoomScreen()),
+                    );
+                  }),
                 ],
               ),
             ),

@@ -6,6 +6,8 @@ import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/cl
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../privateChatScreen.dart';
+
 class clickOnTheGuideFeed extends StatefulWidget {
   // const clickOnTheGuideFeed({ Key? key }) : super(key: key);
 
@@ -74,7 +76,7 @@ class _clickOnTheGuideFeedState extends State<clickOnTheGuideFeed> {
         body: TabBarView(
           children: [
             clickedGuideInfoScreen(clickedGuideInfo: widget.clickedGuide),
-            ClickedHotelChatScreen(),
+            PrivateChatScreen(serviceProviderID:widget.clickedGuide["guideId"]),
             ClickedHotelPackagesScreen()
           ],
         ),

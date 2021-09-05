@@ -89,7 +89,7 @@ class _HotelWidgetState extends State<HotelWidget> {
                   ),
                   SizedBox(height: 10),
                   DisplayRatingWidget(
-                    rating: widget.rating,
+                    rating: double.parse(widget.rating.toStringAsFixed(1)),
                     votes: widget.numOfVotes,
                   ),
                   SizedBox(height: 10),
