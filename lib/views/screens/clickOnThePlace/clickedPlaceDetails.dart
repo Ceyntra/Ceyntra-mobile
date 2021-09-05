@@ -44,6 +44,9 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
       placeRating = data['placeRating'];
       photoList = data['photoList'];
     });
+
+    print("helllllooooooooooo");
+    print(data['myRating']);
   }
 
   @override
@@ -53,9 +56,9 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
       setState(() {
         userId = value;
       });
+      placeService.loadAllReviewsAndScreenData(
+          setPageData, value, widget.place.placeId);
     });
-    placeService.loadAllReviewsAndScreenData(
-        setPageData, userId, widget.place.placeId);
   }
 
   void popUpDialog(BuildContext context) {

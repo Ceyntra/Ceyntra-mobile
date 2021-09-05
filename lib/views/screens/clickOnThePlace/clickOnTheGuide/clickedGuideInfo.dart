@@ -51,9 +51,10 @@ class _clickedGuideInfoScreenState extends State<clickedGuideInfoScreen> {
       setState(() {
         userId = value;
       });
+
+      taxiDriverService.loadAllReviewsAndScreenData(
+          setPageData, value, widget.clickedGuideInfo["guideId"]);
     });
-    taxiDriverService.loadAllReviewsAndScreenData(
-        setPageData, userId, widget.clickedGuideInfo["guideId"]);
   }
 
   void popUpDialog(BuildContext context) {
