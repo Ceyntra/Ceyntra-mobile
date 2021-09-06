@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/service/ProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
@@ -32,7 +33,32 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
   TextEditingController nicController;
   TextEditingController emailController;
   TextEditingController telephoneController;
-  
+
+  void successDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text("Profile Updated Successfully", style: GoogleFonts.montserrat()),
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
+  }
+
   void getUpdatedData(){
     Map<String, dynamic> updatedDetails = {
       "userID": uID,
@@ -46,6 +72,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     updatedResult.then((value) => {
       if (value == 1){
         setState(() {
+          successDialog();
           fName=firstNameController.text;
           lName=lastNameController.text;
           nic=nicController.text;
@@ -61,15 +88,16 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
   void detailsEditForm(BuildContext context){
     showDialog(
       barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // backgroundColor: Colors.blueGrey,
+          // backgroundColor: Color(0xff031925),
           // contentTextStyle: TextStyle(
           //   color: Colors.red
           // ),
           scrollable: true,
-          title: Text('Edit Profile'),
+          title: Text('Edit Profile', style: GoogleFonts.montserrat()),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
@@ -81,6 +109,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                     // style: TextStyle(
                     //   color: Colors.white
                     // ),
+                    style: GoogleFonts.montserrat(),
                     controller: firstNameController,
                     validator: (val) {
                       return val.isEmpty
@@ -99,6 +128,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   Padding(padding: EdgeInsets.symmetric(vertical:10)),
 
                   TextFormField(
+                    style: GoogleFonts.montserrat(),
                     controller: lastNameController,
                     validator: (val) {
                       return val.isEmpty
@@ -112,6 +142,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   Padding(padding: EdgeInsets.symmetric(vertical:10)),
 
                   TextFormField(
+                    style: GoogleFonts.montserrat(),
                     controller: nicController,
                     validator: (val) {
                       return val.isEmpty || val.length < 4
@@ -125,6 +156,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   Padding(padding: EdgeInsets.symmetric(vertical:10)),
 
                   TextFormField(
+                    style: GoogleFonts.montserrat(),
                     controller: emailController,
                     validator: (val) {
                       return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
@@ -138,6 +170,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   Padding(padding: EdgeInsets.symmetric(vertical:10)),
 
                   TextFormField(
+                    style: GoogleFonts.montserrat(),
                     controller: telephoneController,
                     validator: (val) {
                       return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
@@ -154,7 +187,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           ),
           actions: [
             ElevatedButton(
-              child: Text("Cancel"),
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
               onPressed: () {
                 Navigator.of(context).pop();
                 firstNameController.text=fName;
@@ -165,7 +198,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
               }
             ),
             ElevatedButton(
-              child: Text("Save Changes"),
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   Navigator.of(context).pop();
@@ -181,15 +214,15 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
   void popUpDialog(BuildContext context) {
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: Text("OK", style: GoogleFonts.montserrat()),
       onPressed: () {
         Navigator.of(context).pop();  
       },
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Something Went Wrong..."),
-      content: Text("Update Failed"),
+      title: Text("Something Went Wrong...", style: GoogleFonts.montserrat()),
+      content: Text("Update Failed", style: GoogleFonts.montserrat()),
       actions: [
         okButton,
       ],
@@ -199,7 +232,8 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return alert;
-      });
+      }
+    );
   }
 
   _imgFromCamera() async {
@@ -339,7 +373,10 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
-          child: Text('Profile'),
+          child: Text(
+            'Profile',
+            style: GoogleFonts.montserrat(),
+          ),
         ),
         actions: [
           IconButton(
@@ -400,7 +437,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
               padding: EdgeInsets.only(bottom: 30),
               child: Text(
                 '$fName $lName',
-                style: TextStyle(
+                style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 20,
                 ),
@@ -429,7 +466,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                 ),
                 child: Text(
                   'Delete account',
-                  style: TextStyle(fontSize: 17),
+                  style: GoogleFonts.montserrat(fontSize: 17),
                 ),
               ),
             ),
