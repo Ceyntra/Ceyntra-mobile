@@ -28,4 +28,8 @@ class ProfileService{
     var response = await dio.put('http://10.0.2.2:9092/updateProfileDetails', data: updatedDetails);
     return response.data;
   }
+
+  void updatePassword(passwordDetails) async{
+    await dio.put('http://10.0.2.2:9092/changePassword', data: passwordDetails);
+  }
 }
