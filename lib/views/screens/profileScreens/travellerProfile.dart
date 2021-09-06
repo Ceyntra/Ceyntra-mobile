@@ -26,13 +26,18 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
   String photo="";
 
   File imageFile;
-  final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
 
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController nicController;
   TextEditingController emailController;
   TextEditingController telephoneController;
+
+  TextEditingController currentPController=new TextEditingController();
+  TextEditingController newPController=new TextEditingController();
+  TextEditingController reNewPController=new TextEditingController();
 
   void successDialog(){
     AlertDialog alert = AlertDialog(
@@ -57,6 +62,15 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         });
         return alert;
       });
+  }
+
+  void getPasswordData(){
+    Map<String, dynamic> passwordDetails = {
+      "userID": uID,
+      "currentPassword": currentPController.text,
+      "newPassword": newPController.text,
+    };
+    profileService.updatePassword(passwordDetails);
   }
 
   void getUpdatedData(){
@@ -85,6 +99,99 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     });
   }
 
+  void passwordEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Change Password', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: currentPController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Please enter the current password"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Enter the current password',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: newPController,
+                    validator: (val){
+                      String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      RegExp regExp = new RegExp(pattern);
+                      return regExp.hasMatch(val)
+                        ? null
+                        : "Please enter a strong password with atleast 8 characters ([a][A][1][!])";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Enter the new password',
+                      errorMaxLines: 2
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: reNewPController,
+                    validator: (val) {
+                      return newPController.text==reNewPController.text
+                        ? null
+                        : "Does not match with above password";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Re-type the new password',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                currentPController.text="";
+                newPController.text="";
+                reNewPController.text="";
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey2.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getPasswordData();
+                }
+              }
+            )
+          ],
+        );
+      }
+    );
+  }
+
   void detailsEditForm(BuildContext context){
     showDialog(
       barrierDismissible: false,
@@ -101,7 +208,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
-              key: _formKey,
+              key: _formKey1,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -200,7 +307,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
             ElevatedButton(
               child: Text("Save Changes", style: GoogleFonts.montserrat()),
               onPressed: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey1.currentState.validate()) {
                   Navigator.of(context).pop();
                   getUpdatedData();
                 }
@@ -453,6 +560,27 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
             Container(
               margin: EdgeInsets.symmetric(vertical: 30),
+              width: 300.0,
+              height: 40.0,
+              child: ElevatedButton(
+                onPressed: () {
+                  passwordEditForm(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff2d9cdb),
+                  onPrimary: Colors.white,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(15.0),
+                  ),
+                ),
+                child: Text(
+                  'Change Password',
+                  style: GoogleFonts.montserrat(fontSize: 17),
+                ),
+              ),
+            ),
+            Container(
+              // margin: EdgeInsets.symmetric(vertical: 30),
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
