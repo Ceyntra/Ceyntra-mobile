@@ -39,7 +39,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
   TextEditingController newPController=new TextEditingController();
   TextEditingController reNewPController=new TextEditingController();
 
-  void successDialog(){
+  void successDialog(sentence){
     AlertDialog alert = AlertDialog(
       title: Column(
         children: [
@@ -48,7 +48,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
             color: Colors.green,
             size: 80,
           ),
-          Text("Profile Updated Successfully", style: GoogleFonts.montserrat()),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
         ],
       ),
       titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
@@ -70,7 +70,21 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
       "currentPassword": currentPController.text,
       "newPassword": newPController.text,
     };
-    profileService.updatePassword(passwordDetails);
+    var changedResult=profileService.updatePassword(passwordDetails);
+    changedResult.then((value) => {
+      if (value == 1){
+        successDialog("Password Changed Successfully")
+      }else if(value == 2){
+        popUpDialog(context, "Current Password you entered is incorrect")
+      }else{
+        popUpDialog(context, "Something Went Wrong...")
+      }
+    });
+    setState(() {
+      currentPController.text="";
+      newPController.text="";
+      reNewPController.text="";
+    });
   }
 
   void getUpdatedData(){
@@ -86,7 +100,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     updatedResult.then((value) => {
       if (value == 1){
         setState(() {
-          successDialog();
+          successDialog("Profile Updated Successfully");
           fName=firstNameController.text;
           lName=lastNameController.text;
           nic=nicController.text;
@@ -94,7 +108,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           telephone=telephoneController.text;
         })
       }else{
-        popUpDialog(context)
+        popUpDialog(context, "Something Went Wrong...")
       }
     });
   }
@@ -319,7 +333,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     );
   }
 
-  void popUpDialog(BuildContext context) {
+  void popUpDialog(BuildContext context, sentence) {
     Widget okButton = TextButton(
       child: Text("OK", style: GoogleFonts.montserrat()),
       onPressed: () {
@@ -328,7 +342,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Something Went Wrong...", style: GoogleFonts.montserrat()),
+      title: Text(sentence, style: GoogleFonts.montserrat()),
       content: Text("Update Failed", style: GoogleFonts.montserrat()),
       actions: [
         okButton,
@@ -361,7 +375,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
               photo=newPhoto;
             })
           }else{
-            popUpDialog(context)
+            popUpDialog(context, "Something Went Wrong...")
           }
         });
       }else{
@@ -387,7 +401,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           if (value == 1){
             photo=newPhoto,
           }else{
-            popUpDialog(context)
+            popUpDialog(context, "Something Went Wrong...")
           }
         });
       }else{
