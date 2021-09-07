@@ -33,4 +33,9 @@ class ProfileService{
     var response = await dio.put('http://10.0.2.2:9092/changePassword', data: passwordDetails);
     return response.data;
   }
+
+  Future<int> removeAccount(uID) async{
+    var response = await dio.delete('http://10.0.2.2:9092/deleteAccount/$uID');
+    return response.data;
+  }
 }
