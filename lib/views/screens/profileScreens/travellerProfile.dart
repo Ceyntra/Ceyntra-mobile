@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
+import '../firstPage.dart';
 
 class TravellerProfileScreen extends StatefulWidget {
   @override
@@ -75,9 +75,9 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
       if (value == 1){
         successDialog("Password Changed Successfully")
       }else if(value == 2){
-        popUpDialog(context, "Current Password you entered is incorrect")
+        popUpDialog(context, "Current Password you entered is incorrect", "Update Failed")
       }else{
-        popUpDialog(context, "Something Went Wrong...")
+        popUpDialog(context, "Something Went Wrong...", "Update Failed")
       }
     });
     setState(() {
@@ -108,7 +108,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           telephone=telephoneController.text;
         })
       }else{
-        popUpDialog(context, "Something Went Wrong...")
+        popUpDialog(context, "Something Went Wrong...", "Update Failed")
       }
     });
   }
@@ -199,7 +199,8 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   getPasswordData();
                 }
               }
-            )
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
           ],
         );
       }
@@ -326,14 +327,15 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
                   getUpdatedData();
                 }
               }
-            )
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
           ],
         );
       }
     );
   }
 
-  void popUpDialog(BuildContext context, sentence) {
+  void popUpDialog(BuildContext context, sentence1, sentence2) {
     Widget okButton = TextButton(
       child: Text("OK", style: GoogleFonts.montserrat()),
       onPressed: () {
@@ -342,8 +344,8 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(sentence, style: GoogleFonts.montserrat()),
-      content: Text("Update Failed", style: GoogleFonts.montserrat()),
+      title: Text(sentence1, style: GoogleFonts.montserrat()),
+      content: Text(sentence2, style: GoogleFonts.montserrat()),
       actions: [
         okButton,
       ],
@@ -375,7 +377,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
               photo=newPhoto;
             })
           }else{
-            popUpDialog(context, "Something Went Wrong...")
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
           }
         });
       }else{
@@ -401,7 +403,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           if (value == 1){
             photo=newPhoto,
           }else{
-            popUpDialog(context, "Something Went Wrong...")
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
           }
         });
       }else{
@@ -449,8 +451,64 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
     );
   }
 
-  void deleteAccount() async{
-    
+  void deleteAccount(){
+    var deleteResult=profileService.removeAccount(uID);
+    deleteResult.then((value) => {
+      if (value == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FirstPageScreen()),
+        )
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Account Deletion Failed")
+      }
+    });
+  }
+
+  void confirmDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your account permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
   }
 
   void getProfileData(response){
@@ -598,7 +656,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
-                onPressed: deleteAccount,
+                onPressed: confirmDialog,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
