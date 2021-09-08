@@ -1,12 +1,52 @@
+import 'package:ceyntra_mobile/service/TaxiProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
 
-class TaxiDriverProfileScreen extends StatelessWidget {
+class TaxiDriverProfileScreen extends StatefulWidget{
+  @override
+  _TaxiDriverProfileScreenState createState() => _TaxiDriverProfileScreenState();
+}
 
-  Function deleteAccount(){
+class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
+
+  TaxiProfileService taxiProfileService=new TaxiProfileService();
+  int tUID=0;
+  String tFName="";
+  String tLName="";
+  String tPhoto="";
+  String tEmail="";
+  String tTelephone="";
+  String dlNo="";
+  String workingLocation="";
+  double tRating=0.0;
+
+  void deleteAccount(){
 
   }
+
+  void getTaxiProfileData(response){
+    setState(() {
+      tFName=response.data["taxiDriver"]["first_name"];
+      tLName=response.data["taxiDriver"]["last_name"];
+      tPhoto=response.data["taxiDriver"]["profile_photo"];
+      tEmail=response.data["contact"]["email"];
+      tTelephone=response.data["contact"]["telephone"];
+      dlNo=response.data["taxiDriver"]["driver_license"];
+      tRating=response.data["taxiDriver"]["rating"];
+    });
+  }
+
+  void initState() {
+    super.initState();
+    taxiProfileService.getTaxiUsertId().then((value) {
+      setState(() {
+        tUID = value;
+      });
+      taxiProfileService.getTaxiProfileDetails(getTaxiProfileData, tUID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,20 +112,30 @@ class TaxiDriverProfileScreen extends StatelessWidget {
             ),
             
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(bottom: 10),
               child: Text(
-                'Nuwan Vithanage',
+                '$tFName $tLName',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                 ),
               ),
             ),
-            ProfileDetailsWidget('DrivingLicense No.', '975-353'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: Text(
+                '$tRating',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            ProfileDetailsWidget('DrivingLicense No.', '$dlNo'),
             DividerWidget(),
-            ProfileDetailsWidget('Email', 'nuwanwithana@gmail.com'),
+            ProfileDetailsWidget('Email', '$tEmail'),
             DividerWidget(),
-            ProfileDetailsWidget('Phone', '011 6193417'),
+            ProfileDetailsWidget('Phone', '$tTelephone'),
             DividerWidget(),
             ProfileDetailsWidget('Working Location', '--'),
             DividerWidget(),
