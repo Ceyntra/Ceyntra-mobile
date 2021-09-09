@@ -26,6 +26,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
   String dlNo="";
   String workingLocation="";
   double tRating=0.0;
+  int price=0;
 
   File imageFiles;
   final _formKey1 = GlobalKey<FormState>();
@@ -36,6 +37,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
   TextEditingController _licenseController;
   TextEditingController _emailController;
   TextEditingController _telephoneController;
+  TextEditingController _priceController;
   TextEditingController _locationController=new TextEditingController();
 
   TextEditingController _currentPController=new TextEditingController();
@@ -99,6 +101,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
       "license": _licenseController.text,
       "email": _emailController.text,
       "contactNumber": _telephoneController.text,
+      "pricePerkm": int.parse(_priceController.text),
     };
     var updatedResults=taxiProfileService.updateTaxiProfileDetails(_updatedDetails);
     updatedResults.then((value) => {
@@ -110,6 +113,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
           dlNo=_licenseController.text;
           tEmail=_emailController.text;
           tTelephone=_telephoneController.text;
+          price=int.parse(_priceController.text);
         })
       }else{
         popUpDialog(context, "Something Went Wrong...", "Update Failed")
@@ -299,6 +303,20 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
 
                   TextFormField(
                     style: GoogleFonts.montserrat(),
+                    controller: _priceController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.isNotEmpty
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Price (/km) in LKR',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
                     controller: _locationController,
                     decoration: InputDecoration(
                       labelText: 'Working Location',
@@ -318,6 +336,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
                 _licenseController.text=dlNo;
                 _emailController.text=tEmail;
                 _telephoneController.text=tTelephone;
+                _priceController.text=price.toString();
                 _locationController.text="";
               }
             ),
@@ -522,6 +541,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
       _licenseController=new TextEditingController(text: response.data["taxiDriver"]["driver_license"]);
       _emailController=new TextEditingController(text: response.data["contact"]["email"]);
       _telephoneController=new TextEditingController(text: response.data["contact"]["telephone"]);
+      _priceController=new TextEditingController(text: (response.data["taxiDriver"]["per_km_price"]).toString());
       tFName=response.data["taxiDriver"]["first_name"];
       tLName=response.data["taxiDriver"]["last_name"];
       tPhoto=response.data["taxiDriver"]["profile_photo"];
@@ -529,6 +549,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
       tTelephone=response.data["contact"]["telephone"];
       dlNo=response.data["taxiDriver"]["driver_license"];
       tRating=response.data["taxiDriver"]["rating"];
+      price=response.data["taxiDriver"]["per_km_price"];
     });
   }
 
@@ -660,6 +681,8 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
             ProfileDetailsWidget('Email', '$tEmail'),
             DividerWidget(),
             ProfileDetailsWidget('Phone', '$tTelephone'),
+            DividerWidget(),
+            ProfileDetailsWidget('Price (/km)', '$price LKR'),
             DividerWidget(),
             ProfileDetailsWidget('Working Location', '--'),
             DividerWidget(),
