@@ -401,7 +401,9 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         var result=profileService.updateProfilePhoto(newPhoto, uID);
         result.then((value) => {
           if (value == 1){
-            photo=newPhoto,
+            setState(() {
+              photo=newPhoto;
+            })
           }else{
             popUpDialog(context, "Something Went Wrong...", "Update Failed")
           }
