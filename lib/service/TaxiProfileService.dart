@@ -23,4 +23,10 @@ class TaxiProfileService{
     var response = await dio.put('http://10.0.2.2:9092/updateTaxiProfilePhoto', data: photoData);
     return response.data;
   }
+
+  Future<int> updateTaxiProfileDetails(updatedDetails) async{
+    var response = await dio.put('http://10.0.2.2:9092/updateTaxiProfileDetails', data: updatedDetails);
+    return response.data;
+  }
+
 }
