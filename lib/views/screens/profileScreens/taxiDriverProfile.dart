@@ -24,7 +24,193 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
   String workingLocation="";
   double tRating=0.0;
 
-   File imageFiles;
+  File imageFiles;
+  final _formKey1 = GlobalKey<FormState>();
+
+  TextEditingController _firstNameController;
+  TextEditingController _lastNameController;
+  TextEditingController _licenseController;
+  TextEditingController _emailController;
+  TextEditingController _telephoneController;
+  TextEditingController _locationController=new TextEditingController();
+
+  void successDialog(sentence){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
+  }
+
+  void getUpdatedDriverData(){
+    Map<String, dynamic> _updatedDetails = {
+      "userID": tUID,
+      "firstName": _firstNameController.text,
+      "lastName": _lastNameController.text,
+      "license": _licenseController.text,
+      "email": _emailController.text,
+      "contactNumber": _telephoneController.text,
+    };
+    var updatedResults=taxiProfileService.updateTaxiProfileDetails(_updatedDetails);
+    updatedResults.then((value) => {
+      if (value == 1){
+        setState(() {
+          successDialog("Profile Updated Successfully");
+          tFName=_firstNameController.text;
+          tLName=_lastNameController.text;
+          dlNo=_licenseController.text;
+          tEmail=_emailController.text;
+          tTelephone=_telephoneController.text;
+        })
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Update Failed")
+      }
+    });
+  }
+
+  void driverDetailsEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Edit Profile', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _firstNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "First name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _lastNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Last name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Last Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _licenseController,
+                    validator: (val) {
+                      return val.isEmpty || val.length < 4
+                        ? "License No. should be greater than 4"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'License No.',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _emailController,
+                    validator: (val) {
+                      return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
+                        ? null
+                        : "Please enter a valid email";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _telephoneController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Telephone',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _locationController,
+                    decoration: InputDecoration(
+                      labelText: 'Working Location',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _firstNameController.text=tFName;
+                _lastNameController.text=tLName;
+                _licenseController.text=dlNo;
+                _emailController.text=tEmail;
+                _telephoneController.text=tTelephone;
+                _locationController.text="";
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey1.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getUpdatedDriverData();
+                }
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+          ],
+        );
+      }
+    );
+  }
 
   void popUpDialog(BuildContext context, sentence1, sentence2) {
     Widget okButton = TextButton(
@@ -44,6 +230,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
 
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
       builder: (BuildContext context) {
         return alert;
       }
@@ -149,6 +336,11 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
 
   void getTaxiProfileData(response){
     setState(() {
+      _firstNameController=new TextEditingController(text: response.data["taxiDriver"]["first_name"]);
+      _lastNameController=new TextEditingController(text: response.data["taxiDriver"]["last_name"]);
+      _licenseController=new TextEditingController(text: response.data["taxiDriver"]["driver_license"]);
+      _emailController=new TextEditingController(text: response.data["contact"]["email"]);
+      _telephoneController=new TextEditingController(text: response.data["contact"]["telephone"]);
       tFName=response.data["taxiDriver"]["first_name"];
       tLName=response.data["taxiDriver"]["last_name"];
       tPhoto=response.data["taxiDriver"]["profile_photo"];
@@ -189,7 +381,9 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              driverDetailsEditForm(context);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,
