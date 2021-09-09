@@ -14,4 +14,13 @@ class TaxiProfileService{
     var response= await dio.get('http://10.0.2.2:9092/taxiUserProfile/$uID');
     getTaxiProfileData(response);
   }
+
+  Future<int> updateTaxiProfilePhoto(photo, uID) async{
+    Map<String, dynamic> photoData = {
+      "photo": photo,
+      "userID": uID,
+    };
+    var response = await dio.put('http://10.0.2.2:9092/updateTaxiProfilePhoto', data: photoData);
+    return response.data;
+  }
 }
