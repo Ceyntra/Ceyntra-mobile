@@ -56,6 +56,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
       builder: (BuildContext context) {
         Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context).pop();
@@ -353,6 +354,7 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
 
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
       builder: (BuildContext context) {
         return alert;
       }
