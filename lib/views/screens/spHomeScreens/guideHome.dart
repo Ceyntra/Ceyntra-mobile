@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/profileScreens/guideProfile.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -162,7 +163,18 @@ class GuideHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
                   HomeOptionWidget(
-                      Colors.blue, '  Settings', Icons.settings, () {}),
+                    Colors.blue, '  Settings', 
+                    Icons.settings, 
+                    () {
+                      print("object");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GuideProfileScreen()
+                        )
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
