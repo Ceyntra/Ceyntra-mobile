@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ceyntra_mobile/service/TaxiProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../firstPage.dart';
 
 class TaxiDriverProfileScreen extends StatefulWidget{
   @override
@@ -452,8 +455,64 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
     );
   }
 
-  void deleteAccount(){
+  void _deleteAccount(){
+    var deleteResult=taxiProfileService.removeDriverAccount(tUID);
+    deleteResult.then((value) => {
+      if (value == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FirstPageScreen()),
+        )
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Account Deletion Failed")
+      }
+    });
+  }
 
+  void _confirmDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your account permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
   }
 
   void getTaxiProfileData(response){
@@ -492,7 +551,14 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
         brightness: Brightness.dark,
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
-          onTap: null,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TaxiHomeScreen()
+              )
+            );
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
@@ -625,7 +691,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
-                onPressed: deleteAccount,
+                onPressed: _confirmDialog,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
