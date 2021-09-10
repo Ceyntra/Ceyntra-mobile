@@ -23,4 +23,9 @@ class GuideProfileService{
     var response = await dio.put('http://10.0.2.2:9092/updateGuideProfilePhoto', data: photoData);
     return response.data;
   }
+
+  Future<int> updateGuideProfileDetails(updatedDetails) async{
+    var response = await dio.put('http://10.0.2.2:9092/updateGuideProfileDetails', data: updatedDetails);
+    return response.data;
+  }
 }
