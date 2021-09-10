@@ -42,6 +42,8 @@ class PackageModel{
       this.negotiable,
       this.taxiId);
 
+
+
   @override
   String toString() {
     return 'PackageModel{packageName: $packageName, packageDesc: $packageDesc, imageURL: $imageURL, withDriver: $withDriver, fuel: $fuel, fullDayService: $fullDayService, ownRoutine: $ownRoutine, other: $other, otherFacility: $otherFacility, numberOfPassengers: $numberOfPassengers, perDay: $perDay, perKm: $perKm, price: $price, negotiable: $negotiable}';
@@ -65,5 +67,30 @@ class PackageModel{
         'negotiable': negotiable,
         'taxiDriverId': taxiId,
       };
+
+    factory PackageModel.fromJson(Map<String,dynamic> json) {
+
+      //Extract
+      List<PackageModel> packages= [];
+
+      return PackageModel(
+        json['packageName'],
+         json['packageDesc'],
+        json['imageURL'],
+        json['withDriver'],
+        json['fuel'],
+        json['fullDayService'],
+        json['ownRoutine'],
+        json['other'],
+        json['otherFacility'],
+        json['numberOfPassengers'],
+        json['perDay'],
+        json['perKm'],
+        json['price'],
+         json['negotiable'],
+       json['taxiId'],
+      );
+
+    }
 
 }

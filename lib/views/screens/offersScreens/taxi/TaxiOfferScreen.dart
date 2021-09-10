@@ -1,28 +1,20 @@
 import 'dart:io';
-import 'package:ceyntra_mobile/views/screens/offersScreens/AddOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-import '../taxiPackages.dart';
+import 'taxiPackages.dart';
 
 class OfferScreen extends StatefulWidget {
-  final Function pressed;
-  final bool isPressed;
-  final Function setNull;
-  OfferScreen({this.pressed, this.isPressed, this.setNull});
+
+  OfferScreen();
 
   @override
   _OfferScreenState createState() => _OfferScreenState();
 }
 
 class _OfferScreenState extends State<OfferScreen> {
-  String choosenLanguage = "en";
-  String extractedText;
-  File image;
-  String sinhalaExtractedText;
-  bool indicator;
-  String LanguageName = "English";
 
 
   @override
@@ -69,7 +61,7 @@ class _OfferScreenState extends State<OfferScreen> {
           backgroundColor: Color(0xff192537),
           leading: InkWell(
             onTap: (){
-              //Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back),
           ),
@@ -78,7 +70,7 @@ class _OfferScreenState extends State<OfferScreen> {
           children: [
             TaxiPackageScreen(),
 
-            AddOfferScreen(userId: 8,), //hashan chandima
+            AddOfferScreen(userId: 8,),
 
           ],
         ),

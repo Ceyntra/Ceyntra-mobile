@@ -273,12 +273,14 @@ class Auth {
         case 1:
           {
             print("Redirect to hotel page");
+            return HotelHomeScreen();
           }
           break;
 
         case 2:
           {
             print("Redirect to Taxi page");
+            return TaxiHomeScreen();
           }
           break;
 
