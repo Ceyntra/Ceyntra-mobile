@@ -5,6 +5,7 @@ import 'package:ceyntra_mobile/views/screens/fogetPasswordScreen.dart';
 import 'package:ceyntra_mobile/views/screens/getHelpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/guideProfile.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/hotelProfile.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/travellerProfile.dart';

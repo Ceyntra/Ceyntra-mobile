@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/chatRoomScreen.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/taxiDriverProfile.dart';
-import 'package:ceyntra_mobile/views/screens/taxiPackages.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/taxiPackages.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -132,11 +133,11 @@ class TaxiHomeScreen extends StatelessWidget {
                     '  Offers',
                     Icons.local_offer,
                     () {
-                      print("object");
+                      print("offer object");
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TaxiPackageScreen()));
+                              builder: (context) =>  OfferScreen()));
                     },
                   ),
                   new Padding(

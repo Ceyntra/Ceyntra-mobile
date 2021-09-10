@@ -22,7 +22,6 @@ class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
     setState(() {
       taxiPackages=packages;
     });
-
     print(taxiPackages);
   }
 

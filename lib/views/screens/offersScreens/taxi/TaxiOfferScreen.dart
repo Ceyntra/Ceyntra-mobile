@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:ceyntra_mobile/views/screens/offersScreens/AddOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-import '../taxiPackages.dart';
+import 'taxiPackages.dart';
 
 class OfferScreen extends StatefulWidget {
 
@@ -15,7 +15,6 @@ class OfferScreen extends StatefulWidget {
 }
 
 class _OfferScreenState extends State<OfferScreen> {
-
 
 
   @override
@@ -62,8 +61,7 @@ class _OfferScreenState extends State<OfferScreen> {
           backgroundColor: Color(0xff192537),
           leading: InkWell(
             onTap: (){
-              //Navigator.pop(context);
-
+              Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back),
           ),
