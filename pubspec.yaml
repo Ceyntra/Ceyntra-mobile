@@ -52,7 +52,7 @@ dependencies:
   firebase_storage: ^10.0.2
   geolocator: ^7.0.3
   stomp_dart_client: ^0.4.3
-
+  readmore: 
 
 dev_dependencies:
   flutter_test:
