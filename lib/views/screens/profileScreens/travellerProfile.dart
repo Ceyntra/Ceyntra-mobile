@@ -109,7 +109,14 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
           telephone=telephoneController.text;
         })
       }else{
-        popUpDialog(context, "Something Went Wrong...", "Update Failed")
+        setState(() {
+          popUpDialog(context, "Something Went Wrong...", "Update Failed");
+          firstNameController.text=fName;
+          lastNameController.text=lName;
+          nicController.text=nic;
+          emailController.text=email;
+          telephoneController.text=telephone;
+        })
       }
     });
   }
