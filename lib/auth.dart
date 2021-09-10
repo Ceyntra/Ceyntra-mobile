@@ -131,6 +131,8 @@ class Auth {
       case 1:
         {
           print("Redirect to hotel page");
+          // Navigator.pushReplacement(context,
+          //     MaterialPageRoute(builder: (context) => HotelHomeScreen()));
         }
         break;
 

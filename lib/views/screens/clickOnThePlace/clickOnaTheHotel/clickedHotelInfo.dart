@@ -53,9 +53,10 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
       setState(() {
         userId = value;
       });
+
+      taxiDriverService.loadAllReviewsAndScreenData(
+          setPageData, value, widget.clickedHotelInfo["hotelId"]);
     });
-    taxiDriverService.loadAllReviewsAndScreenData(
-        setPageData, userId, widget.clickedHotelInfo["hotelId"]);
   }
 
   void popUpDialog(BuildContext context) {

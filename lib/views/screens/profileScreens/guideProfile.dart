@@ -1,12 +1,58 @@
+import 'package:ceyntra_mobile/service/GuideProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class GuideProfileScreen extends StatelessWidget {
+class GuideProfileScreen extends StatefulWidget{
+  @override
+  _GuideProfileScreenState createState() => _GuideProfileScreenState();
+}
 
-  Function deleteAccount(){
+class _GuideProfileScreenState extends State<GuideProfileScreen> {
+
+  GuideProfileService guideProfileService=new GuideProfileService();
+  int gUID=0;
+  String gFName="";
+  String gLName="";
+  String gPhoto="";
+  String gEmail="";
+  String gTelephone="";
+  String gNIC="";
+  String description="";
+  double gRating=0.0;
+  int dayPrice=0;
+  String gState="";
+
+  void deleteAccount(){
 
   }
+
+  void getGuideProfileData(response){
+    setState(() {
+      gFName=response.data["guide"]["first_name"];
+      gLName=response.data["guide"]["last_name"];
+      gPhoto=response.data["guide"]["profile_photo"];
+      gEmail=response.data["contact"]["email"];
+      gTelephone=response.data["contact"]["telephone"];
+      gNIC=response.data["guide"]["nic"];
+      description=response.data["guide"]["description"];
+      gRating=response.data["guide"]["rating"];
+      dayPrice=response.data["guide"]["per_day_price"];
+      gState=response.data["guide"]["vehicle_state"];
+    });
+  }
+
+  void initState() {
+    super.initState();
+    guideProfileService.getGuideUsertId().then((value) {
+      setState(() {
+        gUID = value;
+      });
+      guideProfileService.getGuideProfileDetails(getGuideProfileData, gUID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +66,10 @@ class GuideProfileScreen extends StatelessWidget {
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
-          child: Text('Profile'),
+          child: Text(
+            'Profile',
+            style: GoogleFonts.montserrat(),
+          ),
         ),
         actions: [
           IconButton(
@@ -74,20 +123,47 @@ class GuideProfileScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 30),
               child: Text(
-                'Kalpa Ranawaka',
-                style: TextStyle(
+                '$gFName $gLName',
+                style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 20,
                 ),
               ),
             ),
-            ProfileDetailsWidget('NIC', '751942037V'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$gRating ',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    WidgetSpan(
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                          size: 22
+                        ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+            ProfileDetailsWidget('NIC', '$gNIC'),
             DividerWidget(),
-            ProfileDetailsWidget('Email', 'kalparanawaka@gmail.com'),
+            ProfileDetailsWidget('Email', '$gEmail'),
             DividerWidget(),
-            ProfileDetailsWidget('Phone', '071 6193417'),
+            ProfileDetailsWidget('Phone', '$gTelephone'),
             DividerWidget(),
-            ProfileDetailsWidget('Working Location', '--'),
+            ProfileDetailsWidget('Description', '$description'),
+            DividerWidget(),
+            ProfileDetailsWidget('Price (/day)', '$dayPrice'),
+            DividerWidget(),
+            ProfileDetailsWidget('Vehicle State', '$gState'),
             DividerWidget(),
             ProfileDetailsWidget('Account Type', 'Guide'),
 
@@ -106,7 +182,7 @@ class GuideProfileScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Delete account',
-                  style: TextStyle(fontSize: 17),
+                  style: GoogleFonts.montserrat(fontSize: 17),
                 ),
               ),
             ),

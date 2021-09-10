@@ -139,7 +139,7 @@ class PlaceService {
 
     var response = await dio.post("http://10.0.2.2:9092/getMetadataInPlace",
         data: userAndPlaceData);
-
+    print(response.data['placeRating']);
     setData(response.data);
   }
 
