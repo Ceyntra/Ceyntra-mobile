@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/service/TaxiPackageService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +10,28 @@ class TaxiPackageScreen extends StatefulWidget {
 }
 
 class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
+
+TaxiPackageService taxiPackageService = new TaxiPackageService();
+  int uID;
+
+  var packageList;
+  void setPackageList(res) {
+    print(res);
+    setState(() {
+      packageList = res;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    taxiPackageService.getTaxiUsertId().then((value) {
+      setState(() {
+        uID = value;
+      });
+      taxiPackageService.getPackageDetails(setPackageList, uID);
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +77,7 @@ class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'With Driver\nWith Diesel\n14 Passengers',
+                          'With Driver\nWith Diese\n14 Passengers',
                           style:GoogleFonts.montserrat(
                             fontSize: 16,
                             height: 1.5,

@@ -33,7 +33,7 @@ class PackageModel{
       this.fuel,
       this.fullDayService,
       this.ownRoutine,
-      this.other,+
+      this.other,
       this.otherFacility,
       this.numberOfPassengers,
       this.perDay,
