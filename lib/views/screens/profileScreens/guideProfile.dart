@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:ceyntra_mobile/service/GuideProfileService.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GuideProfileScreen extends StatefulWidget{
   @override
@@ -23,6 +26,126 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
   double gRating=0.0;
   int dayPrice=0;
   String gState="";
+
+  File _imageFiles;
+
+  void popUpDialog(BuildContext context, sentence1, sentence2) {
+    Widget okButton = TextButton(
+      child: Text("OK", style: GoogleFonts.montserrat()),
+      onPressed: () {
+        Navigator.of(context).pop();  
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(sentence1, style: GoogleFonts.montserrat()),
+      content: Text(sentence2, style: GoogleFonts.montserrat()),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
+  _imgFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoGuide="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=guideProfileService.updateGuideProfilePhoto(newPhotoGuide, gUID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              gPhoto=newPhotoGuide;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        // return;
+        print("no");
+      }
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoGuide="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=guideProfileService.updateGuideProfilePhoto(newPhotoGuide, gUID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              gPhoto=newPhotoGuide;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        print("no");
+      }
+    });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_library,
+                    color: Colors.black,
+                  ),
+                  title: Text('Photo Library'),
+                  onTap: () {
+                    _imgFromGallery();
+                    Navigator.of(context).pop();
+                  }
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_camera,
+                    color: Colors.black,
+                  ),
+                  title: Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
 
   void deleteAccount(){
 
@@ -92,12 +215,13 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.brown,
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/g5.jpg',
-                    ),
+                    image: gPhoto != ""
+                      ? NetworkImage(gPhoto)
+                      : AssetImage(
+                          'assets/images/nodp.png',
+                        ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -113,7 +237,9 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
                         Icons.camera_alt,
                         color: Colors.black,
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        _showPicker(context);
+                      },
                     ),
                   ),
                 ),
@@ -121,7 +247,7 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
             ),
             
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(bottom: 10),
               child: Text(
                 '$gFName $gLName',
                 style: GoogleFonts.montserrat(
@@ -161,9 +287,9 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
             DividerWidget(),
             ProfileDetailsWidget('Description', '$description'),
             DividerWidget(),
-            ProfileDetailsWidget('Price (/day)', '$dayPrice'),
+            ProfileDetailsWidget('Price (/day)', '$dayPrice LKR'),
             DividerWidget(),
-            ProfileDetailsWidget('Vehicle State', '$gState'),
+            ProfileDetailsWidget('Vehicle State', '$gState vehicle'),
             DividerWidget(),
             ProfileDetailsWidget('Account Type', 'Guide'),
 

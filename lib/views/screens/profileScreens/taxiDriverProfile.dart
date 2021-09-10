@@ -116,7 +116,16 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
           price=int.parse(_priceController.text);
         })
       }else{
-        popUpDialog(context, "Something Went Wrong...", "Update Failed")
+        setState(() {
+          popUpDialog(context, "Something Went Wrong...", "Update Failed");
+          _firstNameController.text=tFName;
+          _lastNameController.text=tLName;
+          _licenseController.text=dlNo;
+          _emailController.text=tEmail;
+          _telephoneController.text=tTelephone;
+          _priceController.text=price.toString();
+          _locationController.text="";
+        })
       }
     });
   }
@@ -307,7 +316,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
                     validator: (val) {
                       return RegExp(r"^[0-9]*$").hasMatch(val) && val.isNotEmpty
                         ? null
-                        : "Please enter a valid phone number";
+                        : "Please enter a valid price";
                     },
                     decoration: InputDecoration(
                       labelText: 'Price (/km) in LKR',
