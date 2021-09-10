@@ -14,4 +14,13 @@ class GuideProfileService{
     var response= await dio.get('http://10.0.2.2:9092/guideUserProfile/$uID');
     getGuideProfileData(response);
   }
+
+  Future<int> updateGuideProfilePhoto(photo, uID) async{
+    Map<String, dynamic> photoData = {
+      "photo": photo,
+      "userID": uID,
+    };
+    var response = await dio.put('http://10.0.2.2:9092/updateGuideProfilePhoto', data: photoData);
+    return response.data;
+  }
 }
