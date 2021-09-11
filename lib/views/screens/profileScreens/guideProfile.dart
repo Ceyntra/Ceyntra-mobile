@@ -101,7 +101,8 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
           gTelephone=_telephoneController.text;
           dayPrice=int.parse(_priceController.text);
           description=_descriptionController.text;
-        })
+          gState=_updatedVehicleState;
+        }),
       }else{
         setState(() {
           popUpDialog(context, "Something Went Wrong...", "Update Failed");
@@ -299,7 +300,9 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
                     _radioValue=0;
                   });
                 }else{
+                  setState(() {
                     _radioValue=1;
+                  });
                 }
               }
             ),
@@ -468,7 +471,9 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
         _radioValue=0;
       });
     }else{
+      setState(() {
         _radioValue=1;
+      });
     }
   }
 
