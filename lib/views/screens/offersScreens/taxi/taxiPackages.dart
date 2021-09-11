@@ -1,12 +1,11 @@
-import 'package:ceyntra_mobile/models/PackageModel.dart';
+import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TaxiPackageScreen extends StatefulWidget {
-  TaxiPackageScreen({Key key,@required this.userID}) : super(key: key);
-
-  final int userID;
+  TaxiPackageScreen({Key key}) : super(key: key);
 
   @override
   _TaxiPackageScreenState createState() => _TaxiPackageScreenState();
@@ -14,14 +13,19 @@ class TaxiPackageScreen extends StatefulWidget {
 
 class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
 
-  List<PackageModel> taxiPackages= [];
+  int userID;
+  List<TaxiPackageModel> taxiPackages= [];
   PackageService packageService=new PackageService();
 
   Future<void> loadData() async {
 
-    var packages=await packageService.loadTaxiPackages(widget.userID);
+    UserService userService=new UserService();
+    int id= await userService.getUserID();
+
+    var packages=await packageService.loadTaxiPackages(id);
 
     setState(() {
+      userID=id;
       taxiPackages=packages;
     });
     print(taxiPackages);
@@ -55,7 +59,7 @@ class TaxiOfferCard extends StatelessWidget {
     Key key,@required this.packageModel,
   }) : super(key: key);
 
-  final PackageModel packageModel;
+  final TaxiPackageModel packageModel;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
-
-class PackageModel{
+class TaxiPackageModel{
 
   String packageName;
   String packageDesc;
@@ -25,7 +24,7 @@ class PackageModel{
   int taxiId;
 
 
-  PackageModel(
+  TaxiPackageModel(
       this.packageName,
       this.packageDesc,
       this.imageURL,
@@ -68,29 +67,29 @@ class PackageModel{
         'taxiDriverId': taxiId,
       };
 
-    factory PackageModel.fromJson(Map<String,dynamic> json) {
+  factory TaxiPackageModel.fromJson(Map<String,dynamic> json) {
 
-      //Extract
-      List<PackageModel> packages= [];
+    //Extract
+    List<TaxiPackageModel> packages= [];
 
-      return PackageModel(
-        json['packageName'],
-         json['packageDesc'],
-        json['imageURL'],
-        json['withDriver'],
-        json['fuel'],
-        json['fullDayService'],
-        json['ownRoutine'],
-        json['other'],
-        json['otherFacility'],
-        json['numberOfPassengers'],
-        json['perDay'],
-        json['perKm'],
-        json['price'],
-         json['negotiable'],
-       json['taxiId'],
-      );
+    return TaxiPackageModel(
+      json['packageName'],
+      json['packageDesc'],
+      json['imageURL'],
+      json['withDriver'],
+      json['fuel'],
+      json['fullDayService'],
+      json['ownRoutine'],
+      json['other'],
+      json['otherFacility'],
+      json['numberOfPassengers'],
+      json['perDay'],
+      json['perKm'],
+      json['price'],
+      json['negotiable'],
+      json['taxiId'],
+    );
 
-    }
+  }
 
 }

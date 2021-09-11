@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:ceyntra_mobile/models/PackageModel.dart';
+import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -24,7 +23,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  PackageModel package;
+  TaxiPackageModel package;
 
   String _packageName;
 
@@ -494,7 +493,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
 
   void createPackage() async{
 
-    PackageModel package=new PackageModel(_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
+    TaxiPackageModel package=new TaxiPackageModel(_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
     print(package.toString());
 
     http.Response response = await http.post(

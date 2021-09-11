@@ -86,7 +86,7 @@ class _TaxiOfferScreenState extends State<TaxiOfferScreen> {
         ),
         body: TabBarView(
           children: [
-            TaxiPackageScreen(userID: userID,),
+            TaxiPackageScreen(),
 
             AddTaxiOfferScreen(userId: userID,),
           ],
