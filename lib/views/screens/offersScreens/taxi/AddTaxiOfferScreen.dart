@@ -1,23 +1,26 @@
 import 'dart:convert';
 
 import 'package:ceyntra_mobile/models/PackageModel.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/widget/InputFormField.dart';
 
 
-class AddOfferScreen extends StatefulWidget {
-  const AddOfferScreen({Key key,@required this.userId}) : super(key: key);
+class AddTaxiOfferScreen extends StatefulWidget {
+  const AddTaxiOfferScreen({Key key,@required this.userId}) : super(key: key);
 
   final int userId;
 
   @override
-  _AddOfferScreenState createState() => _AddOfferScreenState();
+  _AddTaxiOfferScreenState createState() => _AddTaxiOfferScreenState();
 }
 
-class _AddOfferScreenState extends State<AddOfferScreen> {
+class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -63,15 +66,9 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
   }
 
 
-
-  Future pickImage() async {
-    final file = await ImagePicker().getImage(source: ImageSource.gallery);
-    setState(() {
-      image = File(file.path);
-    });
-  }
-
   Future<void> uploadImage() async {
+
+    FirebaseAuth mAuth = FirebaseAuth.instance;
 
     final storage=FirebaseStorage.instance;
 
@@ -106,10 +103,6 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
 
 
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -126,7 +119,8 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
               SizedBox(height: 8,),
 
               //Input Package name field
-              buildTextFormField("Package name can not be empty",setPackageName,1,1 ),
+              InputFormField(emptyMsg: "Package name can not be empty",setValue: setPackageName,maxline: 1,minline: 1 ),
+
 
               SizedBox(height: 10,),
               Divider(color: Colors.white,),
@@ -136,7 +130,7 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
 
               SizedBox(height: 8,),
               //Package Description Input
-              buildTextFormField("Package Description can not be empty",setPackageDesc,10,4 ),
+              InputFormField(emptyMsg: "Package Description can not be empty",setValue: setPackageDesc,maxline: 10,minline: 4 ),
 
 
               SizedBox(height: 10,),
@@ -147,85 +141,11 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
               SizedBox(height: 8,),
 
               //Image Uploader
-              Container(
-
-                child: Stack(
-                  children: [
-                    image != null
-                        ? Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      width: double.infinity,
-                      height: 120,
-                      child: Image.file(image),
-                    )
-                        : Container(
-
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      width: double.infinity,
-                      height: 120,
-                      // child: Image.file(image),
-                    ),
-
-                    //gallery
-                    Positioned(
-                      bottom: 10,
-                      right: 30,
-                      child: Container(
-                        height: 40,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              // extractedText = null;
-                              // sinhalaExtractedText = null;
-                            });
-                            pickImage();
-                          },
-                          child: Icon(
-                            Icons.photo,
-                            size: 30,
-                            color: Colors.white,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(
-                              Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    image != null
-                        ? Positioned(
-                        top: 30,
-                        right: 30,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              image = null;
-                              // extractedText = null;
-                              // sinhalaExtractedText = null;
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey),
-                            child: Icon(Icons.close_rounded),
-                          ),
-                        ))
-                        : Container()
-                  ],
-                ),
-              ),
+              ImageUploadField(setImageState:(img){
+                setState(() {
+                  image=img;
+                });
+              }),
 
               SizedBox(height: 10,),
               Divider(color: Colors.white,),
@@ -358,7 +278,7 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
 
                   SizedBox(height: 8,),
                   //Package Description Input
-                  buildTextFormField("Other Facilities can't leave blank",setOtherFacility,10,4 ),
+                  InputFormField(emptyMsg: "Other Facilities can't leave blank",setValue: setOtherFacility,maxline: 10,minline: 4 ),
 
                   SizedBox(height: 10,),
                 ],
@@ -571,34 +491,10 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
     );
   }
 
-  TextFormField buildTextFormField(String emptyMsg,Function setValue, int maxline, int minline) {
-
-    return TextFormField(
-              style: TextStyle(color: Colors.black),
-              maxLines: maxline,
-              minLines: minline,
-              validator: (name){
-                if(name.isEmpty){
-                  return emptyMsg;
-                }else{
-                  return null;
-                }
-              },
-              onSaved: setValue,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
-                fillColor: Colors.white,
-                filled: true,
-                border:OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            );
-  }
 
   void createPackage() async{
 
-    PackageModel package=new PackageModel(_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,1);
+    PackageModel package=new PackageModel(_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
     print(package.toString());
 
     http.Response response = await http.post(
@@ -610,11 +506,11 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
     );
 
 
-
-    final messages = json.decode(response.body);
-    print(messages);
+    // final messages = json.decode(response.body);
+    // // print(messages);
 
   }
 
 
 }
+

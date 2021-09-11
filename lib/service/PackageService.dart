@@ -9,11 +9,8 @@ import 'package:http/http.dart' as http;
 class PackageService{
 
 //  Taxis
-  Future<List<PackageModel>> loadTaxiPackages() async {
+  Future<List<PackageModel>> loadTaxiPackages(int userID) async {
 
-    UserService userService=new UserService();
-
-    int userID= await userService.getUserID();
 
       http.Response response = await http.get(
           Uri.parse('http://10.0.2.2:9092/taxiPackages/$userID')  //$userID

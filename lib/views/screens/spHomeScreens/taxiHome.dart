@@ -137,7 +137,7 @@ class TaxiHomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  OfferScreen()));
+                              builder: (context) =>  TaxiOfferScreen()));
                     },
                   ),
                   new Padding(

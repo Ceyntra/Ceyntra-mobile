@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TaxiPackageScreen extends StatefulWidget {
-  TaxiPackageScreen({Key key}) : super(key: key);
+  TaxiPackageScreen({Key key,@required this.userID}) : super(key: key);
+
+  final int userID;
 
   @override
   _TaxiPackageScreenState createState() => _TaxiPackageScreenState();
@@ -17,7 +19,7 @@ class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
 
   Future<void> loadData() async {
 
-    var packages=await packageService.loadTaxiPackages();
+    var packages=await packageService.loadTaxiPackages(widget.userID);
 
     setState(() {
       taxiPackages=packages;
@@ -38,21 +40,11 @@ class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
        backgroundColor: Color(0xff2F3546),
-       body: SingleChildScrollView(
-         child: Column(
-           children:[
-             Container(
-                  //back button with name
-             ),
-
-             ListView.builder(
-               scrollDirection: Axis.vertical,
-               shrinkWrap: true,
-               itemCount: taxiPackages.length,
-               itemBuilder: (context,index) => TaxiOfferCard(packageModel: taxiPackages[index]),
-             ),
-           ],
-         ),
+       body: ListView.builder(
+         scrollDirection: Axis.vertical,
+         shrinkWrap: true,
+         itemCount: taxiPackages.length,
+         itemBuilder: (context,index) => TaxiOfferCard(packageModel: taxiPackages[index]),
        ),
     );
   }
