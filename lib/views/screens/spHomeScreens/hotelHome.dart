@@ -7,9 +7,11 @@ import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../auth.dart';
 import '../chatRoomScreen.dart';
 
 class HotelHomeScreen extends StatelessWidget {
+  Auth auth = new Auth();
   Function logIn(){}
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,16 @@ class HotelHomeScreen extends StatelessWidget {
               Icons.notifications,
               color: Colors.white,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () {
+              auth.logout(context);
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
