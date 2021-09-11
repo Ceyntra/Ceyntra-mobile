@@ -1,6 +1,7 @@
-import 'dart:io';
-import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
-import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/taxiPackages.dart';
+import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/UserService.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/AddHotelOffers.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelPackages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +17,25 @@ class HotelOfferScreen extends StatefulWidget {
 
 class _HotelOfferScreenState extends State<HotelOfferScreen> {
 
+  int userID;
+
+  Future<void> loaduserID() async {
+
+    UserService userService=new UserService();
+    int id= await userService.getUserID();
+    setState(() {
+      userID=id;
+    });
+
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loaduserID();
+  }
 
 
 
@@ -70,9 +90,9 @@ class _HotelOfferScreenState extends State<HotelOfferScreen> {
         ),
         body: TabBarView(
           children: [
-            TaxiPackageScreen(),
+            HotelPackageScreen(),
 
-            AddTaxiOfferScreen(userId: 8,),
+            AddHotelOfferScreen(userId: userID),
 
           ],
         ),

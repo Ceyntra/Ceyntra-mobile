@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -119,7 +120,12 @@ class HotelHomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 children: [
-                  HomeOptionWidget(Colors.purple, '  Offers', Icons.local_offer, logIn),
+                  HomeOptionWidget(Colors.purple, '  Offers', Icons.local_offer,(){
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => HotelOfferScreen()),
+                    );
+                  }),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
