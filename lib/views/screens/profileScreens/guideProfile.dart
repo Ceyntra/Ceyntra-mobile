@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../firstPage.dart';
+
 class GuideProfileScreen extends StatefulWidget{
   @override
   _GuideProfileScreenState createState() => _GuideProfileScreenState();
@@ -564,8 +566,64 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
     );
   }
 
-  void deleteAccount(){
+  void _deleteAccount(){
+    var deleteResult=guideProfileService.removeGuideAccount(gUID);
+    deleteResult.then((value) => {
+      if (value == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FirstPageScreen()),
+        )
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Account Deletion Failed")
+      }
+    });
+  }
 
+  void _confirmDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your account permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
   }
 
   void getGuideProfileData(response){
@@ -757,10 +815,11 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
               ),
             ),
             Container(
+              margin: EdgeInsets.only(bottom: 30),
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
-                onPressed: deleteAccount,
+                onPressed: _confirmDialog,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
