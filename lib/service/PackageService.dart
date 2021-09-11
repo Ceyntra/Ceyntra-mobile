@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ceyntra_mobile/models/GuidePackageModel.dart';
 import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
 import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
@@ -48,6 +49,30 @@ class PackageService{
         .toList();
 
     print("Hotels");
+    print(packages);
+
+    return packages;
+  }
+
+
+  //Guide
+  Future<List<GuidePackageModel>> loadGuidePackages(int userID) async {
+
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/guidePackages/$userID')  //$userID
+    );
+
+    final packageJson = json.decode(response.body);
+
+    var listJson=packageJson as List;
+
+    List<GuidePackageModel> packages= [];
+
+    packages = listJson
+        .map((package) => GuidePackageModel.fromJson(package))
+        .toList();
+
+    print("Guide");
     print(packages);
 
     return packages;
