@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:ceyntra_mobile/service/GuideProfileService.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,298 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
   String gState="";
 
   File _imageFiles;
+  final _formKey1 = GlobalKey<FormState>();
+
+  TextEditingController _firstNameController;
+  TextEditingController _lastNameController;
+  TextEditingController _nicController;
+  TextEditingController _emailController;
+  TextEditingController _telephoneController;
+  TextEditingController _descriptionController;
+  TextEditingController _priceController;
+ 
+  int _radioValue;
+  String _updatedVehicleState="";
+
+  void successDialog(sentence){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
+  }
+
+  void getUpdatedGuideData(){
+    if(_radioValue==0){
+      setState(() {
+        _updatedVehicleState="with";
+      });
+    }else{
+      setState(() {
+        _updatedVehicleState="without";
+      });
+    }
+
+    Map<String, dynamic> _updatedDetails = {
+      "userID": gUID,
+      "firstName": _firstNameController.text,
+      "lastName": _lastNameController.text,
+      "nic": _nicController.text,
+      "email": _emailController.text,
+      "contactNumber": _telephoneController.text,
+      "pricePerDay": int.parse(_priceController.text),
+      "description": _descriptionController.text,
+      "vehicleState": _updatedVehicleState,
+    };
+    var updatedResults=guideProfileService.updateGuideProfileDetails(_updatedDetails);
+    updatedResults.then((value) => {
+      if (value == 1){
+        setState(() {
+          successDialog("Profile Updated Successfully");
+          gFName=_firstNameController.text;
+          gLName=_lastNameController.text;
+          gNIC=_nicController.text;
+          gEmail=_emailController.text;
+          gTelephone=_telephoneController.text;
+          dayPrice=int.parse(_priceController.text);
+          description=_descriptionController.text;
+        })
+      }else{
+        setState(() {
+          popUpDialog(context, "Something Went Wrong...", "Update Failed");
+          _firstNameController.text=gFName;
+          _lastNameController.text=gLName;
+          _nicController.text=gNIC;
+          _emailController.text=gEmail;
+          _telephoneController.text=gTelephone;
+          _priceController.text=dayPrice.toString();
+          _descriptionController.text=description;
+          if(gState=="with"){
+            setState(() {
+              _radioValue=0;
+            });
+          }else{
+              _radioValue=1;
+          }
+        })
+      }
+    });
+  }
+
+  void guideDetailsEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Edit Profile', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _firstNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "First name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _lastNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Last name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Last Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _nicController,
+                    validator: (val) {
+                      return val.isEmpty || val.length < 4
+                        ? "NIC should be greater than 4"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'NIC',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _emailController,
+                    validator: (val) {
+                      return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
+                        ? null
+                        : "Please enter a valid email";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _telephoneController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Telephone',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _descriptionController,
+                    maxLines: 5,
+                    validator: (val) {
+                      return val.isNotEmpty
+                        ? null
+                        : "Please enter a description";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Description to be displayed',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _priceController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.isNotEmpty
+                        ? null
+                        : "Please enter a valid price";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Price (/day) in LKR',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  Text("Vehicle State", style:GoogleFonts.montserrat(fontSize: 13)),
+
+                  Row(
+                    children: [
+                       new Radio(
+                        value: 0,
+                        groupValue: _radioValue,
+                        onChanged: (int value){
+                          setState(() {
+                            _radioValue=value;
+                          });
+                        },
+                      ),
+                      new Text(
+                        'With vehicle',
+                        style: GoogleFonts.montserrat(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      new Radio(
+                        value: 1,
+                        groupValue: _radioValue,
+                        onChanged: (int value){
+                          setState(() {
+                            _radioValue=value;
+                          });
+                        },
+                      ),
+                      new Text(
+                        'Without vehicle',
+                        style: GoogleFonts.montserrat(fontSize: 16.0),
+                      ),
+                    ],
+                  )      
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _firstNameController.text=gFName;
+                _lastNameController.text=gLName;
+                _nicController.text=gNIC;
+                _emailController.text=gEmail;
+                _telephoneController.text=gTelephone;
+                _priceController.text=dayPrice.toString();
+                _descriptionController.text=description;
+                if(gState=="with"){
+                  setState(() {
+                    _radioValue=0;
+                  });
+                }else{
+                    _radioValue=1;
+                }
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey1.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getUpdatedGuideData();
+                }
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+          ],
+        );
+      }
+        );
+      }
+    );
+  }
 
   void popUpDialog(BuildContext context, sentence1, sentence2) {
     Widget okButton = TextButton(
@@ -153,6 +445,13 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
 
   void getGuideProfileData(response){
     setState(() {
+      _firstNameController=new TextEditingController(text: response.data["guide"]["first_name"]);
+      _lastNameController=new TextEditingController(text: response.data["guide"]["last_name"]);
+      _nicController=new TextEditingController(text: response.data["guide"]["nic"]);
+      _emailController=new TextEditingController(text: response.data["contact"]["email"]);
+      _telephoneController=new TextEditingController(text: response.data["contact"]["telephone"]);
+      _descriptionController=new TextEditingController(text: response.data["guide"]["description"]);
+      _priceController=new TextEditingController(text: (response.data["guide"]["per_day_price"]).toString());
       gFName=response.data["guide"]["first_name"];
       gLName=response.data["guide"]["last_name"];
       gPhoto=response.data["guide"]["profile_photo"];
@@ -164,6 +463,13 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
       dayPrice=response.data["guide"]["per_day_price"];
       gState=response.data["guide"]["vehicle_state"];
     });
+    if(gState=="with"){
+      setState(() {
+        _radioValue=0;
+      });
+    }else{
+        _radioValue=1;
+    }
   }
 
   void initState() {
@@ -185,7 +491,14 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
         brightness: Brightness.dark,
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
-          onTap: null,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TaxiHomeScreen()
+              )
+            );
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
@@ -196,7 +509,9 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              guideDetailsEditForm(context);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,
