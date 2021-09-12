@@ -1,34 +1,34 @@
 
-import 'package:ceyntra_mobile/models/GuidePackageModel.dart';
+import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ClickedGuidePackagesScreen extends StatefulWidget {
-  const ClickedGuidePackagesScreen({Key key, this.guideId}) : super(key: key);
+class ClickedTaxiPackageScreen extends StatefulWidget {
+  const ClickedTaxiPackageScreen({Key key, this.taxiId}) : super(key: key);
 
-  final int guideId;
+  final int taxiId;
 
   @override
-  _ClickedGuidePackagesScreenState createState() => _ClickedGuidePackagesScreenState();
+  _ClickedTaxiPackageScreenState createState() => _ClickedTaxiPackageScreenState();
 }
 
-class _ClickedGuidePackagesScreenState extends State<ClickedGuidePackagesScreen> {
+class _ClickedTaxiPackageScreenState extends State<ClickedTaxiPackageScreen> {
 
-  List<GuidePackageModel> packages=[];
+  List<TaxiPackageModel> packages=[];
 
   Future<void> loadPackages() async {
     PackageService packageService=new PackageService();
 
-    List<GuidePackageModel> pkgs;
-    pkgs=await packageService.loadGuidePackages(widget.guideId);
+    List<TaxiPackageModel> pkgs;
+    pkgs=await packageService.loadTaxiPackages(widget.taxiId);
 
     setState(() {
       packages=pkgs;
     });
 
-    print("Guide pkg");
-    print(widget.guideId);
+    print("Taxi id");
+    print(widget.taxiId);
 
   }
 
@@ -39,14 +39,13 @@ class _ClickedGuidePackagesScreenState extends State<ClickedGuidePackagesScreen>
     loadPackages();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: packages.length,
-      itemBuilder: (context,index) => PackageWidget(guidePackage: packages[index]),
+      itemBuilder: (context,index) => PackageWidget(taxiPackage: packages[index]),
     );
   }
 }
@@ -54,8 +53,8 @@ class _ClickedGuidePackagesScreenState extends State<ClickedGuidePackagesScreen>
 
 class PackageWidget extends StatelessWidget {
 
-  final GuidePackageModel guidePackage;
-  const PackageWidget({Key key, this.guidePackage}) : super(key: key);
+  final TaxiPackageModel taxiPackage;
+  const PackageWidget({Key key, this.taxiPackage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class PackageWidget extends StatelessWidget {
                   topRight:Radius.circular(15),
                 ),
                 image: DecorationImage(
-                    image: NetworkImage(guidePackage.imageURL),
+                    image: NetworkImage(taxiPackage.imageURL),
                     fit: BoxFit.fitWidth)
             ),
           ),
@@ -97,27 +96,42 @@ class PackageWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${guidePackage.groupCapacity} Persons',
+                          '${taxiPackage.numberOfPassengers} Persons',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),
 
-                        Text(
-                          '${guidePackage.places}',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
+                        if(taxiPackage.withDriver) ...[
+                          Text(
+                            'With Driver',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '${guidePackage.language}',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
+                        ],
+
+                        if(taxiPackage.fuel) ...[
+                          Text(
+                            'With Fuel',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
+                        ],
+
+                        if(taxiPackage.fullDayService) ...[
+                          Text(
+                            'Full Day',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
 
                       ],
                     ),
@@ -141,7 +155,7 @@ class PackageWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${guidePackage.price} LKR',
+                            '${taxiPackage.price} LKR',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -155,7 +169,7 @@ class PackageWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            guidePackage.perDay? 'Per day' : 'Per tour',
+                            taxiPackage.perDay? 'Per day' : 'Per KM',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 15,
@@ -174,6 +188,7 @@ class PackageWidget extends StatelessWidget {
     );
   }
 }
+
 
 
 

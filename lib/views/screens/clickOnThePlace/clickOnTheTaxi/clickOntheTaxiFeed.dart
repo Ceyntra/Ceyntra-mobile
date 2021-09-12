@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiPackagesScreen.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelPackages.dart';
@@ -75,7 +76,7 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
           children: [
             ClickedTaxiInfoScreen(clickedTaxiInfo: widget.clickedTaxi),
             PrivateChatScreen(serviceProviderID:widget.clickedTaxi["taxiId"]),
-            ClickedHotelPackagesScreen()
+            ClickedTaxiPackageScreen(taxiId:widget.clickedTaxi["taxiId"] ,)
           ],
         ),
       ),
