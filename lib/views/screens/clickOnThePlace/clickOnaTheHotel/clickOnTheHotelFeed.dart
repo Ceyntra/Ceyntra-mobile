@@ -75,7 +75,7 @@ class _ClickOnTheHotelFeedState extends State<ClickOnTheHotelFeed> {
               clickedHotelInfo: widget.clickedHotel,
             ),
             PrivateChatScreen(serviceProviderID:widget.clickedHotel["hotelId"]),
-            ClickedHotelPackagesScreen()
+            ClickedHotelPackagesScreen(hotelId:widget.clickedHotel["hotelId"])
           ],
         ),
       ),

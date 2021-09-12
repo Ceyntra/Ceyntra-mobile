@@ -1,8 +1,12 @@
+import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
+import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClickedHotelPackagesScreen extends StatefulWidget {
-  // const ClickedHotelPackagesScreen({ Key? key }) : super(key: key);
+ const ClickedHotelPackagesScreen({ Key key,@required this.hotelId }) : super(key: key);
+
+ final int hotelId;
 
   @override
   _ClickedHotelPackagesScreenState createState() =>
@@ -11,25 +15,45 @@ class ClickedHotelPackagesScreen extends StatefulWidget {
 
 class _ClickedHotelPackagesScreenState
     extends State<ClickedHotelPackagesScreen> {
+
+  List<HotelPackageModel> packages=[];
+
+  Future<void> loadPackages() async {
+    PackageService packageService=new PackageService();
+
+    List<HotelPackageModel> pkgs;
+    pkgs=await packageService.loadHotelPackages(widget.hotelId);
+
+    setState(() {
+      packages=pkgs;
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadPackages();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        PackageWidget(),
-      ],
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: packages.length,
+      itemBuilder: (context,index) => PackageWidget(hotelPackage: packages[index]),
     );
   }
 }
 
 
+
 class PackageWidget extends StatelessWidget {
 
-  final double price;
-  final String description;
-  final String pricePer;
-  final String imagePath;
-
-  const PackageWidget({Key key, this.price, this.description, this.pricePer, this.imagePath}) : super(key: key);
+  final HotelPackageModel hotelPackage;
+  const PackageWidget({Key key, this.hotelPackage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +78,7 @@ class PackageWidget extends StatelessWidget {
                   topRight:Radius.circular(15),
                 ),
                 image: DecorationImage(
-                    image: AssetImage("assets/images/package.jpg"),
+                    image: NetworkImage(hotelPackage.imageURL),
                     fit: BoxFit.fitWidth)
             ),
           ),
@@ -67,71 +91,100 @@ class PackageWidget extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      '1 large bedroom \n3 beds \n1 bathroom \nfree breakfast ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-
-                ),
-
-
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-
-                    padding: EdgeInsets.only(top: 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Price',
+                          '${hotelPackage.roomCapacity} Persons',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                            color: Colors.grey,
+                            fontSize: 16,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              '4250 LKR',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
+
+                        if(hotelPackage.withAC) ...[
+                          Text(
+                            'Air Condition',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
-                            Text(
-                              ' / ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
+                          ),
+                        ],
+
+                        if(hotelPackage.meal) ...[
+                          Text(
+                            'With Meal',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
-                            Text(
-                              'person',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
+                          ),
+                        ],
+
+                        if(hotelPackage.swimPool) ...[
+                          Text(
+                            'Swim Pool',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
 
                 ),
+
+
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0,right: 5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Price',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${hotelPackage.price} LKR',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            ' / ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            hotelPackage.perDay? 'Per day' : 'Per Pkg',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-
-
         ],
       ),
     );
   }
 }
+
 
