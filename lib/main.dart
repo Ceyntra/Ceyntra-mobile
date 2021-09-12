@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/auth.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/fogetPasswordScreen.dart';
@@ -35,32 +36,33 @@ void main() async {
 class MyApp extends StatelessWidget {
   //This widget is the root of your application.
   @override
+  // Widget build(BuildContext context) {
+  //   Auth auth = new Auth();
+  //   return MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'Flutter Demo',
+  //     home: FutureBuilder(
+  //       future: auth.userRedirect(),
+  //       builder: (context, snapshot) {
+  //         if (snapshot.connectionState == ConnectionState.done) {
+  //           return snapshot.data;
+  //         } else {
+  //           return Center(
+  //             child: CircularProgressIndicator(),
+  //           );
+  //         }
+  //       },
+  //     ),
+  //     // child: FirstPageScreen()
+  //   );
+
+  // }
+
   Widget build(BuildContext context) {
-    Auth auth = new Auth();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: FutureBuilder(
-        future: auth.userRedirect(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return snapshot.data;
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-      // child: FirstPageScreen()
+      home: ClickOnTheTaxiFeedBid(),
     );
   }
 }
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Flutter Demo',
-//       home:MainScreen(),
-//     );
-//   }
-// }

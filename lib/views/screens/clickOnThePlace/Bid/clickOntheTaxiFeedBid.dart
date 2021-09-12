@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/addNewBidScreen.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelInfo.dart';
@@ -68,9 +69,7 @@ class _ClickOnTheTaxiFeedBidState extends State<ClickOnTheTaxiFeedBid> {
         ),
         body: TabBarView(
           children: [
-            Container(
-              child: Text("add new bid"),
-            ),
+            AddNewBidScree(),
             Container(
               child: Text("active bid"),
             ),
