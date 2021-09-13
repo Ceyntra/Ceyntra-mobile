@@ -121,7 +121,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               )
                             ),
                           onPressed: () { },
-                          child: Text('Send password',
+                          child: Text('Reset password',
                             style: GoogleFonts.montserrat(
                                 color: Colors.white,
                                 fontSize: 12,
