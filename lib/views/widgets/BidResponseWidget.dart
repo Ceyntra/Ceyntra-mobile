@@ -28,6 +28,10 @@ class BidResponseWidget extends StatelessWidget {
       // color: Colors.amber,
       width: MediaQuery.of(context).size.width * 0.9,
       padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(10)),
       // margin: EdgeInsets.only(left: 10, top: 10, bottom: 30, right: 10),
 
       child: Column(
@@ -120,7 +124,7 @@ class BidResponseWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 0,
           ),
           Container(
             child: Container(
@@ -134,6 +138,54 @@ class BidResponseWidget extends StatelessWidget {
                 style: GoogleFonts.montserrat(
                     fontSize: 15, color: Colors.grey, height: 1.5),
               ),
+            ),
+          ),
+          Container(
+            // color: Colors.amber,
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 90,
+                  height: 40,
+                  // margin: EdgeInsets.only(top: 20),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Accept",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  width: 90,
+                  height: 40,
+                  // margin: EdgeInsets.only(top: 20),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Reject",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                )
+              ],
             ),
           )
         ],

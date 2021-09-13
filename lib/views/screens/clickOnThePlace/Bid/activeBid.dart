@@ -31,50 +31,99 @@ class _ActiveBidState extends State<ActiveBid> {
                     GreenTagWidget(
                       title: "Active Bid Details",
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.blueAccent, width: 1),
-                          color: Colors.black.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(15)),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          BidDetailsItem(
-                            title: "* Pick Up address",
-                            details: "Kurunegala, Maraluwawa",
+                    Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.blueAccent, width: 1),
+                              color: Colors.black.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(15)),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              BidDetailsItem(
+                                title: "* Date",
+                                details: "2013-06-24",
+                              ),
+                              BidDetailsItem(
+                                title: "* Pick Up address",
+                                details: "Kurunegala, Maraluwawa",
+                              ),
+                              BidDetailsItem(
+                                title: "* Drop address",
+                                details: "Kurunegala, Wellawa",
+                              ),
+                              BidDetailsItem(
+                                title: "* No. of passengers",
+                                details: "10",
+                              ),
+                              BidDetailsItem(
+                                title: "* Your price",
+                                details: "Rs. 1876",
+                              ),
+                              BidDetailsItem(
+                                lastElement: true,
+                                title: "* Traveller note",
+                                details:
+                                    "I want to go here and there and it was beatiful and like that. blaa when i see you , in my heart fallen for you",
+                              ),
+                            ],
                           ),
-                          BidDetailsItem(
-                            title: "* Drop address",
-                            details: "Kurunegala, Wellawa",
-                          ),
-                          BidDetailsItem(
-                            title: "* No. of passengers",
-                            details: "10",
-                          ),
-                          BidDetailsItem(
-                            title: "* Your price",
-                            details: "Rs. 1876",
-                          ),
-                          BidDetailsItem(
-                            lastElement: true,
-                            title: "* Traveller note",
-                            details:
-                                "I want to go here and there and it was beatiful and like that. blaa when i see you , in my heart fallen for you",
-                          ),
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                            top: 20,
+                            right: 20,
+                            child: Container(
+                              width: 80,
+                              height: 40,
+                              // margin: EdgeInsets.only(top: 20),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.redAccent,
+                                ),
+                                onPressed: () {},
+                                child: Text(
+                                  "Close",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ))
+                      ],
                     ),
                     GreenTagWidget(
                       title: "Response for Bid",
                     ),
                     BidResponseWidget(
-                      comment: "helloo i like your offer",
+                      comment:
+                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
                       date: "2013-04-05",
                       firstName: "Shehan",
                       rating: 4.6,
                       secondeName: "Sandeepa",
+                    ),
+                    BidResponseWidget(
+                      comment:
+                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
+                      date: "2013-04-05",
+                      firstName: "Shehan",
+                      rating: 4.6,
+                      secondeName: "Sandeepa",
+                    ),
+                    BidResponseWidget(
+                      comment:
+                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
+                      date: "2013-04-05",
+                      firstName: "Shehan",
+                      rating: 4.6,
+                      secondeName: "Sandeepa",
+                    ),
+                    SizedBox(
+                      height: 200,
                     )
                   ],
                 ),

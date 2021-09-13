@@ -36,33 +36,32 @@ void main() async {
 class MyApp extends StatelessWidget {
   //This widget is the root of your application.
   @override
-  // Widget build(BuildContext context) {
-  //   Auth auth = new Auth();
-  //   return MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     title: 'Flutter Demo',
-  //     home: FutureBuilder(
-  //       future: auth.userRedirect(),
-  //       builder: (context, snapshot) {
-  //         if (snapshot.connectionState == ConnectionState.done) {
-  //           return snapshot.data;
-  //         } else {
-  //           return Center(
-  //             child: CircularProgressIndicator(),
-  //           );
-  //         }
-  //       },
-  //     ),
-  //     // child: FirstPageScreen()
-  //   );
-
-  // }
-
   Widget build(BuildContext context) {
+    Auth auth = new Auth();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: ClickOnTheTaxiFeedBid(),
+      home: FutureBuilder(
+        future: auth.userRedirect(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return snapshot.data;
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      // child: FirstPageScreen()
     );
   }
+
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'Flutter Demo',
+  //     home: ClickOnTheTaxiFeedBid(),
+  //   );
+  // }
 }
