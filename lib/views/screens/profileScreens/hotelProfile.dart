@@ -1,12 +1,177 @@
+import 'dart:io';
+
+import 'package:ceyntra_mobile/service/HotelProfileService.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
-class HotelProfileScreen extends StatelessWidget {
+class HotelProfileScreen extends StatefulWidget{
+  @override
+  _HotelProfileScreenState createState() => _HotelProfileScreenState();
+}
 
-  Function deleteAccount(){
+class _HotelProfileScreenState extends State<HotelProfileScreen> {
+  HotelProfileService hotelProfileService=new HotelProfileService();
+
+  int hID=0;
+  String hName="";
+  String hPhoto="";
+  String hEmail="";
+  String hTelephone="";
+  String hDescription;
+  String hRegistration;
+  String hLocation="";
+  double hRating=0.0;
+
+  File _imageFiles;
+
+  void popUpDialog(BuildContext context, sentence1, sentence2) {
+    Widget okButton = TextButton(
+      child: Text("OK", style: GoogleFonts.montserrat()),
+      onPressed: () {
+        Navigator.of(context).pop();  
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(sentence1, style: GoogleFonts.montserrat()),
+      content: Text(sentence2, style: GoogleFonts.montserrat()),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
+  _imgFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoHotel="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=hotelProfileService.updateHotelProfilePhoto(newPhotoHotel, hID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              hPhoto=newPhotoHotel;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        // return;
+        print("no");
+      }
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoHotel="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=hotelProfileService.updateHotelProfilePhoto(newPhotoHotel, hID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              hPhoto=newPhotoHotel;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        print("no");
+      }
+    });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_library,
+                    color: Colors.black,
+                  ),
+                  title: Text('Photo Library'),
+                  onTap: () {
+                    _imgFromGallery();
+                    Navigator.of(context).pop();
+                  }
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_camera,
+                    color: Colors.black,
+                  ),
+                  title: Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  void deleteAccount(){
 
   }
+
+  void getHotelProfileData(response){
+    setState(() {
+      hName=response.data["hotel"]["name"];
+      hPhoto=response.data["hotel"]["profile_photo"];
+      hEmail=response.data["contact"]["email"];
+      hTelephone=response.data["contact"]["telephone"];
+      hDescription=response.data["hotel"]["description"];
+      hRegistration=response.data["hotel"]["registration_number"];
+      hRating=response.data["hotel"]["rating"];
+    });
+  }
+
+  void initState() {
+    super.initState();
+    hotelProfileService.getHotelUsertId().then((value) {
+      setState(() {
+        hID = value;
+      });
+      hotelProfileService.getHotelProfileDetails(getHotelProfileData, hID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +181,21 @@ class HotelProfileScreen extends StatelessWidget {
         brightness: Brightness.dark,
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
-          onTap: null,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HotelHomeScreen()
+              )
+            );
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
-          child: Text('Profile'),
+          child: Text(
+            'Profile',
+            style: GoogleFonts.montserrat(),
+          ),
         ),
         actions: [
           IconButton(
@@ -43,12 +218,13 @@ class HotelProfileScreen extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.brown,
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/h2.jpg',
-                    ),
+                    image: hPhoto != ""
+                      ? NetworkImage(hPhoto)
+                      : AssetImage(
+                          'assets/images/nodp.png',
+                        ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,7 +240,9 @@ class HotelProfileScreen extends StatelessWidget {
                         Icons.camera_alt,
                         color: Colors.black,
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        _showPicker(context);
+                      },
                     ),
                   ),
                 ),
@@ -72,22 +250,45 @@ class HotelProfileScreen extends StatelessWidget {
             ),
             
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(bottom: 10),
               child: Text(
-                'Jetwing Hotel',
-                style: TextStyle(
+                '$hName',
+                style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 20,
                 ),
               ),
             ),
-            ProfileDetailsWidget('Registration No.', '975-G53'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$hRating ',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    WidgetSpan(
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                          size: 22
+                        ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+            ProfileDetailsWidget('Registration No.', '$hRegistration'),
             DividerWidget(),
-            ProfileDetailsWidget('Email', 'reservations@jetwinghotels.com'),
+            ProfileDetailsWidget('Email', '$hEmail'),
             DividerWidget(),
-            ProfileDetailsWidget('Phone', '011 6193417'),
+            ProfileDetailsWidget('Phone', '$hTelephone'),
             DividerWidget(),
-            ProfileDetailsWidget('Address', 'Navam Mawatha, Colombo 02'),
+            ProfileDetailsWidget('Description', '$hDescription'),
             DividerWidget(),
             ProfileDetailsWidget('Location', '--'),
             DividerWidget(),
@@ -108,7 +309,7 @@ class HotelProfileScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Delete account',
-                  style: TextStyle(fontSize: 17),
+                  style: GoogleFonts.montserrat(fontSize: 17),
                 ),
               ),
             ),
