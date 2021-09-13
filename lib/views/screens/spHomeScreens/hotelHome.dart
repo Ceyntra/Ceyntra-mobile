@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/profileScreens/hotelProfile.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -158,7 +159,20 @@ class HotelHomeScreen extends StatelessWidget {
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
-                  HomeOptionWidget(Colors.blue, '  Settings', Icons.settings, logIn),
+                  HomeOptionWidget(
+                    Colors.blue, 
+                    '  Settings', 
+                    Icons.settings, 
+                    () {
+                      print("object");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HotelProfileScreen()
+                        )
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
