@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
+import 'package:ceyntra_mobile/views/screens/fogetPasswordScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -250,12 +251,20 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.only(right: 20.0, top: 5.0),
-                child: Text(
-                  "Forgot password?",
-                  style: GoogleFonts.montserrat(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 12.0),
+                child: InkWell(
+                  child: Text(
+                    "Forgot password?",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12.0),
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgetPassword()));
+                  },
                 ),
               ),
 

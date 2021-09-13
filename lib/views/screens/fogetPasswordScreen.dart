@@ -73,7 +73,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     padding: const EdgeInsets.all(20.0),
                     alignment: Alignment.center,
                     child: Text(
-                      'Enter your email below to recive your\n \t\t\t\t\t password reset instructions',
+                      'Enter your email below to receive your\n \t\t\t\t\t password reset instructions',
                       style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontSize: 12,
@@ -135,18 +135,21 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
               Expanded(
                 flex: 1,
-                child: RichText(
-                  text: TextSpan(
-                      text: 'I remember the password',
-                      style:GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          textStyle: TextStyle(
-                              decoration: TextDecoration.underline,
-                          ),
-                      ),
-                )
+                child: InkWell(
+                  child: Text(
+                        'I remember the password',
+                        style:GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            textStyle: TextStyle(
+                                decoration: TextDecoration.underline,
+                            ),
+                        ),
+                  ),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
                 )
               ),
             ],
