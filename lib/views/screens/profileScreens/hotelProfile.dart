@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ceyntra_mobile/service/HotelProfileService.dart';
+import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
@@ -455,8 +456,64 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
     );
   }
 
-  void deleteAccount(){
+  void _deleteAccount(){
+    var deleteResult=hotelProfileService.removeHotelAccount(hID);
+    deleteResult.then((value) => {
+      if (value == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FirstPageScreen()),
+        )
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Account Deletion Failed")
+      }
+    });
+  }
 
+  void _confirmDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your account permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
   }
 
   void getHotelProfileData(response){
@@ -636,7 +693,7 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
-                onPressed: deleteAccount,
+                onPressed: _confirmDialog,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
