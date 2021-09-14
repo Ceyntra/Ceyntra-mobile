@@ -27,6 +27,193 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
   double hRating=0.0;
 
   File _imageFiles;
+  final _formKey1 = GlobalKey<FormState>();
+
+  TextEditingController _hotelNameController;
+  TextEditingController _registrationController;
+  TextEditingController _emailController;
+  TextEditingController _telephoneController;
+  TextEditingController _descriptionController;
+
+  void successDialog(sentence){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
+  }
+
+  void getUpdatedHotelData(){
+    Map<String, dynamic> _updatedDetails = {
+      "userID": hID,
+      "firstName": _hotelNameController.text,
+      "registrationNo": _registrationController.text,
+      "email": _emailController.text,
+      "contactNumber": _telephoneController.text,
+      "description": _descriptionController.text,
+    };
+    var updatedResults=hotelProfileService.updateHotelProfileDetails(_updatedDetails);
+    updatedResults.then((value) => {
+      if (value == 1){
+        setState(() {
+          successDialog("Profile Updated Successfully");
+          hName=_hotelNameController.text;
+          hRegistration=_registrationController.text;
+          hEmail=_emailController.text;
+          hTelephone=_telephoneController.text;
+          hDescription=_descriptionController.text;
+        })
+      }else{
+        setState(() {
+          popUpDialog(context, "Something Went Wrong...", "Update Failed");
+          _hotelNameController.text=hName;
+          _registrationController.text=hRegistration;
+          _emailController.text=hEmail;
+          _telephoneController.text=hTelephone;
+          _descriptionController.text=hDescription;
+        })
+      }
+    });
+  }
+
+  void hotelDetailsEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Edit Profile', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _hotelNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Hotel name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Hotel Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _registrationController,
+                    validator: (val) {
+                      return val.isEmpty || val.length < 4
+                        ? "Registration NO. should be greater than 4"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Registration NO.',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _emailController,
+                    validator: (val) {
+                      return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
+                        ? null
+                        : "Please enter a valid email";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _telephoneController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Telephone',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _descriptionController,
+                    maxLines: 5,
+                    validator: (val) {
+                      return val.isNotEmpty
+                        ? null
+                        : "Please enter a description";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Description to be displayed',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _hotelNameController.text=hName;
+                _registrationController.text=hRegistration;
+                _emailController.text=hEmail;
+                _telephoneController.text=hTelephone;
+                _descriptionController.text=hDescription;
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey1.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getUpdatedHotelData();
+                }
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+          ],
+        );
+      }
+        );
+      }
+    );
+  }
 
   void popUpDialog(BuildContext context, sentence1, sentence2) {
     Widget okButton = TextButton(
@@ -152,6 +339,11 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
 
   void getHotelProfileData(response){
     setState(() {
+      _hotelNameController=new TextEditingController(text: response.data["hotel"]["name"]);
+      _registrationController=new TextEditingController(text: response.data["hotel"]["registration_number"]);
+      _emailController=new TextEditingController(text: response.data["contact"]["email"]);
+      _telephoneController=new TextEditingController(text: response.data["contact"]["telephone"]);
+      _descriptionController=new TextEditingController(text: response.data["hotel"]["description"]);
       hName=response.data["hotel"]["name"];
       hPhoto=response.data["hotel"]["profile_photo"];
       hEmail=response.data["contact"]["email"];
@@ -199,7 +391,9 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              hotelDetailsEditForm(context);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,

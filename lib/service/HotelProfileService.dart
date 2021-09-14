@@ -23,4 +23,9 @@ class HotelProfileService{
     var response = await dio.put('http://10.0.2.2:9092/updateHotelProfilePhoto', data: photoData);
     return response.data;
   }
+
+  Future<int> updateHotelProfileDetails(updatedDetails) async{
+    var response = await dio.put('http://10.0.2.2:9092/updateHotelProfileDetails', data: updatedDetails);
+    return response.data;
+  }
 }
