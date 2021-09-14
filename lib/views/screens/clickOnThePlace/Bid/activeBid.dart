@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/service/BidService.dart';
 import 'package:ceyntra_mobile/views/widgets/BidResponseWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -8,11 +9,85 @@ import 'package:google_fonts/google_fonts.dart';
 class ActiveBid extends StatefulWidget {
   // const ActiveBid({ Key? key }) : super(key: key);
 
+  final Function changeEnablePostButtonState;
+  ActiveBid({this.changeEnablePostButtonState});
+
   @override
   _ActiveBidState createState() => _ActiveBidState();
 }
 
 class _ActiveBidState extends State<ActiveBid> {
+  var activeState = 0;
+  BidService bidService = new BidService();
+  var activeBidDetails;
+  @override
+  void initState() {
+    super.initState();
+    if (this.mounted) {
+      setState(() {
+        print("skjdf");
+        activeState = 0;
+      });
+    }
+
+    print("loaded");
+    bidService.getActiveBidDetails().then((value) {
+      if (this.mounted) {
+        setState(() {
+          activeBidDetails = value;
+          if (value['pick_up_location'] != null) {
+            setState(() {
+              activeState = 1;
+            });
+          }
+
+          // print(value);
+        });
+      }
+    });
+
+    // widget.changeEnablePostButtonState(false);
+    // bidService.getActiveBidDetailsForAddNewBid().then((value) {
+    //   if (value == 1) {
+    //     print("there is active bid");
+    //     activeState = 1;
+    //   } else {
+    //     print("there is no active bid");
+    //     setState(() {
+    //       activeState = 0;
+    //     });
+    //   }
+    // });
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   print("hellooo fuck2");
+  // }
+
+  void popUpDialogWithButtons(
+      BuildContext context, String title, String content, Function yesAction) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(onPressed: yesAction, child: Text("Yes")),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("No"))
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,58 +116,145 @@ class _ActiveBidState extends State<ActiveBid> {
                               borderRadius: BorderRadius.circular(15)),
                           width: MediaQuery.of(context).size.width * 0.9,
                           padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              BidDetailsItem(
-                                title: "* Date",
-                                details: "2013-06-24",
-                              ),
-                              BidDetailsItem(
-                                title: "* Pick Up address",
-                                details: "Kurunegala, Maraluwawa",
-                              ),
-                              BidDetailsItem(
-                                title: "* Drop address",
-                                details: "Kurunegala, Wellawa",
-                              ),
-                              BidDetailsItem(
-                                title: "* No. of passengers",
-                                details: "10",
-                              ),
-                              BidDetailsItem(
-                                title: "* Your price",
-                                details: "Rs. 1876",
-                              ),
-                              BidDetailsItem(
-                                lastElement: true,
-                                title: "* Traveller note",
-                                details:
-                                    "I want to go here and there and it was beatiful and like that. blaa when i see you , in my heart fallen for you",
-                              ),
-                            ],
-                          ),
+                          child: activeState == 1
+                              ? Column(
+                                  children: [
+                                    BidDetailsItem(
+                                      title: "* Date",
+                                      details: activeBidDetails['timestamp']
+                                          .substring(0, 10),
+                                    ),
+                                    BidDetailsItem(
+                                      title: "* Pick Up address",
+                                      details:
+                                          activeBidDetails['pick_up_location'],
+                                    ),
+                                    BidDetailsItem(
+                                      title: "* Drop address",
+                                      details:
+                                          activeBidDetails['drop_location'],
+                                    ),
+                                    BidDetailsItem(
+                                      title: "* No. of passengers",
+                                      details: activeBidDetails[
+                                              'number_of_passengers']
+                                          .toString(),
+                                    ),
+                                    BidDetailsItem(
+                                      title: "* Your price",
+                                      details: "Rs. " +
+                                          activeBidDetails['traveller_price']
+                                              .toString(),
+                                    ),
+                                    BidDetailsItem(
+                                      title: "* Traveller note",
+                                      details:
+                                          activeBidDetails['traveller_note'],
+                                    ),
+                                    Container(
+                                      // color: Colors.red,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.redAccent,
+                                            ),
+                                            onPressed: () {
+                                              popUpDialogWithButtons(
+                                                  context,
+                                                  "Do you want to close Bid?",
+                                                  "", () {
+                                                widget
+                                                    .changeEnablePostButtonState(
+                                                        true);
+
+                                                setState(() {
+                                                  activeState = 0;
+                                                });
+                                                bidService.closeBid(
+                                                    activeBidDetails['bid_id']);
+                                                Navigator.of(context).pop();
+                                              });
+                                            },
+                                            child: Text(
+                                              "Close",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 15,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.green,
+                                            ),
+                                            onPressed: () {
+                                              popUpDialogWithButtons(
+                                                  context,
+                                                  "Do you want to Finish Trip?",
+                                                  "", () {
+                                                widget
+                                                    .changeEnablePostButtonState(
+                                                        true);
+
+                                                setState(() {
+                                                  activeState = 0;
+                                                });
+                                                bidService.finishBid(
+                                                    activeBidDetails['bid_id']);
+                                                Navigator.of(context).pop();
+                                              });
+                                            },
+                                            child: Text(
+                                              "Trip done",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 15,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Center(
+                                  child: Container(
+                                    child: Text(
+                                      "No active Bid",
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+
+                          // CircularProgressIndicator()
                         ),
-                        Positioned(
-                            top: 20,
-                            right: 20,
-                            child: Container(
-                              width: 80,
-                              height: 40,
-                              // margin: EdgeInsets.only(top: 20),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.redAccent,
-                                ),
-                                onPressed: () {},
-                                child: Text(
-                                  "Close",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ))
+                        // Positioned(
+                        //     top: 20,
+                        //     right: 20,
+                        //     child: Container(
+                        //       width: 80,
+                        //       height: 40,
+                        //       // margin: EdgeInsets.only(top: 20),
+                        //       child: ElevatedButton(
+                        //         style: ElevatedButton.styleFrom(
+                        //           primary: Colors.redAccent,
+                        //         ),
+                        //         onPressed: () {},
+                        //         child: Text(
+                        //           "Close",
+                        //           style: GoogleFonts.montserrat(
+                        //               fontSize: 15,
+                        //               color: Colors.white,
+                        //               fontWeight: FontWeight.w600),
+                        //         ),
+                        //       ),
+                        //     ))
                       ],
                     ),
                     GreenTagWidget(

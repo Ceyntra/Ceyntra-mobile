@@ -22,6 +22,24 @@ class ClickOnTheTaxiFeedBid extends StatefulWidget {
 }
 
 class _ClickOnTheTaxiFeedBidState extends State<ClickOnTheTaxiFeedBid> {
+  bool enablePostButton = true;
+
+  void changeEnablePostButtonState(bool state) {
+    setState(() {
+      print("changeEnablePostButtonState");
+      print(state);
+      enablePostButton = state;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    print("kajdsfad");
+    print(enablePostButton);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -70,7 +88,16 @@ class _ClickOnTheTaxiFeedBidState extends State<ClickOnTheTaxiFeedBid> {
           ),
         ),
         body: TabBarView(
-          children: [AddNewBidScree(), ActiveBid(), HistoryBid()],
+          children: [
+            AddNewBidScree(
+              changeEnablePostButtonState: changeEnablePostButtonState,
+              enablePostButtonState: enablePostButton,
+            ),
+            ActiveBid(
+              changeEnablePostButtonState: changeEnablePostButtonState,
+            ),
+            HistoryBid()
+          ],
         ),
       ),
     );
