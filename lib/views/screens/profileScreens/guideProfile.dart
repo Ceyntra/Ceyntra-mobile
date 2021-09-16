@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:ceyntra_mobile/service/GuideProfileService.dart';
-import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
@@ -680,7 +680,7 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaxiHomeScreen()
+                builder: (context) => GuideHomeScreen()
               )
             );
           },
