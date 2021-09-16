@@ -1,12 +1,548 @@
+import 'dart:io';
+
+import 'package:ceyntra_mobile/service/HotelProfileService.dart';
+import 'package:ceyntra_mobile/views/screens/firstPage.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
 import 'package:ceyntra_mobile/views/widgets/dividerWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/profileDetailsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
-class HotelProfileScreen extends StatelessWidget {
+class HotelProfileScreen extends StatefulWidget{
+  @override
+  _HotelProfileScreenState createState() => _HotelProfileScreenState();
+}
 
-  Function deleteAccount(){
+class _HotelProfileScreenState extends State<HotelProfileScreen> {
+  HotelProfileService hotelProfileService=new HotelProfileService();
 
+  int hID=0;
+  String hName="";
+  String hPhoto="";
+  String hEmail="";
+  String hTelephone="";
+  String hDescription;
+  String hRegistration;
+  String hLocation="";
+  double hRating=0.0;
+
+  File _imageFiles;
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+
+  TextEditingController _hotelNameController;
+  TextEditingController _registrationController;
+  TextEditingController _emailController;
+  TextEditingController _telephoneController;
+  TextEditingController _descriptionController;
+
+  TextEditingController _currentPController=new TextEditingController();
+  TextEditingController _newPController=new TextEditingController();
+  TextEditingController _reNewPController=new TextEditingController();
+
+  void successDialog(sentence){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50)
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
   }
+
+  void getHotelPasswordData(){
+    Map<String, dynamic> _passwordDetails = {
+      "userID": hID,
+      "currentPassword": _currentPController.text,
+      "newPassword": _newPController.text,
+    };
+    var changedResult=hotelProfileService.updateHotelPassword(_passwordDetails);
+    changedResult.then((value) => {
+      if (value == 1){
+        successDialog("Password Changed Successfully")
+      }else if(value == 2){
+        popUpDialog(context, "Current Password you entered is incorrect", "Update Failed")
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Update Failed")
+      }
+    });
+    setState(() {
+      _currentPController.text="";
+      _newPController.text="";
+      _reNewPController.text="";
+    });
+  }
+
+  void getUpdatedHotelData(){
+    Map<String, dynamic> _updatedDetails = {
+      "userID": hID,
+      "firstName": _hotelNameController.text,
+      "registrationNo": _registrationController.text,
+      "email": _emailController.text,
+      "contactNumber": _telephoneController.text,
+      "description": _descriptionController.text,
+    };
+    var updatedResults=hotelProfileService.updateHotelProfileDetails(_updatedDetails);
+    updatedResults.then((value) => {
+      if (value == 1){
+        setState(() {
+          successDialog("Profile Updated Successfully");
+          hName=_hotelNameController.text;
+          hRegistration=_registrationController.text;
+          hEmail=_emailController.text;
+          hTelephone=_telephoneController.text;
+          hDescription=_descriptionController.text;
+        })
+      }else{
+        setState(() {
+          popUpDialog(context, "Something Went Wrong...", "Update Failed");
+          _hotelNameController.text=hName;
+          _registrationController.text=hRegistration;
+          _emailController.text=hEmail;
+          _telephoneController.text=hTelephone;
+          _descriptionController.text=hDescription;
+        })
+      }
+    });
+  }
+
+  void hotelPasswordEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Change Password', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: _currentPController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Please enter the current password"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Enter the current password',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: _newPController,
+                    validator: (val){
+                      String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      RegExp regExp = new RegExp(pattern);
+                      return regExp.hasMatch(val)
+                        ? null
+                        : "Please enter a strong password with atleast 8 characters ([a][A][1][!])";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Enter the new password',
+                      errorMaxLines: 2
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    obscureText: true,
+                    style: GoogleFonts.montserrat(),
+                    controller: _reNewPController,
+                    validator: (val) {
+                      return _newPController.text==_reNewPController.text
+                        ? null
+                        : "Does not match with above password";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Re-type the new password',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _currentPController.text="";
+                _newPController.text="";
+                _reNewPController.text="";
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey2.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getHotelPasswordData();
+                }
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+          ],
+        );
+      }
+    );
+  }
+
+  void hotelDetailsEditForm(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Edit Profile', style: GoogleFonts.montserrat()),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: _formKey1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _hotelNameController,
+                    validator: (val) {
+                      return val.isEmpty
+                        ? "Hotel name cannot be empty"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Hotel Name',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _registrationController,
+                    validator: (val) {
+                      return val.isEmpty || val.length < 4
+                        ? "Registration NO. should be greater than 4"
+                        : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Registration NO.',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _emailController,
+                    validator: (val) {
+                      return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)
+                        ? null
+                        : "Please enter a valid email";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _telephoneController,
+                    validator: (val) {
+                      return RegExp(r"^[0-9]*$").hasMatch(val) && val.length > 8
+                        ? null
+                        : "Please enter a valid phone number";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Telephone',
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical:10)),
+
+                  TextFormField(
+                    style: GoogleFonts.montserrat(),
+                    controller: _descriptionController,
+                    maxLines: 5,
+                    validator: (val) {
+                      return val.isNotEmpty
+                        ? null
+                        : "Please enter a description";
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Description to be displayed',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _hotelNameController.text=hName;
+                _registrationController.text=hRegistration;
+                _emailController.text=hEmail;
+                _telephoneController.text=hTelephone;
+                _descriptionController.text=hDescription;
+              }
+            ),
+            ElevatedButton(
+              child: Text("Save Changes", style: GoogleFonts.montserrat()),
+              onPressed: () {
+                if (_formKey1.currentState.validate()) {
+                  Navigator.of(context).pop();
+                  getUpdatedHotelData();
+                }
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+          ],
+        );
+      }
+        );
+      }
+    );
+  }
+
+  void popUpDialog(BuildContext context, sentence1, sentence2) {
+    Widget okButton = TextButton(
+      child: Text("OK", style: GoogleFonts.montserrat()),
+      onPressed: () {
+        Navigator.of(context).pop();  
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(sentence1, style: GoogleFonts.montserrat()),
+      content: Text(sentence2, style: GoogleFonts.montserrat()),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
+  _imgFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoHotel="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=hotelProfileService.updateHotelProfilePhoto(newPhotoHotel, hID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              hPhoto=newPhotoHotel;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        // return;
+        print("no");
+      }
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      _imageFiles = File(pickedFile.path);
+      if(_imageFiles != null){
+        //way to store the image and retreiving the link of it need to be done
+        //here took a dummy link to proceed
+        String newPhotoHotel="https://firebasestorage.googleapis.com/v0/b/ceyntra-project.appspot.com/o/profile_photos%2Fpp.jpg?alt=media&token=03b89c18-f56c-4831-a497-92433a99f42c";
+        var result=hotelProfileService.updateHotelProfilePhoto(newPhotoHotel, hID);
+        result.then((value) => {
+          if (value == 1){
+            setState(() {
+              hPhoto=newPhotoHotel;
+            })
+          }else{
+            popUpDialog(context, "Something Went Wrong...", "Update Failed")
+          }
+        });
+      }else{
+        print("no");
+      }
+    });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_library,
+                    color: Colors.black,
+                  ),
+                  title: Text('Photo Library'),
+                  onTap: () {
+                    _imgFromGallery();
+                    Navigator.of(context).pop();
+                  }
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_camera,
+                    color: Colors.black,
+                  ),
+                  title: Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  void _deleteAccount(){
+    var deleteResult=hotelProfileService.removeHotelAccount(hID);
+    deleteResult.then((value) => {
+      if (value == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FirstPageScreen()),
+        )
+      }else{
+        popUpDialog(context, "Something Went Wrong...", "Account Deletion Failed")
+      }
+    });
+  }
+
+  void _confirmDialog(){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your account permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
+  void getHotelProfileData(response){
+    setState(() {
+      _hotelNameController=new TextEditingController(text: response.data["hotel"]["name"]);
+      _registrationController=new TextEditingController(text: response.data["hotel"]["registration_number"]);
+      _emailController=new TextEditingController(text: response.data["contact"]["email"]);
+      _telephoneController=new TextEditingController(text: response.data["contact"]["telephone"]);
+      _descriptionController=new TextEditingController(text: response.data["hotel"]["description"]);
+      hName=response.data["hotel"]["name"];
+      hPhoto=response.data["hotel"]["profile_photo"];
+      hEmail=response.data["contact"]["email"];
+      hTelephone=response.data["contact"]["telephone"];
+      hDescription=response.data["hotel"]["description"];
+      hRegistration=response.data["hotel"]["registration_number"];
+      hRating=response.data["hotel"]["rating"];
+    });
+  }
+
+  void initState() {
+    super.initState();
+    hotelProfileService.getHotelUsertId().then((value) {
+      setState(() {
+        hID = value;
+      });
+      hotelProfileService.getHotelProfileDetails(getHotelProfileData, hID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,15 +552,27 @@ class HotelProfileScreen extends StatelessWidget {
         brightness: Brightness.dark,
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
-          onTap: null,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HotelHomeScreen()
+              )
+            );
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Center(
-          child: Text('Profile'),
+          child: Text(
+            'Profile',
+            style: GoogleFonts.montserrat(),
+          ),
         ),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              hotelDetailsEditForm(context);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,
@@ -43,12 +591,13 @@ class HotelProfileScreen extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.brown,
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/h2.jpg',
-                    ),
+                    image: hPhoto != ""
+                      ? NetworkImage(hPhoto)
+                      : AssetImage(
+                          'assets/images/nodp.png',
+                        ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,7 +613,9 @@ class HotelProfileScreen extends StatelessWidget {
                         Icons.camera_alt,
                         color: Colors.black,
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        _showPicker(context);
+                      },
                     ),
                   ),
                 ),
@@ -72,22 +623,45 @@ class HotelProfileScreen extends StatelessWidget {
             ),
             
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(bottom: 10),
               child: Text(
-                'Jetwing Hotel',
-                style: TextStyle(
+                '$hName',
+                style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 20,
                 ),
               ),
             ),
-            ProfileDetailsWidget('Registration No.', '975-G53'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$hRating ',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    WidgetSpan(
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                          size: 22
+                        ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+            ProfileDetailsWidget('Registration No.', '$hRegistration'),
             DividerWidget(),
-            ProfileDetailsWidget('Email', 'reservations@jetwinghotels.com'),
+            ProfileDetailsWidget('Email', '$hEmail'),
             DividerWidget(),
-            ProfileDetailsWidget('Phone', '011 6193417'),
+            ProfileDetailsWidget('Phone', '$hTelephone'),
             DividerWidget(),
-            ProfileDetailsWidget('Address', 'Navam Mawatha, Colombo 02'),
+            ProfileDetailsWidget('Description', '$hDescription'),
             DividerWidget(),
             ProfileDetailsWidget('Location', '--'),
             DividerWidget(),
@@ -98,7 +672,28 @@ class HotelProfileScreen extends StatelessWidget {
               width: 300.0,
               height: 40.0,
               child: ElevatedButton(
-                onPressed: deleteAccount,
+                onPressed: () {
+                  hotelPasswordEditForm(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff2d9cdb),
+                  onPrimary: Colors.white,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(15.0),
+                  ),
+                ),
+                child: Text(
+                  'Change Password',
+                  style: GoogleFonts.montserrat(fontSize: 17),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              width: 300.0,
+              height: 40.0,
+              child: ElevatedButton(
+                onPressed: _confirmDialog,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
@@ -108,7 +703,7 @@ class HotelProfileScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Delete account',
-                  style: TextStyle(fontSize: 17),
+                  style: GoogleFonts.montserrat(fontSize: 17),
                 ),
               ),
             ),
