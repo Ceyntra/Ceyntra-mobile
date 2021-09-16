@@ -53,7 +53,9 @@ dependencies:
   geolocator: ^7.0.3
   stomp_dart_client: ^0.4.3
   readmore: 
-  dropdown_formfield: 
+  dropdown_formfield:
+  flutter_pin_code_fields: ^1.1.0
+
 
 dev_dependencies:
   flutter_test:
