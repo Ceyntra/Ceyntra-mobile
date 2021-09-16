@@ -1,8 +1,8 @@
-
 import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ClickedTaxiPackageScreen extends StatefulWidget {
   const ClickedTaxiPackageScreen({Key key, this.taxiId}) : super(key: key);
@@ -56,9 +56,163 @@ class PackageWidget extends StatelessWidget {
   final TaxiPackageModel taxiPackage;
   const PackageWidget({Key key, this.taxiPackage}) : super(key: key);
 
+   void confirmDialog(BuildContext context){
+    AlertDialog alert = AlertDialog(
+      title: Text("Package Details", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Column(
+        children: [
+          taxiPackage.packageName == null
+          ? Column()
+          : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  Text("Package Name"),
+                  Text(taxiPackage.packageName),
+              Column(
+                children: [
+                  taxiPackage.packageDesc == null
+                  ? Column()
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Package Description"),
+                    Text(taxiPackage.packageDesc),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  taxiPackage.fullDayService == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Full Day Service"),
+                      Text("Yes"),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Full Day Service"),
+                    Text("No"),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  taxiPackage.other == false
+                  ? Column()
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Other Facilities"),
+                    Text(taxiPackage.otherFacility),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  taxiPackage.ownRoutine == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Own Routine"),
+                      Text("Yes"),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Own Routine"),
+                    Text("No"),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  taxiPackage.negotiable == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Negotiable"),
+                      Text("Yes"),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Negotiable"),
+                    Text("No"),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              
+              ],
+              ),
+          
+        ],
+      ),
+    
+
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            // deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5,)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        confirmDialog(context);
+      },
+    child: Container(
       height: 250.0,
       margin: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
@@ -185,6 +339,7 @@ class PackageWidget extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
