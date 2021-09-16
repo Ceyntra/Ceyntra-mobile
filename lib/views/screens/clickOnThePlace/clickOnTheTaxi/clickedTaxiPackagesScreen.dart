@@ -61,14 +61,15 @@ class PackageWidget extends StatelessWidget {
       title: Text("Package Details", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
       titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       content: Column(
-        children: [
+        children:[
           taxiPackage.packageName == null
           ? Column()
           : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  Text("Package Name"),
+                  Text("Package Name",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                   Text(taxiPackage.packageName),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Column(
                 children: [
                   taxiPackage.packageDesc == null
@@ -76,9 +77,11 @@ class PackageWidget extends StatelessWidget {
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Package Description"),
+                    Text("Package Description",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text(taxiPackage.packageDesc),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
+                    
                   ),
                     
                 ],                
@@ -91,15 +94,17 @@ class PackageWidget extends StatelessWidget {
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Full Day Service"),
+                      Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                       Text("Yes"),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Full Day Service"),
+                    Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text("No"),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
                     
@@ -114,8 +119,9 @@ class PackageWidget extends StatelessWidget {
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Other Facilities"),
+                    Text("Other Facilities",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text(taxiPackage.otherFacility),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
                     
@@ -129,15 +135,17 @@ class PackageWidget extends StatelessWidget {
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Own Routine"),
+                      Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                       Text("Yes"),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Own Routine"),
+                    Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text("No"),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
                     
@@ -151,15 +159,17 @@ class PackageWidget extends StatelessWidget {
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Negotiable"),
+                      Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                       Text("Yes"),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Negotiable"),
+                    Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text("No"),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
                     
@@ -182,7 +192,7 @@ class PackageWidget extends StatelessWidget {
           }
         ),
         ElevatedButton(
-          child: Text("OK", style: GoogleFonts.montserrat()),
+          child: Text("Hire", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
             // deleteAccount();
