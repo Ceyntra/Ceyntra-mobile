@@ -6,23 +6,29 @@ import 'package:google_fonts/google_fonts.dart';
 class BidResponseWidget extends StatelessWidget {
   // const BidResponseWidget({ Key? key }) : super(key: key);
   final String comment;
-  final String profile_photo;
+  final String profilePhoto;
   final String firstName;
   final String secondeName;
   final double rating;
   final String date;
+  final int bidId;
+  final int taxiId;
+  final Function refresh;
 
   BidResponseWidget(
       {this.comment,
       this.date,
       this.firstName,
-      this.profile_photo,
+      this.profilePhoto,
       this.rating,
-      this.secondeName});
+      this.secondeName,
+      this.bidId,
+      this.taxiId,
+      this.refresh});
 
   @override
   Widget build(BuildContext context) {
-    var rateDate = date.substring(0, 10);
+    // var rateDate = date.substring(0, 10);
     return Container(
       // height: 50,
       // color: Colors.amber,
@@ -46,8 +52,8 @@ class BidResponseWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: profile_photo != null
-                              ? NetworkImage(profile_photo)
+                          image: profilePhoto != null
+                              ? NetworkImage(profilePhoto)
                               : AssetImage("assets/images/notFound.jpg"))),
                 ),
                 Container(
@@ -71,13 +77,13 @@ class BidResponseWidget extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              rateDate,
-                              style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                color: Colors.grey,
-                              ),
-                            ),
+                            // Text(
+                            //   rateDate,
+                            //   style: GoogleFonts.montserrat(
+                            //     fontSize: 15,
+                            //     color: Colors.grey,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

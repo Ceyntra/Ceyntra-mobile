@@ -18,6 +18,9 @@ class ActiveBid extends StatefulWidget {
 
 class _ActiveBidState extends State<ActiveBid> {
   var activeState = 0;
+  var bidResponses = [];
+  var choosenDriver;
+  int test = 0;
   BidService bidService = new BidService();
   var activeBidDetails;
   @override
@@ -25,12 +28,10 @@ class _ActiveBidState extends State<ActiveBid> {
     super.initState();
     if (this.mounted) {
       setState(() {
-        print("skjdf");
         activeState = 0;
       });
     }
 
-    print("loaded");
     bidService.getActiveBidDetails().then((value) {
       if (this.mounted) {
         setState(() {
@@ -39,32 +40,31 @@ class _ActiveBidState extends State<ActiveBid> {
             setState(() {
               activeState = 1;
             });
+
+            bidService.findCAcceptedTaxiDriver(value['bid_id']).then((value1) {
+              setState(() {
+                test = value1["taxiDriverDetails"]["taxi_driver_id"];
+                choosenDriver = value1;
+              });
+            });
+
+            bidService.getBidResponses(value['bid_id']).then((value2) {
+              print(value2);
+              setState(() {
+                bidResponses = value2;
+              });
+            });
           }
 
           // print(value);
         });
       }
     });
-
-    // widget.changeEnablePostButtonState(false);
-    // bidService.getActiveBidDetailsForAddNewBid().then((value) {
-    //   if (value == 1) {
-    //     print("there is active bid");
-    //     activeState = 1;
-    //   } else {
-    //     print("there is no active bid");
-    //     setState(() {
-    //       activeState = 0;
-    //     });
-    //   }
-    // });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   print("hellooo fuck2");
-  // }
+  void refreshActiveBidScreen() {
+    print("refresh");
+  }
 
   void popUpDialogWithButtons(
       BuildContext context, String title, String content, Function yesAction) {
@@ -199,11 +199,16 @@ class _ActiveBidState extends State<ActiveBid> {
                                                     .changeEnablePostButtonState(
                                                         true);
 
-                                                setState(() {
-                                                  activeState = 0;
+                                                bidService
+                                                    .finishBid(activeBidDetails[
+                                                        'bid_id'])
+                                                    .then((value) {
+                                                  if (value == 1) {
+                                                    setState(() {
+                                                      activeState = 0;
+                                                    });
+                                                  }
                                                 });
-                                                bidService.finishBid(
-                                                    activeBidDetails['bid_id']);
                                                 Navigator.of(context).pop();
                                               });
                                             },
@@ -260,30 +265,48 @@ class _ActiveBidState extends State<ActiveBid> {
                     GreenTagWidget(
                       title: "Response for Bid",
                     ),
-                    BidResponseWidget(
-                      comment:
-                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
-                      date: "2013-04-05",
-                      firstName: "Shehan",
-                      rating: 4.6,
-                      secondeName: "Sandeepa",
-                    ),
-                    BidResponseWidget(
-                      comment:
-                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
-                      date: "2013-04-05",
-                      firstName: "Shehan",
-                      rating: 4.6,
-                      secondeName: "Sandeepa",
-                    ),
-                    BidResponseWidget(
-                      comment:
-                          "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
-                      date: "2013-04-05",
-                      firstName: "Shehan",
-                      rating: 4.6,
-                      secondeName: "Sandeepa",
-                    ),
+                    test != 0
+                        ? Container(
+                            width: 100,
+                            height: 20,
+                            color: Colors.amber,
+                          )
+                        : Container(
+                            child: Column(
+                              children: bidResponses.length != 0
+                                  ? bidService.loadBidResponses(
+                                      context,
+                                      bidResponses,
+                                      activeBidDetails['bid_id'],
+                                      refreshActiveBidScreen)
+                                  : [
+                                      BidResponseWidget(
+                                        comment:
+                                            "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
+                                        date: "2013-04-05",
+                                        firstName: "Shehan",
+                                        rating: 4.6,
+                                        secondeName: "Sandeepa",
+                                      ),
+                                      BidResponseWidget(
+                                        comment:
+                                            "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
+                                        date: "2013-04-05",
+                                        firstName: "Shehan",
+                                        rating: 4.6,
+                                        secondeName: "Sandeepa",
+                                      ),
+                                      BidResponseWidget(
+                                        comment:
+                                            "helloo i like your offer, you can contact me here if you can , that is the best service so far, when i addict to to it it would be marvolus",
+                                        date: "2013-04-05",
+                                        firstName: "Shehan",
+                                        rating: 4.6,
+                                        secondeName: "Sandeepa",
+                                      ),
+                                    ],
+                            ),
+                          ),
                     SizedBox(
                       height: 200,
                     )
