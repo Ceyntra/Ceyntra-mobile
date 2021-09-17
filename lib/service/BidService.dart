@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/AvailableBidWidget.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/ConfirmedBidWidget.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/HistoryBidWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/BidResponseWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
@@ -137,11 +138,46 @@ class BidService {
     });
   }
 
+  Future<dynamic> taxiDriverEndTrip(int bidId) async {
+    return getUsertId().then((value) async {
+      Map<String, int> details = {"taxi_driver_id": value, "bid_id": bidId};
+      var response = await dio.post('http://10.0.2.2:9092/taxiDriverEndTrip',
+          data: details);
+      return response.data;
+    });
+  }
+
+  Future<dynamic> bidConfirmationNotification() async {
+    return getUsertId().then((value) async {
+      var response = await dio
+          .get('http://10.0.2.2:9092/bidConfirmationNotification/$value');
+      return response.data;
+    });
+  }
+
   List<Widget> loadAvailableBids(BuildContext context, pageData, refreshPage) {
     final items = List<Widget>.generate(
       pageData.length,
       (index) => AvailableBidWidget(
         refresh: refreshPage,
+        bidId: pageData[index]['bid_id'],
+        date: pageData[index]['timestamp'],
+        dropAddress: pageData[index]['drop_location'],
+        noOfPassengers: pageData[index]['number_of_passengers'],
+        pickUpAddress: pageData[index]['pick_up_location'],
+        travellerNote: pageData[index]['traveller_note'],
+        yourPrice: pageData[index]['traveller_price'],
+      ),
+    );
+    return items;
+  }
+
+  List<Widget> loadConfirmedBids(BuildContext context, pageData, refreshPage) {
+    final items = List<Widget>.generate(
+      pageData.length,
+      (index) => ConfirmedBidWidget(
+        refresh: refreshPage,
+        pickUpTime: pageData[index]['pick_up_time'],
         bidId: pageData[index]['bid_id'],
         date: pageData[index]['timestamp'],
         dropAddress: pageData[index]['drop_location'],
