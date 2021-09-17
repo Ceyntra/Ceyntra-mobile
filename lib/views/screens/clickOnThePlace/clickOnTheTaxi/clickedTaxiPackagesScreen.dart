@@ -58,10 +58,12 @@ class PackageWidget extends StatelessWidget {
 
    void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
+      scrollable: true,
       backgroundColor: Colors.blueGrey.shade800,
       title: Text("Package Details",style:TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),textAlign: TextAlign.center),
       titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children:[
           taxiPackage.packageName == null
           ? Row()
@@ -183,6 +185,7 @@ class PackageWidget extends StatelessWidget {
           
         ],
       ),
+      
       actions: [
         ElevatedButton(
           child: Text("Cancel", style: GoogleFonts.montserrat()),
@@ -207,7 +210,7 @@ class PackageWidget extends StatelessWidget {
 
     showDialog(
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.9),
+      barrierColor: Colors.black.withOpacity(0.8),
       context: context,
       builder: (BuildContext context) {
         return alert;
