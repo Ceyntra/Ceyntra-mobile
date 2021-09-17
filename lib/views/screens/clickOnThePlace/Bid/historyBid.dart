@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/service/BidService.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'activeBid.dart';
 
@@ -67,91 +68,19 @@ class _HistoryBidState extends State<HistoryBid> {
                 ? bidService.loadHistory(context, historyBidList)
                 : [
                     Container(
-                      margin: EdgeInsets.only(top: 20),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.blueAccent, width: 1),
-                          color: Colors.black.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(15)),
                       width: MediaQuery.of(context).size.width * 0.9,
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          BidDetailsItem(
-                            title: "* Date",
-                            details: "2013-06-24",
-                          ),
-                          BidDetailsItem(
-                            title: "* Pick Up address",
-                            details: "Kurunegala, Maraluwawa",
-                          ),
-                          BidDetailsItem(
-                            title: "* Drop address",
-                            details: "Kurunegala, Wellawa",
-                          ),
-                          BidDetailsItem(
-                            title: "* No. of passengers",
-                            details: "10",
-                          ),
-                          BidDetailsItem(
-                            title: "* Your price",
-                            details: "Rs. 1876",
-                          ),
-                          BidDetailsItem(
-                            title: "* Traveller note",
-                            details:
-                                "I want to go here and there and it was beatiful and like that. blaa when i see you , in my heart fallen for you",
-                          ),
-                          BidDetailsItem(
-                            lastElement: true,
-                            title: "* Taxi driver details",
-                            details: "Kasun rashmika, 0710157140",
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
                       margin: EdgeInsets.only(top: 20),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.blueAccent, width: 1),
-                          color: Colors.black.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(15)),
-                      width: MediaQuery.of(context).size.width * 0.9,
                       padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          BidDetailsItem(
-                            title: "* Date",
-                            details: "2013-06-24",
-                          ),
-                          BidDetailsItem(
-                            title: "* Pick Up address",
-                            details: "Kurunegala, Maraluwawa",
-                          ),
-                          BidDetailsItem(
-                            title: "* Drop address",
-                            details: "Kurunegala, Wellawa",
-                          ),
-                          BidDetailsItem(
-                            title: "* No. of passengers",
-                            details: "10",
-                          ),
-                          BidDetailsItem(
-                            title: "* Your price",
-                            details: "Rs. 1876",
-                          ),
-                          BidDetailsItem(
-                            title: "* Traveller note",
-                            details:
-                                "I want to go here and there and it was beatiful and like that. blaa when i see you , in my heart fallen for you",
-                          ),
-                          BidDetailsItem(
-                            lastElement: true,
-                            title: "* Taxi driver details",
-                            details: "Kasun rashmika, 0710157140",
-                          )
-                        ],
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 1),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                        child: Text("No history",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white.withOpacity(0.9),
+                            )),
                       ),
                     )
                   ],

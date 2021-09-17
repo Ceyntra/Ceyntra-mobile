@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/service/BidService.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -25,6 +26,52 @@ class BidResponseWidget extends StatelessWidget {
       this.bidId,
       this.taxiId,
       this.refresh});
+
+  BidService bidService = new BidService();
+
+  void popUpDialogWithButtons(
+      BuildContext context, String title, String content, Function yesAction) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(onPressed: yesAction, child: Text("Yes")),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("No"))
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
+  void popUpDialogWithOneButton(
+      BuildContext context, String title, String content) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              refresh();
+            },
+            child: Text("Ok"))
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +207,19 @@ class BidResponseWidget extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.green,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      popUpDialogWithButtons(
+                          context, "Do you want to accept response?", "", () {
+                        bidService
+                            .travellerAcceptBidResponse(bidId, taxiId)
+                            .then((value) {
+                          if (value == "updated") {
+                            Navigator.of(context).pop();
+                            refresh();
+                          }
+                        });
+                      });
+                    },
                     child: Text(
                       "Accept",
                       style: GoogleFonts.montserrat(
@@ -181,7 +240,20 @@ class BidResponseWidget extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.redAccent,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      popUpDialogWithButtons(
+                          context, "Do you want to reject response?", "", () {
+                        bidService
+                            .travellerRejectBidResponse(bidId, taxiId)
+                            .then((value) {
+                          print(value);
+                          if (value == 1) {
+                            Navigator.of(context).pop();
+                            refresh();
+                          }
+                        });
+                      });
+                    },
                     child: Text(
                       "Reject",
                       style: GoogleFonts.montserrat(
