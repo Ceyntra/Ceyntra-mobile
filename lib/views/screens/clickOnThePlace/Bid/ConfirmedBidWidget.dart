@@ -13,9 +13,11 @@ class ConfirmedBidWidget extends StatefulWidget {
   final String travellerNote;
   final Function refresh;
   final int bidId;
+  final String contactNumber;
 
   const ConfirmedBidWidget(
       {this.date,
+      this.contactNumber,
       this.pickUpTime,
       this.dropAddress,
       this.noOfPassengers,
@@ -118,7 +120,7 @@ class _ConfirmedBidWidgetState extends State<ConfirmedBidWidget> {
           ),
           BidDetailsItem(
             title: "* Bid publishedDate",
-            details: widget.date,
+            details: widget.date != null ? widget.date.substring(0, 10) : "",
           ),
           BidDetailsItem(
             title: "* Pick Up date and time",
@@ -143,6 +145,10 @@ class _ConfirmedBidWidgetState extends State<ConfirmedBidWidget> {
           BidDetailsItem(
             title: "* Traveller note",
             details: widget.travellerNote.toString(),
+          ),
+          BidDetailsItem(
+            title: "* Traveller Contact number",
+            details: widget.contactNumber,
           ),
 
           SizedBox(

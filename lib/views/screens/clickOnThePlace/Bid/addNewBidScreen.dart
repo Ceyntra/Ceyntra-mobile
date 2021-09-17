@@ -92,6 +92,13 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
     var alert = AlertDialog(
       title: Text(title),
       content: Text(content),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Ok")),
+      ],
     );
 
     showDialog(
@@ -118,7 +125,7 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
                     width: MediaQuery.of(context).size.width * 0.95,
                     margin: EdgeInsets.only(bottom: 10),
                     child: Text(
-                      "Pick Up time",
+                      "Pick Up Date and time",
                       style: GoogleFonts.montserrat(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -150,7 +157,7 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
                               style: BorderStyle.none,
                             ),
                           ),
-                          hintText: 'Pick up time',
+                          hintText: 'Pick up date and time',
                           hintStyle: GoogleFonts.montserrat(
                               color: Colors.grey,
                               fontSize: 15,

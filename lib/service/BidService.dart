@@ -89,6 +89,7 @@ class BidService {
     final items = List<Widget>.generate(
       pageData.length,
       (index) => HistoryBidWidget(
+        pickUpdateAndTime: pageData[index]['pick_up_time'],
         date: pageData[index]['timestamp'],
         dropAddress: pageData[index]['drop_location'],
         noOfPassengers: pageData[index]['number_of_passengers'],
@@ -176,15 +177,16 @@ class BidService {
     final items = List<Widget>.generate(
       pageData.length,
       (index) => ConfirmedBidWidget(
+        contactNumber: pageData[index]['contactNumberTraveller'],
         refresh: refreshPage,
-        pickUpTime: pageData[index]['pick_up_time'],
-        bidId: pageData[index]['bid_id'],
-        date: pageData[index]['timestamp'],
-        dropAddress: pageData[index]['drop_location'],
-        noOfPassengers: pageData[index]['number_of_passengers'],
-        pickUpAddress: pageData[index]['pick_up_location'],
-        travellerNote: pageData[index]['traveller_note'],
-        yourPrice: pageData[index]['traveller_price'],
+        pickUpTime: pageData[index]['bidDetails']['pick_up_time'],
+        bidId: pageData[index]['bidDetails']['bid_id'],
+        date: pageData[index]['bidDetails']['timestamp'],
+        dropAddress: pageData[index]['bidDetails']['drop_location'],
+        noOfPassengers: pageData[index]['bidDetails']['number_of_passengers'],
+        pickUpAddress: pageData[index]['bidDetails']['pick_up_location'],
+        travellerNote: pageData[index]['bidDetails']['traveller_note'],
+        yourPrice: pageData[index]['bidDetails']['traveller_price'],
       ),
     );
     return items;

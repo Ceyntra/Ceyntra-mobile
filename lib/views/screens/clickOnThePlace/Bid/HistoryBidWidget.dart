@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class HistoryBidWidget extends StatelessWidget {
   final String date;
+  final String pickUpdateAndTime;
   final String pickUpAddress;
   final String dropAddress;
   final int noOfPassengers;
@@ -12,6 +13,7 @@ class HistoryBidWidget extends StatelessWidget {
 
   const HistoryBidWidget(
       {this.date,
+      this.pickUpdateAndTime,
       this.dropAddress,
       this.noOfPassengers,
       this.pickUpAddress,
@@ -31,8 +33,12 @@ class HistoryBidWidget extends StatelessWidget {
       child: Column(
         children: [
           BidDetailsItem(
-            title: "* Date",
-            details: date,
+            title: "* Bid published Date",
+            details: date != null ? date.substring(0, 10) : "",
+          ),
+          BidDetailsItem(
+            title: "* Pickup date and time",
+            details: pickUpdateAndTime,
           ),
           BidDetailsItem(
             title: "* Pick Up address",
