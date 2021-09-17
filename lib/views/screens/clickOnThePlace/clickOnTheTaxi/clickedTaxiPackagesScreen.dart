@@ -58,27 +58,28 @@ class PackageWidget extends StatelessWidget {
 
    void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
-      title: Text("Package Details", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      backgroundColor: Colors.blueGrey.shade800,
+      title: Text("Package Details",style:TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),textAlign: TextAlign.center),
       titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       content: Column(
         children:[
           taxiPackage.packageName == null
-          ? Column()
+          ? Row()
           : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                   Text("Package Name",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                  Text(taxiPackage.packageName),
+                  Text(taxiPackage.packageName,style: TextStyle(color: Colors.white)),
                   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Column(
                 children: [
                   taxiPackage.packageDesc == null
-                  ? Column()
+                  ? Row()
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Package Description",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(taxiPackage.packageDesc),
+                    Text(taxiPackage.packageDesc,style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                     
@@ -95,7 +96,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                      Text("Yes"),
+                      Text("Yes",style: TextStyle(color: Colors.white)),
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
@@ -103,7 +104,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text("No"),
+                    Text("No",style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
@@ -120,7 +121,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Other Facilities",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(taxiPackage.otherFacility),
+                    Text(taxiPackage.otherFacility,style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
@@ -136,7 +137,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                      Text("Yes"),
+                      Text("Yes",style: TextStyle(color: Colors.white)),
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
@@ -144,7 +145,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text("No"),
+                    Text("No",style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
@@ -160,7 +161,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                      Text("Yes"),
+                      Text("Yes",style: TextStyle(color: Colors.white)),
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   )
@@ -168,7 +169,7 @@ class PackageWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text("No"),
+                    Text("No",style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
@@ -182,8 +183,6 @@ class PackageWidget extends StatelessWidget {
           
         ],
       ),
-    
-
       actions: [
         ElevatedButton(
           child: Text("Cancel", style: GoogleFonts.montserrat()),
