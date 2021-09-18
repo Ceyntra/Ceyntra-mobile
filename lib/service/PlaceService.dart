@@ -44,7 +44,6 @@ class PlaceService {
         data: currentLocation);
 
     if (response != null) {
-      print("inner");
       var id = response.data[0]['place_id'];
       var response2 =
           await dio.get("http://10.0.2.2:9092/getTopPlacePhotos/$id");
@@ -86,25 +85,29 @@ class PlaceService {
     setPlaceList(response.data);
   }
 
-  // List<Widget> loadNearMePlaces(BuildContext context) {
-  //   final items = List<Widget>.generate(
-  //     placeList.length,
-  //     (index) => FeedPlaceWidget(
-  //       placeId: placeList[index]['place_id'],
-  //       latitude: placeList[index]['latitude'],
-  //       longitude: placeList[index]['longitude'],
-  //       imagePath: placeList[index]['photo'],
-  //       placeName: placeList[index]['place_name'],
-  //       votes: placeList[index]['number_of_votes'],
-  //       rating: placeList[index]['rating'],
-  //       description: placeList[index]['description'],
-  //       changeMainFeedStateState: widget.changeMainFeedStateState,
-  //       setClickedPlace: widget.setClickedPlace,
-  //       setNullClickedOnThePlaceState: widget.setNullClickedOnThePlaceState,
-  //     ),
-  //   );
-  //   return items;
-  // }
+  Future<dynamic> loadPlaceListForSearchDropDown() async {
+    var list = [];
+    Map<String, double> currentLocation = {
+      "latitude": 7.9573,
+      "longitude": 80.7600
+    };
+
+    var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
+        data: currentLocation);
+
+    for (int i = 0; i < response.data.length; i++) {
+      list.add(response.data[i]["place_name"].toString());
+    }
+
+    return list;
+  }
+
+  Future<dynamic> getPlaceByPlaceName(placeName) async {
+    var response =
+        await dio.get("http://10.0.2.2:9092/getPlaceByPlaceName/$placeName");
+
+    return response.data;
+  }
 
   List<Widget> loadNearMePlaces(
       BuildContext context,
