@@ -1,33 +1,35 @@
-import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
+
+import 'package:ceyntra_mobile/models/GuidePackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ClickedHotelPackagesScreen extends StatefulWidget {
- const ClickedHotelPackagesScreen({ Key key,@required this.hotelId }) : super(key: key);
+class ClickedGuidePackagesScreen extends StatefulWidget {
+  const ClickedGuidePackagesScreen({Key key, this.guideId}) : super(key: key);
 
- final int hotelId;
+  final int guideId;
 
   @override
-  _ClickedHotelPackagesScreenState createState() =>
-      _ClickedHotelPackagesScreenState();
+  _ClickedGuidePackagesScreenState createState() => _ClickedGuidePackagesScreenState();
 }
 
-class _ClickedHotelPackagesScreenState
-    extends State<ClickedHotelPackagesScreen> {
+class _ClickedGuidePackagesScreenState extends State<ClickedGuidePackagesScreen> {
 
-  List<HotelPackageModel> packages=[];
+  List<GuidePackageModel> packages=[];
 
   Future<void> loadPackages() async {
     PackageService packageService=new PackageService();
 
-    List<HotelPackageModel> pkgs;
-    pkgs=await packageService.loadHotelPackages(widget.hotelId);
+    List<GuidePackageModel> pkgs;
+    pkgs=await packageService.loadGuidePackages(widget.guideId);
 
     setState(() {
       packages=pkgs;
     });
+
+    print("Guide pkg");
+    print(widget.guideId);
 
   }
 
@@ -38,25 +40,25 @@ class _ClickedHotelPackagesScreenState
     loadPackages();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: packages.length,
-      itemBuilder: (context,index) => PackageWidget(hotelPackage: packages[index]),
+      itemBuilder: (context,index) => PackageWidget(guidePackage: packages[index]),
     );
   }
 }
 
 
-
 class PackageWidget extends StatelessWidget {
 
-  final HotelPackageModel hotelPackage;
-  const PackageWidget({Key key, this.hotelPackage}) : super(key: key);
+  final GuidePackageModel guidePackage;
+  const PackageWidget({Key key, this.guidePackage}) : super(key: key);
 
- void confirmDialog(BuildContext context){
+  void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
       scrollable: true,
       backgroundColor: Colors.blueGrey.shade800,
@@ -65,23 +67,23 @@ class PackageWidget extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children:[
-          hotelPackage.packageName == null
+          guidePackage.packageName == null
           ? Row()
           : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                   Text("Package Name",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                  Text(hotelPackage.packageName,style: TextStyle(color: Colors.white)),
+                  Text(guidePackage.packageName,style: TextStyle(color: Colors.white)),
                   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Column(
                 children: [
-                  hotelPackage.packageDesc == null
+                 guidePackage.packageDesc == null
                   ? Row()
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Package Description",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(hotelPackage.packageDesc,style: TextStyle(color: Colors.white)),
+                    Text(guidePackage.packageDesc,style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                     
@@ -93,48 +95,7 @@ class PackageWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hotelPackage.withAC == true
-                  ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("With A/C",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                      Text("Yes",style: TextStyle(color: Colors.white)),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    ],
-                  )
-                  :Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text("With A/C",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text("No",style: TextStyle(color: Colors.white)),
-                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    ],
-                  ),
-                    
-                ],                
-                  
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  hotelPackage.other == false
-                  ? Column()
-                  :Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text("Other Facilities",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(hotelPackage.otherFacility,style: TextStyle(color: Colors.white)),
-                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    ],
-                  ),
-                    
-                ],                
-                  
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  hotelPackage.negotiable == true
+                  guidePackage.negotiable == true
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -155,6 +116,7 @@ class PackageWidget extends StatelessWidget {
                 ],                
                   
               ),
+                       
                           
               ],
               ),
@@ -170,7 +132,7 @@ class PackageWidget extends StatelessWidget {
           }
         ),
         ElevatedButton(
-          child: Text("Book now", style: GoogleFonts.montserrat()),
+          child: Text("Hire", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
             // deleteAccount();
@@ -193,14 +155,13 @@ class PackageWidget extends StatelessWidget {
       }
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+        onTap: () {
         confirmDialog(context);
       },
-    child:Container(
+      child: Container(
       height: 250.0,
       margin: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
@@ -221,7 +182,7 @@ class PackageWidget extends StatelessWidget {
                   topRight:Radius.circular(15),
                 ),
                 image: DecorationImage(
-                    image: NetworkImage(hotelPackage.imageURL),
+                    image: NetworkImage(guidePackage.imageURL),
                     fit: BoxFit.fitWidth)
             ),
           ),
@@ -238,42 +199,28 @@ class PackageWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${hotelPackage.roomCapacity} Persons',
+                          '${guidePackage.groupCapacity} Persons',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),
 
-                        if(hotelPackage.withAC) ...[
-                          Text(
-                            'Air Condition',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
+                        Text(
+                          '${guidePackage.places}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
                           ),
-                        ],
+                        ),
+                        Text(
+                          '${guidePackage.language}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
 
-                        if(hotelPackage.meal) ...[
-                          Text(
-                            'With Meal',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-
-                        if(hotelPackage.swimPool) ...[
-                          Text(
-                            'Swim Pool',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),
@@ -296,7 +243,7 @@ class PackageWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${hotelPackage.price} LKR',
+                            '${guidePackage.price} LKR',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -310,7 +257,7 @@ class PackageWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            hotelPackage.perDay? 'Per day' : 'Per Pkg',
+                            guidePackage.perDay? 'Per day' : 'Per tour',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 15,
@@ -326,9 +273,10 @@ class PackageWidget extends StatelessWidget {
           ),
         ],
       ),
-    ),
+      ),
     );
   }
 }
+
 
 

@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
+import 'package:ceyntra_mobile/views/screens/forgetPassword/fogetPasswordScreen.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,7 +10,8 @@ import '../../auth.dart';
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key? key}) : super(key: key);
   final String isCreated;
-  LoginScreen({this.isCreated});
+  final String passwordReset;
+  LoginScreen({this.isCreated, this.passwordReset, });
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -57,6 +59,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+
+              widget.passwordReset != null
+                  ? Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                  bottom: 20.0,
+                ),
+                child: Text(
+                  "Password reset success!.",
+                  style: GoogleFonts.montserrat(
+                    color: Colors.green,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              )
+                  : Container(),
 
               widget.isCreated != null
                   ? Container(
@@ -250,12 +269,20 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.only(right: 20.0, top: 5.0),
-                child: Text(
-                  "Forgot password?",
-                  style: GoogleFonts.montserrat(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 12.0),
+                child: InkWell(
+                  child: Text(
+                    "Forgot password?",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12.0),
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgetPassword()));
+                  },
                 ),
               ),
 

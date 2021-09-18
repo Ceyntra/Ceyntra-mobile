@@ -1,33 +1,34 @@
-import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
+import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ClickedHotelPackagesScreen extends StatefulWidget {
- const ClickedHotelPackagesScreen({ Key key,@required this.hotelId }) : super(key: key);
+class ClickedTaxiPackageScreen extends StatefulWidget {
+  const ClickedTaxiPackageScreen({Key key, this.taxiId}) : super(key: key);
 
- final int hotelId;
+  final int taxiId;
 
   @override
-  _ClickedHotelPackagesScreenState createState() =>
-      _ClickedHotelPackagesScreenState();
+  _ClickedTaxiPackageScreenState createState() => _ClickedTaxiPackageScreenState();
 }
 
-class _ClickedHotelPackagesScreenState
-    extends State<ClickedHotelPackagesScreen> {
+class _ClickedTaxiPackageScreenState extends State<ClickedTaxiPackageScreen> {
 
-  List<HotelPackageModel> packages=[];
+  List<TaxiPackageModel> packages=[];
 
   Future<void> loadPackages() async {
     PackageService packageService=new PackageService();
 
-    List<HotelPackageModel> pkgs;
-    pkgs=await packageService.loadHotelPackages(widget.hotelId);
+    List<TaxiPackageModel> pkgs;
+    pkgs=await packageService.loadTaxiPackages(widget.taxiId);
 
     setState(() {
       packages=pkgs;
     });
+
+    print("Taxi id");
+    print(widget.taxiId);
 
   }
 
@@ -44,19 +45,18 @@ class _ClickedHotelPackagesScreenState
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: packages.length,
-      itemBuilder: (context,index) => PackageWidget(hotelPackage: packages[index]),
+      itemBuilder: (context,index) => PackageWidget(taxiPackage: packages[index]),
     );
   }
 }
 
 
-
 class PackageWidget extends StatelessWidget {
 
-  final HotelPackageModel hotelPackage;
-  const PackageWidget({Key key, this.hotelPackage}) : super(key: key);
+  final TaxiPackageModel taxiPackage;
+  const PackageWidget({Key key, this.taxiPackage}) : super(key: key);
 
- void confirmDialog(BuildContext context){
+   void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
       scrollable: true,
       backgroundColor: Colors.blueGrey.shade800,
@@ -65,23 +65,23 @@ class PackageWidget extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children:[
-          hotelPackage.packageName == null
+          taxiPackage.packageName == null
           ? Row()
           : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                   Text("Package Name",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                  Text(hotelPackage.packageName,style: TextStyle(color: Colors.white)),
+                  Text(taxiPackage.packageName,style: TextStyle(color: Colors.white)),
                   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Column(
                 children: [
-                  hotelPackage.packageDesc == null
+                  taxiPackage.packageDesc == null
                   ? Row()
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Package Description",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(hotelPackage.packageDesc,style: TextStyle(color: Colors.white)),
+                    Text(taxiPackage.packageDesc,style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                     
@@ -93,11 +93,11 @@ class PackageWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hotelPackage.withAC == true
+                  taxiPackage.fullDayService == true
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("With A/C",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                      Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                       Text("Yes",style: TextStyle(color: Colors.white)),
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
@@ -105,7 +105,7 @@ class PackageWidget extends StatelessWidget {
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("With A/C",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text("Full Day Service",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                     Text("No",style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
@@ -117,13 +117,13 @@ class PackageWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hotelPackage.other == false
+                  taxiPackage.other == false
                   ? Column()
                   :Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Other Facilities",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    Text(hotelPackage.otherFacility,style: TextStyle(color: Colors.white)),
+                    Text(taxiPackage.otherFacility,style: TextStyle(color: Colors.white)),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     ],
                   ),
@@ -134,7 +134,31 @@ class PackageWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hotelPackage.negotiable == true
+                  taxiPackage.ownRoutine == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                      Text("Yes",style: TextStyle(color: Colors.white)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Own Routine",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text("No",style: TextStyle(color: Colors.white)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  taxiPackage.negotiable == true
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -155,7 +179,7 @@ class PackageWidget extends StatelessWidget {
                 ],                
                   
               ),
-                          
+              
               ],
               ),
           
@@ -170,7 +194,7 @@ class PackageWidget extends StatelessWidget {
           }
         ),
         ElevatedButton(
-          child: Text("Book now", style: GoogleFonts.montserrat()),
+          child: Text("Hire", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
             // deleteAccount();
@@ -200,7 +224,7 @@ class PackageWidget extends StatelessWidget {
       onTap: () {
         confirmDialog(context);
       },
-    child:Container(
+    child: Container(
       height: 250.0,
       margin: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
@@ -221,7 +245,7 @@ class PackageWidget extends StatelessWidget {
                   topRight:Radius.circular(15),
                 ),
                 image: DecorationImage(
-                    image: NetworkImage(hotelPackage.imageURL),
+                    image: NetworkImage(taxiPackage.imageURL),
                     fit: BoxFit.fitWidth)
             ),
           ),
@@ -238,16 +262,16 @@ class PackageWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${hotelPackage.roomCapacity} Persons',
+                          '${taxiPackage.numberOfPassengers} Persons',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),
 
-                        if(hotelPackage.withAC) ...[
+                        if(taxiPackage.withDriver) ...[
                           Text(
-                            'Air Condition',
+                            'With Driver',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
@@ -255,9 +279,9 @@ class PackageWidget extends StatelessWidget {
                           ),
                         ],
 
-                        if(hotelPackage.meal) ...[
+                        if(taxiPackage.fuel) ...[
                           Text(
-                            'With Meal',
+                            'With Fuel',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
@@ -265,15 +289,16 @@ class PackageWidget extends StatelessWidget {
                           ),
                         ],
 
-                        if(hotelPackage.swimPool) ...[
+                        if(taxiPackage.fullDayService) ...[
                           Text(
-                            'Swim Pool',
+                            'Full Day',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
                             ),
                           ),
                         ],
+
                       ],
                     ),
                   ),
@@ -296,7 +321,7 @@ class PackageWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${hotelPackage.price} LKR',
+                            '${taxiPackage.price} LKR',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -310,7 +335,7 @@ class PackageWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            hotelPackage.perDay? 'Per day' : 'Per Pkg',
+                            taxiPackage.perDay? 'Per day' : 'Per KM',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 15,
@@ -330,5 +355,7 @@ class PackageWidget extends StatelessWidget {
     );
   }
 }
+
+
 
 

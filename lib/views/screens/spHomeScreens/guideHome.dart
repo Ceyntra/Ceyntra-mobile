@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/guide/GuideOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/profileScreens/guideProfile.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -129,7 +131,12 @@ class GuideHomeScreen extends StatelessWidget {
               child: Row(
                 children: [
                   HomeOptionWidget(
-                      Colors.purple, '  Offers', Icons.local_offer, logIn),
+                      Colors.purple, '  Offers', Icons.local_offer, (){
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => GuideOfferScreen()),
+                    );
+                  }),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
@@ -162,7 +169,18 @@ class GuideHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
                   HomeOptionWidget(
-                      Colors.blue, '  Settings', Icons.settings, () {}),
+                    Colors.blue, '  Settings', 
+                    Icons.settings, 
+                    () {
+                      print("object");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GuideProfileScreen()
+                        )
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

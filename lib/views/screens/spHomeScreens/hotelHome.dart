@@ -1,14 +1,18 @@
 import 'dart:ui';
 
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/profileScreens/hotelProfile.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../auth.dart';
 import '../chatRoomScreen.dart';
 
 class HotelHomeScreen extends StatelessWidget {
+  Auth auth = new Auth();
   Function logIn(){}
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,16 @@ class HotelHomeScreen extends StatelessWidget {
               Icons.notifications,
               color: Colors.white,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () {
+              auth.logout(context);
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -119,7 +132,12 @@ class HotelHomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 children: [
-                  HomeOptionWidget(Colors.purple, '  Offers', Icons.local_offer, logIn),
+                  HomeOptionWidget(Colors.purple, '  Offers', Icons.local_offer,(){
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => HotelOfferScreen()),
+                    );
+                  }),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
@@ -141,7 +159,20 @@ class HotelHomeScreen extends StatelessWidget {
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
-                  HomeOptionWidget(Colors.blue, '  Settings', Icons.settings, logIn),
+                  HomeOptionWidget(
+                    Colors.blue, 
+                    '  Settings', 
+                    Icons.settings, 
+                    () {
+                      print("object");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HotelProfileScreen()
+                        )
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

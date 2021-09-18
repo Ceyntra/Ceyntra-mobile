@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/ClickedGuidePackagesScreen.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickedGuideInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
@@ -77,7 +78,7 @@ class _clickOnTheGuideFeedState extends State<clickOnTheGuideFeed> {
           children: [
             clickedGuideInfoScreen(clickedGuideInfo: widget.clickedGuide),
             PrivateChatScreen(serviceProviderID:widget.clickedGuide["guideId"]),
-            ClickedHotelPackagesScreen()
+            ClickedGuidePackagesScreen(guideId: widget.clickedGuide["guideId"]),
           ],
         ),
       ),
