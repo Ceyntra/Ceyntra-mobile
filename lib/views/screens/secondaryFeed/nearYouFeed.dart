@@ -96,79 +96,6 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                 height: 250,
               ),
               Positioned(
-                // height: 40,
-                width: (MediaQuery.of(context).size.width / 100) * 80,
-                top: 10,
-                right: 0,
-                child: Container(
-                  // child: TextField(
-                  //   style: GoogleFonts.itim(
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.w700,
-                  //       color: Colors.white),
-                  //   decoration: InputDecoration(
-                  //       filled: true,
-                  //       fillColor: Colors.white,
-                  //       prefixIcon: Icon(
-                  //         Icons.search,
-                  //         color: Colors.green,
-                  //       ),
-                  //       contentPadding: EdgeInsets.only(
-                  //           left: 2, top: 2, bottom: 2, right: 20),
-                  //       // isDense: true,
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(30),
-                  //             bottomLeft: Radius.circular(30)),
-                  //         borderSide: BorderSide(
-                  //           width: 0,
-                  //           style: BorderStyle.none,
-                  //         ),
-                  //       ),
-                  //       hintText: 'Where are you going?',
-                  //       hintStyle: GoogleFonts.montserrat(
-                  //           color: Colors.grey,
-                  //           fontSize: 15,
-                  //           fontWeight: FontWeight.w500)),
-                  // ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: DropDownField(
-                        controller: citiesSelected,
-                        hintText: "Search here",
-                        enabled: true,
-                        strict: false,
-                        items: cities,
-                        onValueChanged: (value) {
-                          print(value);
-                          placeService
-                              .getPlaceByPlaceName(value)
-                              .then((value1) {
-                            widget.setNullClickedOnThePlaceState();
-                            widget.setClickedPlace(PlaceModel(
-                                placeId: value1["place_id"],
-                                description: value1["description"],
-                                latitude: value1["latitude"],
-                                longitude: value1["longitude"],
-                                numberOfVotes: value1["number_of_votes"],
-                                photo: value1["photo"],
-                                placeName: value1["place_name"],
-                                rating: value1["rating"]));
-                            widget.changeMainFeedStateState("clickOnThePlace");
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
                   top: 80,
                   left: 20,
                   height: 180,
@@ -215,7 +142,81 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                           ? placeList[0]["number_of_votes"]
                           : 0,
                     ),
-                  ))
+                  )),
+              Positioned(
+                // height: 40,
+                width: (MediaQuery.of(context).size.width / 100) * 80,
+                top: 10,
+                right: 0,
+                child: Container(
+                  // child: TextField(
+                  //   style: GoogleFonts.itim(
+                  //       fontSize: 15,
+                  //       fontWeight: FontWeight.w700,
+                  //       color: Colors.white),
+                  //   decoration: InputDecoration(
+                  //       filled: true,
+                  //       fillColor: Colors.white,
+                  //       prefixIcon: Icon(
+                  //         Icons.search,
+                  //         color: Colors.green,
+                  //       ),
+                  //       contentPadding: EdgeInsets.only(
+                  //           left: 2, top: 2, bottom: 2, right: 20),
+                  //       // isDense: true,
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.only(
+                  //             topLeft: Radius.circular(30),
+                  //             bottomLeft: Radius.circular(30)),
+                  //         borderSide: BorderSide(
+                  //           width: 0,
+                  //           style: BorderStyle.none,
+                  //         ),
+                  //       ),
+                  //       hintText: 'Where are you going?',
+                  //       hintStyle: GoogleFonts.montserrat(
+                  //           color: Colors.grey,
+                  //           fontSize: 15,
+                  //           fontWeight: FontWeight.w500)),
+                  // ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        bottomLeft: Radius.circular(30)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: DropDownField(
+                        controller: citiesSelected,
+                        hintText: "Search here",
+                        enabled: true,
+                        strict: false,
+                        items: cities,
+                        itemsVisibleInDropdown: 4,
+                        onValueChanged: (value) {
+                          print(value);
+                          placeService
+                              .getPlaceByPlaceName(value)
+                              .then((value1) {
+                            widget.setNullClickedOnThePlaceState();
+                            widget.setClickedPlace(PlaceModel(
+                                placeId: value1["place_id"],
+                                description: value1["description"],
+                                latitude: value1["latitude"],
+                                longitude: value1["longitude"],
+                                numberOfVotes: value1["number_of_votes"],
+                                photo: value1["photo"],
+                                placeName: value1["place_name"],
+                                rating: value1["rating"]));
+                            widget.changeMainFeedStateState("clickOnThePlace");
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

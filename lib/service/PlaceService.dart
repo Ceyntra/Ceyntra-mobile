@@ -146,6 +146,20 @@ class PlaceService {
     setData(response.data);
   }
 
+  Future<dynamic> loadAllReviewsAndScreenData2(userId, placeId) async {
+    Map<String, int> userAndPlaceData = {
+      "user_id": userId,
+      "place_id": placeId
+    };
+
+    var response = await dio.post("http://10.0.2.2:9092/getMetadataInPlace",
+        data: userAndPlaceData);
+
+    // setData(response.data);
+
+    return response.data;
+  }
+
   List<Widget> loadReviews(
     BuildContext context,
     pageData,

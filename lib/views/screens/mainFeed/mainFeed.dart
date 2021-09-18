@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/models/placeModel.dart';
+import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/screens/GlobalChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheGuideFeed.dart';
@@ -37,6 +38,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   String clickedOnThePlaceState;
 
   String secondaryFeedState = "nearMe";
+  int userId;
 
   // this function call from FeedPlaceWidget
   void changeMainFeedStateState(String state) {
@@ -113,6 +115,21 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     print(pressed);
   }
 
+  TaxiDriverService taxiDriverService = new TaxiDriverService();
+  @override
+  void initState() {
+    super.initState();
+    taxiDriverService.getUsertId().then((value) {
+      print("this is userId");
+      print(value);
+      setState(() {
+        userId = value;
+      });
+      // placeService.loadAllReviewsAndScreenData(
+      //     setPageData, value, widget.place.placeId);
+    });
+  }
+
 // this function return Screen widgets according to mainfeed state
   Widget mainFeed(BuildContext context) {
     if (mainFeedState == "explore")
@@ -131,6 +148,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return GlobalChatScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
+        userId: userId,
         setClickedTaxi: setClickedTaxi,
         place: clickedPlace,
         setClickedGuide: setClickedGuide,

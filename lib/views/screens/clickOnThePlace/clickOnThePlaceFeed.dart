@@ -18,8 +18,10 @@ class ClickOnThePlaceFeedScreen extends StatefulWidget {
   final Function setClickedGuide;
   String changedFeedState;
   String secondaryFeedState;
+  final int userId;
   ClickOnThePlaceFeedScreen(
-      {this.place,
+      {this.userId,
+      this.place,
       this.changeMainFeedStateState,
       this.setClickedHotel,
       this.changedFeedState,
@@ -39,6 +41,7 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
   Widget feed(BuildContext context) {
     if (feedState == "place")
       return ClickedPlaceDetails(
+        userID2: widget.userId,
         place: widget.place,
       );
     else if (feedState == "weather")
