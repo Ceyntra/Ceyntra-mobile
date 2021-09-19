@@ -43,7 +43,6 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
   }
 
   Future<void> uploadImage() async {
-    FirebaseAuth mAuth = FirebaseAuth.instance;
 
     final storage = FirebaseStorage.instance;
 
@@ -62,10 +61,13 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
         imageURL = downloadUrl;
         image = null;
       });
+      print("URL ......-"+imageURL);
     } else {
       print('No Image Path Received');
     }
   }
+
+
 
   void setPackageName(String value) {
     _packageName = value;
@@ -385,12 +387,8 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      // print("Pressed & Saved! - "+ _packageName);
-                      //Upload Image to firebase
-                      uploadImage();
 
-                      //Save Data in a model
-                      createPackage();
+                      savePackage();
 
                       //rest
                       _formKey.currentState.reset();
@@ -404,6 +402,11 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
       ),
     );
     ;
+  }
+
+  void savePackage() async{
+    await uploadImage();
+    createPackage();
   }
 
 

@@ -520,13 +520,8 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
                       // print("Pressed & Saved! - "+ _packageName);
-                      //Upload Image to firebase
-                      uploadImage();
-
-                      //Save Data in a model
-                      createPackage();
-
-                      //rest
+                      savePackage();
+                      //reset
                       _formKey.currentState.reset();
                     }
                   },
@@ -539,6 +534,10 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
     );
   }
 
+  void savePackage() async{
+    await uploadImage();
+    createPackage();
+  }
 
   void createPackage() async{
 

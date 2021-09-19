@@ -497,13 +497,10 @@ class _AddHotelOfferScreenState extends State<AddHotelOfferScreen> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      // print("Pressed & Saved! - "+ _packageName);
-                      //Upload Image to firebase
 
                       //Save Data in a model
-                      createPackage();
-
-                      //rest
+                      savePackage();
+                      //reset
                       _formKey.currentState.reset();
                     }
                   },
@@ -516,8 +513,14 @@ class _AddHotelOfferScreenState extends State<AddHotelOfferScreen> {
     );
   }
 
-  void createPackage() async {
+  void savePackage() async{
     await uploadImage();
+    createPackage();
+  }
+
+
+  void createPackage() async {
+
 
     HotelPackageModel package=new HotelPackageModel(0,_packageName,_description,imageURL,withAC,swimPool,meal,other,_otherFacilities,_roomCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
 
