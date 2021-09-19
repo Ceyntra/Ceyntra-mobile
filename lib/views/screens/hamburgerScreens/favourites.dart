@@ -124,7 +124,11 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               setHamburgerStateNull: widget.setHamburgerStateNull,
             ),
             // TaxiFeedScreen(),
-            FavouriteGuidesScreen()
+            FavouriteGuidesScreen(
+              changeMainFeedStateState: widget.changeMainFeedStateState,
+              setClickedGuide: widget.setClickedGuide,
+              setHamburgerStateNull: widget.setHamburgerStateNull,
+            )
           ],
         ),
       ),

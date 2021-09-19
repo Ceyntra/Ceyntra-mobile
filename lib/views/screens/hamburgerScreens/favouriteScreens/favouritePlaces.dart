@@ -38,6 +38,9 @@ class _FavouritePlacesScreenState extends State<FavouritePlacesScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        SizedBox(
+          height: 20,
+        ),
         Column(
           children: favPlaceList.length != 0
               ? placeService.loadFavPlaceList(

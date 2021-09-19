@@ -18,25 +18,23 @@ class FavouriteHotelsScreen extends StatefulWidget {
 
 class _FavouriteHotelsScreenState extends State<FavouriteHotelsScreen> {
   HotelService hotelService = HotelService();
-  var hotelList;
-  void setHotelList(res) {
-    print(res);
-    setState(() {
-      hotelList = res;
-    });
-  }
+  var hotelList = [];
 
   @override
   void initState() {
     super.initState();
-    hotelService.loadAllHotels(setHotelList);
+    hotelService.loadFavHotels().then((value) {
+      setState(() {
+        hotelList = value;
+      });
+    });
     // loadAllPlaces();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: hotelList != null
+      children: hotelList.length != 0
           ? hotelService.loadFavHotelWidgets(
               widget.setHamburgerStateNull,
               context,
