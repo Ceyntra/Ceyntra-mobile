@@ -26,7 +26,7 @@ class InputFormField extends StatelessWidget {
       },
       onSaved: setValue,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        contentPadding: EdgeInsets.all(15.0),
         fillColor: Colors.white,
         filled: true,
         border:OutlineInputBorder(
