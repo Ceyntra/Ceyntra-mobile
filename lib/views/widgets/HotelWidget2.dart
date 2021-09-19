@@ -2,59 +2,51 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TaxiWidget extends StatefulWidget {
-  final Function setClickedTaxi;
+class HotelWidget2 extends StatefulWidget {
+  final Function setClickedHotel;
   final ValueChanged<String> changeMainFeedStateState;
-  final int taxiId;
-  final String driverLicense;
-  final String firstName;
-  final String lastName;
-  final int perKmPrice;
+  final int hotelId;
+  final String name;
+  final String description;
+  final String profilePhoto;
+  final String regNumber;
   final int numOfVotes;
   final double rating;
-  final String profilePhoto;
-  final String taxiPhoto;
   final Function setHamburgerStateNull;
 
-  TaxiWidget(
+  HotelWidget2(
       {this.setHamburgerStateNull,
-      this.driverLicense,
-      this.firstName,
-      this.lastName,
+      this.description,
+      this.hotelId,
+      this.name,
       this.numOfVotes,
-      this.perKmPrice,
+      this.regNumber,
       this.profilePhoto,
       this.rating,
-      this.taxiId,
-      this.taxiPhoto,
-      this.setClickedTaxi,
+      this.setClickedHotel,
       this.changeMainFeedStateState});
 
   @override
-  _TaxiWidgetState createState() => _TaxiWidgetState();
+  _HotelWidget2State createState() => _HotelWidget2State();
 }
 
-class _TaxiWidgetState extends State<TaxiWidget> {
+class _HotelWidget2State extends State<HotelWidget2> {
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> clickedTaxiDetails = {
-      "driverLicense": widget.driverLicense,
-      "firstName": widget.firstName,
-      "lastName": widget.lastName,
+    Map<String, dynamic> clickedHotelDetails = {
+      "description": widget.description,
+      "name": widget.name,
+      "regNum": widget.regNumber,
       "numOfVotes": widget.numOfVotes,
-      "perKmPrice": widget.perKmPrice,
       "profilePhoto": widget.profilePhoto,
       "rating": widget.rating,
-      "taxiId": widget.taxiId,
-      "taxiPhoto": widget.taxiPhoto,
+      "hotelId": widget.hotelId,
     };
     return GestureDetector(
       onTap: () {
-        widget.setHamburgerStateNull != null
-            ? widget.setHamburgerStateNull()
-            : print("no hamburger function");
-        widget.changeMainFeedStateState("clickOnTheTaxi");
-        widget.setClickedTaxi(clickedTaxiDetails);
+        widget.setHamburgerStateNull();
+        widget.changeMainFeedStateState("clickOnTheFavHotel");
+        widget.setClickedHotel(clickedHotelDetails);
       },
       child: Container(
         margin: EdgeInsets.only(top: 20, left: 20),
@@ -77,7 +69,7 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                 ),
                 image: DecorationImage(
                   image: NetworkImage(
-                    widget.taxiPhoto,
+                    widget.profilePhoto,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -92,7 +84,7 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    widget.firstName + " " + widget.lastName,
+                    widget.name,
                     style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -100,26 +92,26 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                   ),
                   SizedBox(height: 10),
                   DisplayRatingWidget(
-                    rating: widget.rating,
+                    rating: double.parse(widget.rating.toStringAsFixed(1)),
                     votes: widget.numOfVotes,
                   ),
                   SizedBox(height: 10),
-                  RichText(
-                    text: TextSpan(
-                      text: widget.perKmPrice.toString(),
-                      style: GoogleFonts.montserrat(
-                          fontSize: 16, fontWeight: FontWeight.w400),
-                      children: [
-                        TextSpan(
-                          text: ' per km',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // RichText(
+                  //   text: TextSpan(
+                  //     text: widget.perKmPrice.toString(),
+                  //     style: GoogleFonts.montserrat(
+                  //         fontSize: 16, fontWeight: FontWeight.w400),
+                  //     children: [
+                  //       TextSpan(
+                  //         text: ' per km',
+                  //         style: TextStyle(
+                  //           fontSize: 12,
+                  //           color: Colors.white.withOpacity(0.5),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

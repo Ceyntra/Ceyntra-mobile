@@ -1,16 +1,35 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/FavouriteTaxis.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouriteGuides.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouriteHotels.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/favouriteScreens/favouritePlaces.dart';
+import 'package:ceyntra_mobile/views/screens/secondaryFeed/taxiFeed.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FavouritesScreen extends StatefulWidget {
   // const FavouritesScreen({ Key? key }) : super(key: key);
+  final ValueChanged<PlaceModel> setClickedPlace;
+  final ValueChanged<String> changeMainFeedStateState;
+  final Function setNullClickedOnThePlaceState;
+  final Function setClickedTaxi;
+  final Function setClickedHotel;
+  final Function setClickedGuide;
   final Function pressed;
   final bool isPressed;
   final Function setNull;
-  FavouritesScreen({this.pressed, this.isPressed, this.setNull});
+  final Function setHamburgerStateNull;
+  FavouritesScreen(
+      {this.setClickedTaxi,
+      this.setClickedGuide,
+      this.setClickedHotel,
+      this.setHamburgerStateNull,
+      this.changeMainFeedStateState,
+      this.setClickedPlace,
+      this.setNullClickedOnThePlaceState,
+      this.pressed,
+      this.isPressed,
+      this.setNull});
 
   @override
   _FavouritesScreenState createState() => _FavouritesScreenState();
@@ -87,9 +106,24 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         ),
         body: TabBarView(
           children: [
-            FavouritePlacesScreen(),
-            FavouriteHotelsScreen(),
-            FavouriteTaxisScreen(),
+            FavouritePlacesScreen(
+              setHamburgerStateNull: widget.setHamburgerStateNull,
+              changeMainFeedStateState: widget.changeMainFeedStateState,
+              setClickedPlace: widget.setClickedPlace,
+              setNullClickedOnThePlaceState:
+                  widget.setNullClickedOnThePlaceState,
+            ),
+            FavouriteHotelsScreen(
+              changeMainFeedStateState: widget.changeMainFeedStateState,
+              setClickedHotel: widget.setClickedHotel,
+              setHamburgerStateNull: widget.setHamburgerStateNull,
+            ),
+            FavouriteTaxisScreen(
+              changeMainFeedStateState: widget.changeMainFeedStateState,
+              setClickedTaxi: widget.setClickedTaxi,
+              setHamburgerStateNull: widget.setHamburgerStateNull,
+            ),
+            // TaxiFeedScreen(),
             FavouriteGuidesScreen()
           ],
         ),

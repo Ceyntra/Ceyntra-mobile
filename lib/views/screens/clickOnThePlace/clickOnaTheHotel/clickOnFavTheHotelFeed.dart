@@ -1,28 +1,27 @@
-import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
-import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiPackagesScreen.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelInfo.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickedHotelPackages.dart';
-import 'package:ceyntra_mobile/views/screens/privateChatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ClickOnTheTaxiFeed extends StatefulWidget {
-  // const ClickOnTheTaxiFeed({ Key? key }) : super(key: key);
+import '../../privateChatScreen.dart';
 
-  var clickedTaxi;
+class ClickOnTheFavHotelFeed extends StatefulWidget {
+  // const ClickOnTheFavHotelFeed({ Key? key }) : super(key: key);
+
+  var clickedHotel;
   final ValueChanged<String> changeClickedOnThePlaceState;
   final ValueChanged<String> changeMainFeedStateState;
-  ClickOnTheTaxiFeed(
-      {this.clickedTaxi,
+  ClickOnTheFavHotelFeed(
+      {this.clickedHotel,
       this.changeMainFeedStateState,
       this.changeClickedOnThePlaceState});
 
   @override
-  _ClickOnTheTaxiFeedState createState() => _ClickOnTheTaxiFeedState();
+  _ClickOnTheFavHotelFeedState createState() => _ClickOnTheFavHotelFeedState();
 }
 
-class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
+class _ClickOnTheFavHotelFeedState extends State<ClickOnTheFavHotelFeed> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -32,15 +31,13 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
         appBar: AppBar(
           backgroundColor: Color(0xff192537),
           title: Text(
-            widget.clickedTaxi["firstName"] +
-                " " +
-                widget.clickedTaxi["lastName"],
+            widget.clickedHotel["name"],
             style: GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
           ),
           leading: InkWell(
             onTap: () {
-              widget.changeClickedOnThePlaceState("taxi");
-              widget.changeMainFeedStateState("clickOnThePlace");
+              // widget.changeClickedOnThePlaceState("hotel");
+              widget.changeMainFeedStateState("favourites");
             },
             child: Icon(Icons.arrow_back),
           ),
@@ -74,11 +71,12 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
         ),
         body: TabBarView(
           children: [
-            ClickedTaxiInfoScreen(clickedTaxiInfo: widget.clickedTaxi),
-            PrivateChatScreen(serviceProviderID: widget.clickedTaxi["taxiId"]),
-            ClickedTaxiPackageScreen(
-              taxiId: widget.clickedTaxi["taxiId"],
-            )
+            ClickedHotelInfoScreen(
+              clickedHotelInfo: widget.clickedHotel,
+            ),
+            PrivateChatScreen(
+                serviceProviderID: widget.clickedHotel["hotelId"]),
+            ClickedHotelPackagesScreen(hotelId: widget.clickedHotel["hotelId"])
           ],
         ),
       ),

@@ -32,37 +32,39 @@ class _TaxiFeedScreenState extends State<TaxiFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {
-            widget.changeMainFeedStateState("clickOnTheTaxiBid");
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 40,
-            margin: EdgeInsets.only(top: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.green,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              widget.changeMainFeedStateState("clickOnTheTaxiBid");
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 40,
+              margin: EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.green,
+              ),
+              child: Text(
+                "Go to Bid Section Here",
+                style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+              alignment: Alignment.center,
             ),
-            child: Text(
-              "Go to Bid Section Here",
-              style: GoogleFonts.montserrat(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-            alignment: Alignment.center,
           ),
-        ),
-        Column(
-          children: taxiDriverList != null
-              ? taxiDriverService.loadTaxiWidgets(context, taxiDriverList,
-                  widget.setClickedTaxi, widget.changeMainFeedStateState)
-              : [],
-        ),
-      ],
+          Column(
+            children: taxiDriverList != null
+                ? taxiDriverService.loadTaxiWidgets(context, taxiDriverList,
+                    widget.setClickedTaxi, widget.changeMainFeedStateState)
+                : [],
+          ),
+        ],
+      ),
     );
   }
 }

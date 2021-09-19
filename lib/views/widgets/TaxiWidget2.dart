@@ -2,7 +2,7 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TaxiWidget extends StatefulWidget {
+class TaxiWidget2 extends StatefulWidget {
   final Function setClickedTaxi;
   final ValueChanged<String> changeMainFeedStateState;
   final int taxiId;
@@ -16,7 +16,7 @@ class TaxiWidget extends StatefulWidget {
   final String taxiPhoto;
   final Function setHamburgerStateNull;
 
-  TaxiWidget(
+  TaxiWidget2(
       {this.setHamburgerStateNull,
       this.driverLicense,
       this.firstName,
@@ -31,10 +31,10 @@ class TaxiWidget extends StatefulWidget {
       this.changeMainFeedStateState});
 
   @override
-  _TaxiWidgetState createState() => _TaxiWidgetState();
+  _TaxiWidget2State createState() => _TaxiWidget2State();
 }
 
-class _TaxiWidgetState extends State<TaxiWidget> {
+class _TaxiWidget2State extends State<TaxiWidget2> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> clickedTaxiDetails = {
@@ -53,7 +53,7 @@ class _TaxiWidgetState extends State<TaxiWidget> {
         widget.setHamburgerStateNull != null
             ? widget.setHamburgerStateNull()
             : print("no hamburger function");
-        widget.changeMainFeedStateState("clickOnTheTaxi");
+        widget.changeMainFeedStateState("clickOnTheFavTaxi");
         widget.setClickedTaxi(clickedTaxiDetails);
       },
       child: Container(
