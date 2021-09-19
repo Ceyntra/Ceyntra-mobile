@@ -13,7 +13,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class ClickedPlaceDetails extends StatefulWidget {
   // const ClickedPlaceDetails({ Key? key }) : super(key: key);
   final PlaceModel place;
-  ClickedPlaceDetails({this.place});
+  final int userID2;
+  ClickedPlaceDetails({this.place, this.userID2});
 
   @override
   _ClickedPlaceDetailsState createState() => _ClickedPlaceDetailsState();
@@ -53,11 +54,28 @@ class _ClickedPlaceDetailsState extends State<ClickedPlaceDetails> {
   void initState() {
     super.initState();
     taxiDriverService.getUsertId().then((value) {
+      print("this one called now");
       setState(() {
         userId = value;
       });
-      placeService.loadAllReviewsAndScreenData(
-          setPageData, value, widget.place.placeId);
+      // placeService.loadAllReviewsAndScreenData(
+      //     setPageData, value, widget.place.placeId);
+      print(value);
+      print(widget.place.placeId);
+      placeService
+          .loadAllReviewsAndScreenData2(value, widget.place.placeId)
+          .then((value1) {
+        print("second one called now");
+        setState(() {
+          pageData = value1;
+          favourite = value1['favourite'];
+          myRating = value1['myRating'];
+          numOfReviews = value1['list'].length;
+          numOfVotes = value1['numOfVotesForPlace'];
+          placeRating = value1['placeRating'];
+          photoList = value1['photoList'];
+        });
+      });
     });
   }
 

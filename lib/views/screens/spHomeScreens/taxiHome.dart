@@ -1,11 +1,11 @@
-import 'dart:ui';
-
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/chatRoomScreen.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/notificationScreen.dart';
+
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/taxiDriverProfile.dart';
-import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/taxiPackages.dart';
+
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeIndicatorWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/homeOptionWidget.dart';
@@ -29,7 +29,12 @@ class TaxiHomeScreen extends StatelessWidget {
         title: Text('Home'),
         actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NotificationScreen()));
+            },
             icon: Icon(
               Icons.notifications,
               color: Colors.white,
@@ -137,16 +142,16 @@ class TaxiHomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  TaxiOfferScreen()));
+                              builder: (context) => TaxiOfferScreen()));
                     },
                   ),
                   new Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
-                  HomeOptionWidget(Colors.green, '  Chat', Icons.chat, (){
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatRoomScreen()),
+                  HomeOptionWidget(Colors.green, '  Chat', Icons.chat, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatRoomScreen()),
                     );
                   }),
                 ],
@@ -172,9 +177,10 @@ class TaxiHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
                   HomeOptionWidget(
-                      Colors.blue, '  Settings', 
-                      Icons.settings, 
-                      () {
+                    Colors.blue,
+                    '  Settings',
+                    Icons.settings,
+                    () {
                       print("object");
                       Navigator.push(
                           context,

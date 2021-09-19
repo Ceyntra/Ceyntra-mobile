@@ -52,10 +52,10 @@ dependencies:
   firebase_storage: ^10.0.2
   geolocator: ^7.0.3
   stomp_dart_client: ^0.4.3
-  readmore: 
+  dropdownfield: ^1.0.0
+  readmore:
   dropdown_formfield:
   flutter_pin_code_fields: ^1.1.0
-
 
 dev_dependencies:
   flutter_test:

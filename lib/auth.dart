@@ -138,16 +138,16 @@ class Auth {
 
       case 2:
         {
-          print("Redirect to Taxi page");
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => TaxiHomeScreen()));
+              MaterialPageRoute(builder: (context) => GuideHomeScreen()));
         }
         break;
 
       case 3:
         {
+          print("Redirect to Taxi page");
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => GuideHomeScreen()));
+              MaterialPageRoute(builder: (context) => TaxiHomeScreen()));
         }
         break;
 
@@ -286,8 +286,8 @@ class Auth {
 
         case 3:
           {
-            print("Redirect to Guide page");
-            return GuideHomeScreen();
+            print("Redirect to Taxi page");
+            return TaxiHomeScreen();
           }
           break;
 
