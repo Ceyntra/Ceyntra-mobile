@@ -1,5 +1,6 @@
 class TaxiPackageModel{
 
+  int packageId;
   String packageName;
   String packageDesc;
   var imageURL;
@@ -25,6 +26,7 @@ class TaxiPackageModel{
 
 
   TaxiPackageModel(
+      this.packageId,
       this.packageName,
       this.packageDesc,
       this.imageURL,
@@ -50,6 +52,7 @@ class TaxiPackageModel{
 
   Map<String, dynamic> toJson() =>
       {
+        'packageId':packageId,
         'packageName': packageName,
         'packageDesc': packageDesc,
         'imageURL': imageURL,
@@ -73,6 +76,7 @@ class TaxiPackageModel{
     List<TaxiPackageModel> packages= [];
 
     return TaxiPackageModel(
+      json['packageId'],
       json['packageName'],
       json['packageDesc'],
       json['imageURL'],
@@ -87,7 +91,7 @@ class TaxiPackageModel{
       json['perKm'],
       json['price'],
       json['negotiable'],
-      json['taxiId'],
+      json['taxiDriverId'],
     );
 
   }

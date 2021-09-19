@@ -493,7 +493,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
 
   void createPackage() async{
 
-    TaxiPackageModel package=new TaxiPackageModel(_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
+    TaxiPackageModel package=new TaxiPackageModel(0,_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
     print(package.toString());
 
     http.Response response = await http.post(

@@ -13,6 +13,9 @@ class PrivateChatMessage {
 
   factory PrivateChatMessage.fromJson(Map<String, dynamic> json) {
 
+    print("json['id']");
+    print(json['id']);
+
     PrivateChatMessage msg= new PrivateChatMessage(
         json['id'],
         json['senderId'],

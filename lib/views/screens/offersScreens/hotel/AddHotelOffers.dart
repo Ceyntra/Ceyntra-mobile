@@ -478,7 +478,7 @@ class _AddHotelOfferScreenState extends State<AddHotelOfferScreen> {
 
     await uploadImage();
 
-    HotelPackageModel package=new HotelPackageModel(_packageName,_description,imageURL,withAC,swimPool,meal,other,_otherFacilities,_roomCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
+    HotelPackageModel package=new HotelPackageModel(0,_packageName,_description,imageURL,withAC,swimPool,meal,other,_otherFacilities,_roomCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
 
     print(package.toString());
 

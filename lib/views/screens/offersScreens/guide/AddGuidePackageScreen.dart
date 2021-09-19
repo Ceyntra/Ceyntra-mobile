@@ -344,9 +344,10 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
     );;
   }
 
+
   void createPackage() async{
 
-    GuidePackageModel package=new GuidePackageModel(_packageName,_description,_places,imageURL,_language,_groupCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
+    GuidePackageModel package=new GuidePackageModel(0,_packageName,_description,_places,imageURL,_language,_groupCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
     print(package.toString());
 
     http.Response response = await http.post(
@@ -356,9 +357,8 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
       },
       body: jsonEncode(package.toJson()),
     );
-
-
   }
+
 
 }
 

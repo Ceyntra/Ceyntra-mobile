@@ -67,6 +67,9 @@ class ChatRoomModel{
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) {
 
+    print("Json........");
+    print(json);
+
     //Extract ChatMessageSet
     List<PrivateChatMessage> chatMessages= [];
 
