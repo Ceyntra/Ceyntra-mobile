@@ -17,6 +17,7 @@ class PackageService{
       );
 
       final packageJson = json.decode(response.body);
+      print(packageJson);
 
       var listJson=packageJson as List;
 
@@ -77,6 +78,39 @@ class PackageService{
 
     return packages;
   }
+
+
+  Future<bool> requestPackages(int packageId,int spId,String packageName,String packageType) async {
+
+    UserService userService=new UserService();
+    int id= await userService.getUserID();
+
+    http.Response response = await http.post(
+      Uri.parse('http://10.0.2.2:9092/requestPackage'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "packageId": packageId,
+        "spId":spId,
+        "travellerId":id,
+        "packageName":packageName,
+        "timestamp": "null",
+        "packageType": packageType
+      }),
+    );
+    final packageJson = json.decode(response.body);
+
+    if(response.statusCode == 200){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
+
+
 
 
 

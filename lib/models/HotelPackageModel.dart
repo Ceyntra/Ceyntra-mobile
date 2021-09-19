@@ -1,6 +1,7 @@
 
 class HotelPackageModel{
 
+  int packageId;
   String packageName;
   String packageDesc;
   var imageURL;
@@ -25,6 +26,7 @@ class HotelPackageModel{
 
 
   HotelPackageModel(
+      this.packageId,
       this.packageName,
       this.packageDesc,
       this.imageURL,
@@ -48,6 +50,7 @@ class HotelPackageModel{
 
   Map<String, dynamic> toJson() =>
       {
+        'packageId':packageId,
         'packageName': packageName,
         'packageDesc': packageDesc,
         'imageURL': imageURL,
@@ -70,6 +73,7 @@ class HotelPackageModel{
     List<HotelPackageModel> packages= [];
 
     return HotelPackageModel(
+      json['packageId'],
       json['packageName'],
       json['packageDesc'],
       json['imageURL'],

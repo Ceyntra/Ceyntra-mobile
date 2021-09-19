@@ -252,6 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? null
                               : "Please provide passowrd greater than 6";
                         },
+                        obscureText: true,
                         decoration: const InputDecoration(
                           filled: true,
                           hintText: "password",

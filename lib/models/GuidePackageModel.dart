@@ -1,6 +1,7 @@
 
 class GuidePackageModel{
 
+  int packageId;
   String packageName;
   String packageDesc;
   String places;
@@ -18,6 +19,7 @@ class GuidePackageModel{
   int guideId;
 
   GuidePackageModel(
+      this.packageId,
       this.packageName,
       this.packageDesc,
       this.places,
@@ -32,6 +34,7 @@ class GuidePackageModel{
 
   Map<String, dynamic> toJson() =>
       {
+        'packageId':packageId,
         'packageName': packageName,
         'packageDesc': packageDesc,
         'imageURL': imageURL,
@@ -51,6 +54,7 @@ class GuidePackageModel{
     List<GuidePackageModel> packages= [];
 
     return GuidePackageModel(
+      json['packageId'],
       json['packageName'],
       json['packageDesc'],
       json['places'],

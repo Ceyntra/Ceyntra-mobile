@@ -1,27 +1,33 @@
 import 'dart:convert';
 import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
+import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/TaxiPackageService.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/taxiPackages.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:ceyntra_mobile/views/screens/offersScreens/widget/InputFormField.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/widget/UpdateFormField.dart';
 
-class AddTaxiOfferScreen extends StatefulWidget {
-  const AddTaxiOfferScreen({Key key, @required this.userId}) : super(key: key);
+class UpdateTaxiPackageScreen extends StatefulWidget {
+  const UpdateTaxiPackageScreen({Key key, @required this.taxiPackageModel}) : super(key: key);
 
-  final int userId;
+  final TaxiPackageModel taxiPackageModel;
 
   @override
-  _AddTaxiOfferScreenState createState() => _AddTaxiOfferScreenState();
+  _UpdateTaxiPackageScreenState createState() => _UpdateTaxiPackageScreenState();
 }
 
-class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
+class _UpdateTaxiPackageScreenState extends State<UpdateTaxiPackageScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TaxiPackageModel package;
+
 
   String _packageName;
 
@@ -40,7 +46,6 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
   File image;
 
   var imageURL;
-
   //values for check boxes
   bool withDriver = false;
   bool fuel = false;
@@ -58,6 +63,29 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
     ));
   }
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _packageName = widget.taxiPackageModel.packageName;
+      _description = widget.taxiPackageModel.packageDesc;
+      _otherFacilities = widget.taxiPackageModel.otherFacility;
+      _price = widget.taxiPackageModel.price;
+      withDriver = widget.taxiPackageModel.withDriver;
+      fuel = widget.taxiPackageModel.fuel;
+      fullDayService = widget.taxiPackageModel.fullDayService;
+      ownRoutine = widget.taxiPackageModel.ownRoutine;
+      other = widget.taxiPackageModel.other;
+      _perDay = widget.taxiPackageModel.perDay;
+      _negotiable = widget.taxiPackageModel.negotiable;
+      _numOfPassengers = widget.taxiPackageModel.numberOfPassengers;
+      imageURL = widget.taxiPackageModel.imageURL;
+    });
+  }
+
+  
   Future<void> uploadImage() async {
     FirebaseAuth mAuth = FirebaseAuth.instance;
 
@@ -67,7 +95,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
       var snapshot = await storage
           .ref()
           .child('offers/taxi/' +
-              widget.userId.toString() +
+              widget.taxiPackageModel.taxiId.toString() +
               '/' +
               image.path.split('/').last)
           .putFile(image);
@@ -84,20 +112,49 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
   }
 
   void setPackageName(String value) {
-    _packageName = value;
+   _packageName = value;
+   // widget.taxiPackageModel.packageName=value;
   }
 
   void setPackageDesc(String value) {
-    _description = value;
+   _description = value;
+   // widget.taxiPackageModel.packageDesc=value;
   }
 
   void setOtherFacility(String value) {
     _otherFacilities = value;
+     //widget.taxiPackageModel.otherFacility=value;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold( 
+       backgroundColor: Color(0xff192537),
+        appBar: AppBar(
+        // elevation: 20,
+        brightness: Brightness.dark,
+        // leading: Icon(Icons.arrow_back),
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TaxiOfferScreen()
+              )
+            );
+          },
+          child: Icon(Icons.arrow_back),
+        ),
+        title: Text(
+            'Update Package',
+            style: GoogleFonts.montserrat(),
+          ),
+        
+        backgroundColor: Color(0xff031925),
+      ),
+    body:SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Form(
@@ -112,9 +169,11 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
               ),
 
               //Input Package name field
-              InputFormField(
+              UpdateFormField(
+
                   emptyMsg: "Package name can not be empty",
                   setValue: setPackageName,
+                  initialName: widget.taxiPackageModel.packageName,
                   maxline: 1,
                   minline: 1),
 
@@ -134,9 +193,10 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                 height: 8,
               ),
               //Package Description Input
-              InputFormField(
+              UpdateFormField(
                   emptyMsg: "Package Description can not be empty",
                   setValue: setPackageDesc,
+                  initialName: widget.taxiPackageModel.packageDesc,
                   maxline: 10,
                   minline: 4),
 
@@ -304,9 +364,10 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                           height: 8,
                         ),
                         //Package Description Input
-                        InputFormField(
+                        UpdateFormField(
                             emptyMsg: "Other Facilities can't leave blank",
                             setValue: setOtherFacility,
+                            initialName: widget.taxiPackageModel.otherFacility==null?"":widget.taxiPackageModel.otherFacility,
                             maxline: 10,
                             minline: 4),
 
@@ -452,6 +513,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                 height: 8,
               ),
               TextFormField(
+                initialValue: widget.taxiPackageModel.price.toString(),
                 style: TextStyle(color: Colors.black),
                 validator: (name) {
                   double p = double.tryParse(name);
@@ -515,7 +577,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                           RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ))),
-                  child: Text("Add Offer"),
+                  child: Text("Update Offer"),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -524,7 +586,7 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
                       uploadImage();
 
                       //Save Data in a model
-                      createPackage();
+                     updatePackage(widget.taxiPackageModel);
 
                       //rest
                       _formKey.currentState.reset();
@@ -536,25 +598,55 @@ class _AddTaxiOfferScreenState extends State<AddTaxiOfferScreen> {
           ),
         ),
       ),
-    );
+    ),);
   }
 
+  void updatePackage(TaxiPackageModel packageModel) async {
+    packageModel.packageName = _packageName;
+    packageModel.packageDesc = _description;
+    packageModel.imageURL = imageURL;
+    packageModel.withDriver = withDriver;
+    packageModel.fuel = fuel;
+    packageModel.fullDayService = fullDayService;
+    packageModel.ownRoutine = ownRoutine;
+    packageModel.other = other;
+    packageModel.otherFacility = _otherFacilities;
+    packageModel.numberOfPassengers = _numOfPassengers;
+    packageModel.perDay = _perDay;
+    packageModel.perKm = !_perDay;
+    packageModel.price = _price;
+    packageModel.negotiable = _negotiable;
 
-  void createPackage() async{
 
-    TaxiPackageModel package=new TaxiPackageModel(0,_packageName,_description,imageURL,withDriver,fuel,fullDayService,ownRoutine,other,_otherFacilities,_numOfPassengers,_perDay,!_perDay,_price,_negotiable,widget.userId);
-
-    print(package.toString());
-
-    http.Response response = await http.post(
-      Uri.parse('http://10.0.2.2:9092/createTaxiPackage'),
+    // TaxiPackageModel package = new TaxiPackageModel(
+      //  widget.packageId,
+      //   _packageName,
+      //   _description,
+      //   imageURL,
+      //   withDriver,
+      //   fuel,
+      //   fullDayService,
+      //   ownRoutine,
+      //   other,
+      //   _otherFacilities,
+      //   _numOfPassengers,
+      //   _perDay,
+      //   !_perDay,
+      //   _price,
+      //   _negotiable,
+      //   widget.userId,    
+      //   );
+    print(packageModel.toString());
+    
+    http.Response response = await http.put(
+      Uri.parse('http://10.0.2.2:9092/updateTaxiPackage'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(package.toJson()),
+      body: jsonEncode(packageModel.toJson()),
     );
 
-    // final messages = json.decode(response.body);
-    // // print(messages);
+    final messages = json.decode(response.body);
+    // print(messages);
   }
 }
