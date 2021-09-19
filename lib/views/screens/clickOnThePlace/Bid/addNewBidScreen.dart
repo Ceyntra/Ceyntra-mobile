@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/BidService.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/activeBid.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,11 @@ class AddNewBidScree extends StatefulWidget {
 
   final bool enablePostButtonState;
   final Function changeEnablePostButtonState;
+  final PlaceModel place;
   AddNewBidScree(
-      {this.enablePostButtonState, this.changeEnablePostButtonState});
+      {this.enablePostButtonState,
+      this.changeEnablePostButtonState,
+      this.place});
 
   @override
   _AddNewBidScreeState createState() => _AddNewBidScreeState();
@@ -48,7 +52,6 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
     });
 
     bidService.getActiveBidDetailsForAddNewBid().then((value) {
-      print("helloo");
       if (value == 1) {
         print("there is active bid");
         widget.changeEnablePostButtonState(false);
@@ -59,11 +62,11 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
     });
   }
 
-  @override
-  void didUpdateWidget(covariant AddNewBidScree addNewBidScree) {
-    super.didUpdateWidget(addNewBidScree);
-    print("didUpdateWidget");
-  }
+  // @override
+  // void didUpdateWidget(covariant AddNewBidScree addNewBidScree) {
+  //   super.didUpdateWidget(addNewBidScree);
+  //   print("didUpdateWidget");
+  // }
 
   // @override
   // void initState() {
@@ -441,6 +444,8 @@ class _AddNewBidScreeState extends State<AddNewBidScree> {
                             travellerNoteTEC.text.isNotEmpty) {
                           bidService
                               .addBidDetails(
+                                  widget.place.latitude,
+                                  widget.place.longitude,
                                   pickUpTimeTEC.text,
                                   pickUpTEC.text,
                                   dropTEC.text,

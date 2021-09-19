@@ -13,7 +13,7 @@ class GuideService {
     return res;
   }
 
-  loadAllGuides(Function setGuides) async {
+  loadAllGuides(double latitude, double longitude, Function setGuides) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
     //     desiredAccuracy: LocationAccuracy.high);
     // Map<String, double> currentLocation = {
@@ -22,8 +22,8 @@ class GuideService {
     // };
 
     Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
+      "latitude": latitude,
+      "longitude": longitude
     };
 
     var response = await dio.post(

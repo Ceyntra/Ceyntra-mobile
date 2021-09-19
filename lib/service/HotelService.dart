@@ -13,17 +13,10 @@ class HotelService {
     return res;
   }
 
-  loadAllHotels(Function setHotels) async {
-    // final geoPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // Map<String, double> currentLocation = {
-    //   "latitude": geoPosition.latitude,
-    //   "longitude": geoPosition.longitude
-    // };
-
+  loadAllHotels(double latitude, double longitude, Function setHotels) async {
     Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
+      "latitude": latitude,
+      "longitude": longitude
     };
 
     var response = await dio.post(

@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:flutter/material.dart';
 import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
@@ -5,10 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:translator/translator.dart';
 
 class TaxiFeedScreen extends StatefulWidget {
+  final PlaceModel place;
   final ValueChanged<String> changeMainFeedStateState;
   final Function setClickedTaxi;
 
-  TaxiFeedScreen({this.changeMainFeedStateState, this.setClickedTaxi});
+  TaxiFeedScreen(
+      {this.place, this.changeMainFeedStateState, this.setClickedTaxi});
   @override
   _TaxiFeedScreenState createState() => _TaxiFeedScreenState();
 }
@@ -26,7 +29,9 @@ class _TaxiFeedScreenState extends State<TaxiFeedScreen> {
   @override
   void initState() {
     super.initState();
-    taxiDriverService.loadAllTaxis(setTaxiDriverList);
+    print("this is taxifeed " + widget.place.latitude.toString());
+    taxiDriverService.loadAllTaxis(
+        setTaxiDriverList, widget.place.latitude, widget.place.longitude);
     // loadAllPlaces();
   }
 
@@ -61,7 +66,19 @@ class _TaxiFeedScreenState extends State<TaxiFeedScreen> {
             children: taxiDriverList != null
                 ? taxiDriverService.loadTaxiWidgets(context, taxiDriverList,
                     widget.setClickedTaxi, widget.changeMainFeedStateState)
-                : [],
+                : [
+                    Container(
+                      // color: Colors.green,
+                      width: 100,
+                      height: 250,
+                      child: Container(
+                          alignment: Alignment.center,
+                          width: 60,
+                          height: 60,
+                          // color: Colors.red,
+                          child: CircularProgressIndicator()),
+                    )
+                  ],
           ),
         ],
       ),

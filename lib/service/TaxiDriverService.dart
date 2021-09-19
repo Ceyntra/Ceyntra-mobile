@@ -14,17 +14,19 @@ class TaxiDriverService {
     return res;
   }
 
-  loadAllTaxis(Function setTaxis) async {
+  loadAllTaxis(Function setTaxis, double latitude, double longitude) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
     //     desiredAccuracy: LocationAccuracy.high);
     // Map<String, double> currentLocation = {
     //   "latitude": geoPosition.latitude,
     //   "longitude": geoPosition.longitude
     // };
+    print(latitude);
+    print(longitude);
 
     Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
+      "latitude": latitude,
+      "longitude": longitude
     };
 
     var response = await dio.post("http://10.0.2.2:9092/getAllTaxisForLocation",

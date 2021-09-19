@@ -219,6 +219,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       );
     else if (mainFeedState == "clickOnTheTaxiBid")
       return ClickOnTheTaxiFeedBid(
+        place: clickedPlace,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
