@@ -287,43 +287,69 @@ void confirmDialog(BuildContext context){
             child: Row(
               children: [
 
+                Expanded(
+                  flex:1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+
+                      if(packageModel.withDriver)...[
+                        Text("With Driver",
+                          style:fontStyle,
+                        ),
+                      ] else if(packageModel.fullDayService)...[
+                        Text("Full Day Service",
+                          style:fontStyle,
+                        )
+                      ],
+
+                      if(packageModel.fuel)...[
+                        Text("With Fuel",
+                          style:fontStyle,
+                        ),
+                      ] else if(packageModel.ownRoutine)...[
+                        Text("Own Routine",
+                          style:fontStyle,
+                        )
+                      ],
+                     Text("${ packageModel.numberOfPassengers} Passengers",
+                        style:fontStyle,
+                      ),
+
+                    ],
+                  ),
+                ),
+
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
-
-
-                    packageModel.withDriver ? Text("With Driver",
-                    style:fontStyle,
-                    ) : packageModel.fullDayService ? Text("Full Day Service",
-                      style:fontStyle,
-                    ) : '',
-
-                    packageModel.withDriver ? Text("With Fuel",
-                      style:fontStyle,
-                    ) : packageModel.ownRoutine ? Text("Own Routine",
-                      style:fontStyle,
-                    ) : '',
-
-                   Text("${ packageModel.numberOfPassengers} Passengers",
-                      style:fontStyle,
+                    Text(
+                      'Price',
+                      //textAlign: TextAlign.right,
+                      style:GoogleFonts.montserrat(
+                        fontSize: 16,
+                        height: 1.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
+
+                    Text(
+                      '${packageModel.price} LKR',
+                      //textAlign: TextAlign.right,
+                      style:GoogleFonts.montserrat(
+                        fontSize: 16,
+                        height: 1.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
 
                   ],
                 ),
-
-                Text(
-                  '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPrice\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t${packageModel.price} LKR',
-                  //textAlign: TextAlign.right,
-                  style:GoogleFonts.montserrat(
-                    fontSize: 16,
-                    height: 1.5,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                )
               ],
-
             ),
           )
         ],
