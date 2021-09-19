@@ -7,22 +7,22 @@ import 'package:ceyntra_mobile/views/screens/privateChatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ClickOnTheTaxiFeed extends StatefulWidget {
-  // const ClickOnTheTaxiFeed({ Key? key }) : super(key: key);
+class ClickOnTheFavTaxiFeed extends StatefulWidget {
+  // const ClickOnTheFavTaxiFeed({ Key? key }) : super(key: key);
 
   var clickedTaxi;
   final ValueChanged<String> changeClickedOnThePlaceState;
   final ValueChanged<String> changeMainFeedStateState;
-  ClickOnTheTaxiFeed(
+  ClickOnTheFavTaxiFeed(
       {this.clickedTaxi,
       this.changeMainFeedStateState,
       this.changeClickedOnThePlaceState});
 
   @override
-  _ClickOnTheTaxiFeedState createState() => _ClickOnTheTaxiFeedState();
+  _ClickOnTheFavTaxiFeedState createState() => _ClickOnTheFavTaxiFeedState();
 }
 
-class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
+class _ClickOnTheFavTaxiFeedState extends State<ClickOnTheFavTaxiFeed> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -39,8 +39,8 @@ class _ClickOnTheTaxiFeedState extends State<ClickOnTheTaxiFeed> {
           ),
           leading: InkWell(
             onTap: () {
-              widget.changeClickedOnThePlaceState("taxi");
-              widget.changeMainFeedStateState("clickOnThePlace");
+              // widget.changeClickedOnThePlaceState("taxi");
+              widget.changeMainFeedStateState("favourites");
             },
             child: Icon(Icons.arrow_back),
           ),

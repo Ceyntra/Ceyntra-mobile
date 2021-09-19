@@ -1,7 +1,9 @@
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
+import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget2.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlaceService {
   // void loadAllPlaces() async {
@@ -201,5 +203,46 @@ class PlaceService {
         await dio.post('http://10.0.2.2:9092/addReview', data: reviewData);
 
     return response.data;
+  }
+
+  Future<int> getUsertId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int res = prefs.getInt("userID");
+
+    return res;
+  }
+
+  Future<dynamic> loadFavPlaces() async {
+    return getUsertId().then((value) async {
+      var response = await dio.get('http://10.0.2.2:9092/loadFavPlaces/$value');
+      return response.data;
+    });
+  }
+
+  List<Widget> loadFavPlaceList(
+      Function setHamburgerStateNull,
+      BuildContext context,
+      placeList,
+      changeMainFeedStateState,
+      setClickedPlace,
+      setNullClickedOnThePlaceState) {
+    final items = List<Widget>.generate(
+      placeList.length,
+      (index) => FeedPlaceWidget2(
+        setHamburgerStateNull: setHamburgerStateNull,
+        placeId: placeList[index]['place_id'],
+        latitude: placeList[index]['latitude'],
+        longitude: placeList[index]['longitude'],
+        imagePath: placeList[index]['photo'],
+        placeName: placeList[index]['place_name'],
+        votes: placeList[index]['number_of_votes'],
+        rating: placeList[index]['rating'],
+        description: placeList[index]['description'],
+        changeMainFeedStateState: changeMainFeedStateState,
+        setClickedPlace: setClickedPlace,
+        setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
+      ),
+    );
+    return items;
   }
 }

@@ -2,59 +2,62 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TaxiWidget extends StatefulWidget {
-  final Function setClickedTaxi;
+class GuideWidget2 extends StatefulWidget {
+  final Function setClickedGuide;
   final ValueChanged<String> changeMainFeedStateState;
-  final int taxiId;
-  final String driverLicense;
+  final int guideId;
   final String firstName;
   final String lastName;
-  final int perKmPrice;
+  final String description;
+  final String profilePhoto;
+  final String photo;
+  final String nic;
+  final int perDayPrice;
+  final String vehicleState;
   final int numOfVotes;
   final double rating;
-  final String profilePhoto;
-  final String taxiPhoto;
   final Function setHamburgerStateNull;
 
-  TaxiWidget(
-      {this.setHamburgerStateNull,
-      this.driverLicense,
+  GuideWidget2(
+      {this.photo,
+      this.perDayPrice,
+      this.vehicleState,
+      this.description,
+      this.guideId,
       this.firstName,
-      this.lastName,
       this.numOfVotes,
-      this.perKmPrice,
+      this.nic,
+      this.lastName,
       this.profilePhoto,
       this.rating,
-      this.taxiId,
-      this.taxiPhoto,
-      this.setClickedTaxi,
-      this.changeMainFeedStateState});
+      this.setClickedGuide,
+      this.changeMainFeedStateState,
+      this.setHamburgerStateNull});
 
   @override
-  _TaxiWidgetState createState() => _TaxiWidgetState();
+  _GuideWidget2State createState() => _GuideWidget2State();
 }
 
-class _TaxiWidgetState extends State<TaxiWidget> {
+class _GuideWidget2State extends State<GuideWidget2> {
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> clickedTaxiDetails = {
-      "driverLicense": widget.driverLicense,
+    Map<String, dynamic> clickedGuideDetails = {
+      "description": widget.description,
       "firstName": widget.firstName,
       "lastName": widget.lastName,
+      "nic": widget.nic,
       "numOfVotes": widget.numOfVotes,
-      "perKmPrice": widget.perKmPrice,
       "profilePhoto": widget.profilePhoto,
+      "photo": widget.photo,
       "rating": widget.rating,
-      "taxiId": widget.taxiId,
-      "taxiPhoto": widget.taxiPhoto,
+      "guideId": widget.guideId,
+      "vehicleState": widget.vehicleState
     };
     return GestureDetector(
       onTap: () {
-        widget.setHamburgerStateNull != null
-            ? widget.setHamburgerStateNull()
-            : print("no hamburger function");
-        widget.changeMainFeedStateState("clickOnTheTaxi");
-        widget.setClickedTaxi(clickedTaxiDetails);
+        widget.setHamburgerStateNull();
+        widget.changeMainFeedStateState("clickOnTheFavGuide");
+        widget.setClickedGuide(clickedGuideDetails);
       },
       child: Container(
         margin: EdgeInsets.only(top: 20, left: 20),
@@ -77,7 +80,7 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                 ),
                 image: DecorationImage(
                   image: NetworkImage(
-                    widget.taxiPhoto,
+                    widget.profilePhoto,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -106,12 +109,16 @@ class _TaxiWidgetState extends State<TaxiWidget> {
                   SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      text: widget.perKmPrice.toString(),
+                      text: widget.perDayPrice.toString(),
                       style: GoogleFonts.montserrat(
                           fontSize: 16, fontWeight: FontWeight.w400),
                       children: [
                         TextSpan(
-                          text: ' per km',
+                          text: ' per day' +
+                              " " +
+                              widget.vehicleState +
+                              " " +
+                              "vehicle",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white.withOpacity(0.5),

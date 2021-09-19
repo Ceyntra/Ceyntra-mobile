@@ -2,9 +2,12 @@ import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/screens/GlobalChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheFavGuideFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheGuideFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheFavTaxiFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickOntheTaxiFeed.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnFavTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnaTheHotel/clickOnTheHotelFeed.dart';
 import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
 
@@ -42,6 +45,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   // this function call from FeedPlaceWidget
   void changeMainFeedStateState(String state) {
+    print(state);
     setState(() {
       mainFeedState = state;
     });
@@ -54,6 +58,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void setNullClickedOnThePlaceState() {
+    print("clicked null");
     setState(() {
       clickedOnThePlaceState = null;
     });
@@ -100,10 +105,10 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void pressed(double xOff, double yOff, double scaleFac, bool pressed) {
-    print(xOff);
-    print(yOff);
+    // print(xOff);
+    // print(yOff);
     print("clicked pressed");
-    print(pressed);
+    // print(pressed);
 
     setState(() {
       isPressed = pressed;
@@ -112,7 +117,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       scaleFactor = scaleFac;
     });
 
-    print(pressed);
+    // print(pressed);
   }
 
   TaxiDriverService taxiDriverService = new TaxiDriverService();
@@ -159,6 +164,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       );
     else if (mainFeedState == "favourites")
       return FavouritesScreen(
+        setClickedGuide: setClickedGuide,
+        setClickedHotel: setClickedHotel,
+        setClickedTaxi: setClickedTaxi,
+        setHamburgerStateNull: setHamburgerStateNull,
+        setClickedPlace: setClickedPlace,
+        changeMainFeedStateState: changeMainFeedStateState,
+        setNullClickedOnThePlaceState: setNullClickedOnThePlaceState,
         pressed: pressed,
         isPressed: isPressed,
         setNull: setHamburgerStateNull,
@@ -187,19 +199,38 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
+    else if (mainFeedState == "clickOnTheFavHotel")
+      return ClickOnTheFavHotelFeed(
+        clickedHotel: clickedHotel,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
     else if (mainFeedState == "clickOnTheTaxi")
       return ClickOnTheTaxiFeed(
         clickedTaxi: clickedTaxi,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
+    else if (mainFeedState == "clickOnTheFavTaxi")
+      return ClickOnTheFavTaxiFeed(
+        clickedTaxi: clickedTaxi,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
     else if (mainFeedState == "clickOnTheTaxiBid")
       return ClickOnTheTaxiFeedBid(
+        place: clickedPlace,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
       );
     else if (mainFeedState == "clickOnTheGuide")
       return clickOnTheGuideFeed(
+        clickedGuide: clickedGuide,
+        changeMainFeedStateState: changeMainFeedStateState,
+        changeClickedOnThePlaceState: setClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "clickOnTheFavGuide")
+      return clickOnTheFavGuideFeed(
         clickedGuide: clickedGuide,
         changeMainFeedStateState: changeMainFeedStateState,
         changeClickedOnThePlaceState: setClickedOnThePlaceState,
@@ -216,6 +247,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         // xOffSet = 0.0;
         // yOffSet = 0.0;
         // isPressed = false;
+        print("i just fucked");
       });
       pressed(0.0, 0.0, 1.0, false);
 

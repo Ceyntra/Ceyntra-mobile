@@ -3,7 +3,7 @@ import 'package:ceyntra_mobile/views/widgets/DisplayRatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class FeedPlaceWidget extends StatefulWidget {
+class FeedPlaceWidget2 extends StatefulWidget {
   final int placeId;
   final double latitude;
   final double longitude;
@@ -15,9 +15,11 @@ class FeedPlaceWidget extends StatefulWidget {
   final ValueChanged<String> changeMainFeedStateState;
   final ValueChanged<PlaceModel> setClickedPlace;
   final Function setNullClickedOnThePlaceState;
+  final Function setHamburgerStateNull;
 
-  FeedPlaceWidget(
-      {this.placeId,
+  FeedPlaceWidget2(
+      {this.setHamburgerStateNull,
+      this.placeId,
       this.latitude,
       this.longitude,
       this.imagePath,
@@ -33,7 +35,7 @@ class FeedPlaceWidget extends StatefulWidget {
   _FeedPlaceWidgetState createState() => _FeedPlaceWidgetState();
 }
 
-class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
+class _FeedPlaceWidgetState extends State<FeedPlaceWidget2> {
   @override
   Widget build(BuildContext context) {
     final items = List<Widget>.generate(
@@ -51,6 +53,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget> {
     return GestureDetector(
       onTap: () {
         print("hey i am clicked");
+        widget.setHamburgerStateNull();
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => PlaceMainFeedScreen()));
         widget.setNullClickedOnThePlaceState();

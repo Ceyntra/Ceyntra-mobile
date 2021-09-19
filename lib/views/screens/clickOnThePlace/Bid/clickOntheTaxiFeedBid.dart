@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/activeBid.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/addNewBidScreen.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/historyBid.dart';
@@ -14,8 +15,11 @@ class ClickOnTheTaxiFeedBid extends StatefulWidget {
 
   final ValueChanged<String> changeClickedOnThePlaceState;
   final ValueChanged<String> changeMainFeedStateState;
+  final PlaceModel place;
   ClickOnTheTaxiFeedBid(
-      {this.changeMainFeedStateState, this.changeClickedOnThePlaceState});
+      {this.changeMainFeedStateState,
+      this.changeClickedOnThePlaceState,
+      this.place});
 
   @override
   _ClickOnTheTaxiFeedBidState createState() => _ClickOnTheTaxiFeedBidState();
@@ -42,6 +46,7 @@ class _ClickOnTheTaxiFeedBidState extends State<ClickOnTheTaxiFeedBid> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.place.placeName);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -90,6 +95,7 @@ class _ClickOnTheTaxiFeedBidState extends State<ClickOnTheTaxiFeedBid> {
         body: TabBarView(
           children: [
             AddNewBidScree(
+              place: widget.place,
               changeEnablePostButtonState: changeEnablePostButtonState,
               enablePostButtonState: enablePostButton,
             ),

@@ -11,8 +11,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class BidService {
   var dio = Dio();
 
-  Future<int> addBidDetails(pickUpTime, pickUpAddress, dropAddress,
-      noOfpassengers, price, travellerNote, travellerId) async {
+  Future<int> addBidDetails(
+      double latitude,
+      double longitude,
+      pickUpTime,
+      pickUpAddress,
+      dropAddress,
+      noOfpassengers,
+      price,
+      travellerNote,
+      travellerId) async {
     // final geoPosition = await Geolocator.getCurrentPosition(
     //     desiredAccuracy: LocationAccuracy.high);
     // Map<String, double> currentLocation = {
@@ -20,13 +28,9 @@ class BidService {
     //   "longitude": geoPosition.longitude
     // };
 
-    Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
-    };
     Map<String, dynamic> bidDetails = {
-      "current_latitude": 7.9573,
-      "current_longitude": 80.7600,
+      "current_latitude": latitude,
+      "current_longitude": longitude,
       "traveller_id": travellerId,
       "pick_up_time": pickUpTime,
       "pick_up_location": pickUpAddress,

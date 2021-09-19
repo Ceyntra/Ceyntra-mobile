@@ -51,16 +51,19 @@ class _ClickOnThePlaceFeedScreenState extends State<ClickOnThePlaceFeedScreen> {
       );
     else if (feedState == "hotel")
       return HotelFeedScreen(
+        place: widget.place,
         changeMainFeedStateState: widget.changeMainFeedStateState,
         setClickedHotel: widget.setClickedHotel,
       );
     else if (feedState == "guide")
       return GuideFeedScreen(
+        place: widget.place,
         changeMainFeedStateState: widget.changeMainFeedStateState,
         setClickedGuide: widget.setClickedGuide,
       );
     else if (feedState == "taxi")
       return TaxiFeedScreen(
+        place: widget.place,
         setClickedTaxi: widget.setClickedTaxi,
         changeMainFeedStateState: widget.changeMainFeedStateState,
       );
