@@ -1,6 +1,9 @@
 import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
+import 'package:ceyntra_mobile/views/screens/complaints.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/UpdateTaxiPackages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -191,16 +194,22 @@ void confirmDialog(BuildContext context){
       ),
       
       actions: [
-        ElevatedButton(
-          child: Text("Cancel", style: GoogleFonts.montserrat()),
-          onPressed: () {
-            Navigator.of(context).pop();
-          }
-        ),
+        // ElevatedButton(
+        //   child: Text("Cancel", style: GoogleFonts.montserrat()),
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   }
+        // ),
         ElevatedButton(
           child: Text("Update", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
+            // Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                   builder: (context) => ComplaintPage()));
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> UpdateTaxiPackageScreen(taxiPackageModel:packageModel)));
             // deleteAccount();
           },
           style: ElevatedButton.styleFrom(
@@ -224,7 +233,7 @@ void confirmDialog(BuildContext context){
     );
 
     showDialog(
-      barrierDismissible: false,
+      //barrierDismissible: false,
       barrierColor: Colors.black.withOpacity(0.8),
       context: context,
       builder: (BuildContext context) {
