@@ -3,6 +3,7 @@ import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/UpdateHotelPackages.dart';
 
 class HotelPackageScreen extends StatefulWidget {
   HotelPackageScreen({Key key}) : super(key: key);
@@ -181,8 +182,8 @@ class HotelOfferCard extends StatelessWidget {
             //               context,
             //               MaterialPageRoute(
             //                   builder: (context) => ComplaintPage()));
-            // Navigator.push(context, 
-            // MaterialPageRoute(builder: (context)=> UpdateGuideScreen(guidePackageModel:packageModel)));
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> UpdateHotelOfferScreen(hotelPackageModel:packageModel)));
             // deleteAccount();
           },
           style: ElevatedButton.styleFrom(
