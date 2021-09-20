@@ -3,6 +3,7 @@ import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget2.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlaceService {
@@ -30,8 +31,12 @@ class PlaceService {
   var dio = Dio();
 
   loadAllPlaces(Function setPlaceList, Function setPlacePhotos) async {
-    // final geoPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
+    final geoPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    print("This is coordinates");
+    print(geoPosition.latitude);
+    print(geoPosition.longitude);
     // Map<String, double> currentLocation = {
     //   "latitude": geoPosition.latitude,
     //   "longitude": geoPosition.longitude
@@ -39,8 +44,8 @@ class PlaceService {
 
     // Dambulla coordinates
     Map<String, double> currentLocation = {
-      "latitude": 7.8742,
-      "longitude": 80.6511
+      "latitude": geoPosition.latitude,
+      "longitude": geoPosition.longitude
     };
 
     // Mathara coordinates
@@ -84,9 +89,21 @@ class PlaceService {
 
   Future<dynamic> loadPlaceListForSearchDropDown() async {
     var list = [];
+    // Map<String, double> currentLocation = {
+    //   "latitude": 7.8742,
+    //   "longitude": 80.6511
+    // };
+
+    final geoPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    print(geoPosition.latitude);
+    print(geoPosition.longitude);
+
+    // Dambulla coordinates
     Map<String, double> currentLocation = {
-      "latitude": 7.8742,
-      "longitude": 80.6511
+      "latitude": geoPosition.latitude,
+      "longitude": geoPosition.longitude
     };
 
     var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
