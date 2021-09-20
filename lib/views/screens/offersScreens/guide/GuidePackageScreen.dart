@@ -57,7 +57,7 @@ class _GuidePackageScreenState extends State<GuidePackageScreen> {
         itemCount: guidePackages.length,
         itemBuilder: (context,index) => GuideOfferCard(packageModel: guidePackages[index]),
       ),
-    );;
+    );
   }
 }
 

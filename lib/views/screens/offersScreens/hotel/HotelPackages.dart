@@ -1,9 +1,11 @@
 import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/UpdateHotelPackages.dart';
+import 'package:http/http.dart' as http;
 
 class HotelPackageScreen extends StatefulWidget {
   HotelPackageScreen({Key key}) : super(key: key);
@@ -62,6 +64,53 @@ class HotelOfferCard extends StatelessWidget {
   }) : super(key: key);
 
   final HotelPackageModel packageModel;
+   void confirmDeleteDialog(BuildContext context){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your package permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            deletePackage(packageModel.packageId);
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> HotelOfferScreen()));
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
   void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
       scrollable: true,
@@ -195,7 +244,7 @@ class HotelOfferCard extends StatelessWidget {
           child: Text("Delete", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
-            // confirmDeleteDialog(context);
+            confirmDeleteDialog(context);
           },
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
@@ -215,6 +264,16 @@ class HotelOfferCard extends StatelessWidget {
       }
     );
   }
+    Future<http.Response> deletePackage(int packageId) async {
+  final http.Response response = await http.delete(
+    Uri.parse('http://10.0.2.2:9092/deleteHotelPackage/$packageId'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  return response;
+}
   @override
   Widget build(BuildContext context) {
     var fontStyle = GoogleFonts.montserrat(
