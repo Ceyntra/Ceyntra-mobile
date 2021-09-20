@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ceyntra_mobile/models/ChatRoomModel.dart';
 import 'package:ceyntra_mobile/models/PrivateChatMessage.dart';
+import 'package:ceyntra_mobile/service/ChatRoomService.dart';
 import 'package:ceyntra_mobile/views/widgets/ChatInputField.dart';
 import 'package:ceyntra_mobile/views/widgets/Message.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,6 +75,7 @@ class _ServiceChatScreenState extends State<ServiceChatScreen> {
 
 
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -83,6 +85,10 @@ class _ServiceChatScreenState extends State<ServiceChatScreen> {
     setState(() {
       messages=widget.chatRoomModel.chatMessageSet;
     });
+    ChatRoomService chatRoomService=new ChatRoomService();
+    chatRoomService.deleteNotification(widget.chatRoomModel.chatRoomId);
+    print("Chat room ID");
+    print(widget.chatRoomModel.chatRoomId);
 
     //Create Stomp connection
     if (stompClient == null) {

@@ -29,10 +29,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       chatRooms=cr;
       userID=id;
     });
-    print(chatRooms[0].toString());
+    // print(chatRooms[0].toString());
   }
-
-
 
   @override
   void initState() {
@@ -158,22 +156,23 @@ class ChatRoom extends StatelessWidget {
                 SizedBox(height: 8,),
 
                 //Unseen # messages
-                Container(
-
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text('2',
-                      style:TextStyle(
-                        color: Colors.white,
+                if(chatRoomModel.unSeenCount != 0)...[
+                  Container(
+                    height: 24,
+                    width: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.deepOrange,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text( chatRoomModel.unSeenCount.toString(),
+                        style:TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ],
             ),
           ],

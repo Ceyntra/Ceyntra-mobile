@@ -42,6 +42,7 @@ class ChatRoomModel{
   final imageUrl;
   final PrivateChatMessage lastMessage;
   final bool active;
+  int unSeenCount;
 
 
   ChatRoomModel({
@@ -52,7 +53,9 @@ class ChatRoomModel{
       this.travellerName,
       this.imageUrl,
       this.lastMessage,
-      this.active});
+      this.active,
+      this.unSeenCount
+  });
 
 // final String name, lastMessage, image, time;
   // final bool isActive;
@@ -85,7 +88,8 @@ class ChatRoomModel{
         travellerName:json['travellerName'],
         imageUrl:json['imageUrl'],
         lastMessage:PrivateChatMessage.fromJson(json['lastMessage']),
-        active:json['active']
+        active:json['active'],
+        unSeenCount:json['unSeenCount'],
     );
 
   }

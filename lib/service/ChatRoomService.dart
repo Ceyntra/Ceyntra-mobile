@@ -33,6 +33,18 @@ class ChatRoomService{
     return chatRooms;
   }
 
+  //Delete Notification for chat room
+  deleteNotification(int chatRoomID) async{
+
+    final http.Response response = await http.delete(
+      Uri.parse('http://10.0.2.2:9092/deleteNotification/$chatRoomID'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+  }
+
 
 
 
