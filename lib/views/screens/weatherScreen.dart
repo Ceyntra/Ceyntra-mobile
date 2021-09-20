@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,8 +36,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   Future<Map> getLocationCordinates(String input) async {
+
+    String apiKey=await Secret.getPlaceAPIKey();
+
+
     http.Response response = await http.get(Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&fields=geometry&key=AIzaSyAMAWxImXkWiTM2vANMU8xDCPSzVlmmtUw'));
+        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&fields=geometry&key=$apiKey'));
     return jsonDecode(response.body)['candidates'][0]['geometry']['location'];
   }
 
