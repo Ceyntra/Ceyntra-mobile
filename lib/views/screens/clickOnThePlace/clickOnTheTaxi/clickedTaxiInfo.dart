@@ -23,6 +23,7 @@ class ClickedTaxiInfoScreen extends StatefulWidget {
 
 class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
   TextEditingController comment = new TextEditingController();
+
   bool favourite = false;
   double myRating = 0;
   double placeRating = 0.0;
@@ -70,6 +71,137 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
         });
   }
 
+  TextEditingController complaint = new TextEditingController();
+
+  void generalPopUpDialog(BuildContext context, title, content) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
+  void complainPopUpDialog(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text(
+        "Complaint to " + widget.clickedTaxiInfo["firstName"].toString(),
+        style: GoogleFonts.montserrat(
+            fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
+      ),
+      content: Container(
+        // color: Colors.redAccent,
+        height: 200,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    // color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.blue, width: 1)),
+                width: (MediaQuery.of(context).size.width / 100) * 60,
+                child: TextField(
+                  controller: complaint,
+                  maxLines: 5,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      // prefixIcon: Icon(
+                      //   Icons.comment,
+                      //   color: Colors.green,
+                      // ),
+                      contentPadding: EdgeInsets.all(10),
+                      // isDense: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                      hintText: 'Add your complain here',
+                      hintStyle: GoogleFonts.montserrat(
+                          color: Colors.grey,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.redAccent),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Cancle",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      onPressed: () {
+                        if (complaint.text != "") {
+                          Navigator.of(context).pop();
+                          taxiDriverService
+                              .addComplaint(widget.clickedTaxiInfo["taxiId"],
+                                  complaint.text)
+                              .then((value) {
+                            if (value == 1) {
+                              generalPopUpDialog(
+                                  context,
+                                  "Your complain is received, Our team inquiry about complaint soon. Thank you",
+                                  "");
+                            } else {
+                              generalPopUpDialog(
+                                  context,
+                                  "Your complain is not placed, Please try again!",
+                                  "");
+                            }
+                          });
+                        }
+                      },
+                      child: Text(
+                        "Complaint",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   // Map<String, dynamic> clickedTaxiDetails = {
   //     "driverLicense": widget.driverLicense,
   //     "firstName": widget.firstName,
@@ -84,6 +216,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.clickedTaxiInfo);
     return Scaffold(
       backgroundColor: Color(0xff031925),
       body: SingleChildScrollView(
@@ -155,6 +288,34 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(35))),
                     ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     complainPopUpDialog(context);
+                    //   },
+                    //   child: Container(
+                    //     width: 100,
+                    //     height: 20,
+                    //     color: Colors.amber,
+                    //   ),
+                    // ),
+
+                    Container(
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.blueAccent),
+                        onPressed: () {
+                          complainPopUpDialog(context);
+                        },
+                        child: Text(
+                          "Complaint",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
                     DisplayRatingWidget(
                       rating: double.parse(placeRating.toStringAsFixed(1)),
                       votes: numOfVotes,
@@ -162,7 +323,7 @@ class _ClickedTaxiInfoScreenState extends State<ClickedTaxiInfoScreen> {
                   ]),
             ),
             GreenTagWidget(
-              title: "My Rating",
+              title: "My Ratings",
             ),
             // DisplayRatingWidget(),
             Container(

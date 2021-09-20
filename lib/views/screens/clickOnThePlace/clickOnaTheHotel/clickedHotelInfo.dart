@@ -83,8 +83,140 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
   //     "hotelId": widget.hotelId,
   //   };
 
+  TextEditingController complaint = new TextEditingController();
+
+  void generalPopUpDialog(BuildContext context, title, content) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
+  void complainPopUpDialog(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text(
+        "Complaint to " + widget.clickedHotelInfo["name"].toString(),
+        style: GoogleFonts.montserrat(
+            fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+      ),
+      content: Container(
+        // color: Colors.redAccent,
+        height: 200,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    // color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.blue, width: 1)),
+                width: (MediaQuery.of(context).size.width / 100) * 60,
+                child: TextField(
+                  controller: complaint,
+                  maxLines: 5,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      // prefixIcon: Icon(
+                      //   Icons.comment,
+                      //   color: Colors.green,
+                      // ),
+                      contentPadding: EdgeInsets.all(10),
+                      // isDense: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                      hintText: 'Add your complain here',
+                      hintStyle: GoogleFonts.montserrat(
+                          color: Colors.grey,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.redAccent),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Cancle",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      onPressed: () {
+                        if (complaint.text != "") {
+                          Navigator.of(context).pop();
+                          taxiDriverService
+                              .addComplaint(widget.clickedHotelInfo["hotelId"],
+                                  complaint.text)
+                              .then((value) {
+                            if (value == 1) {
+                              generalPopUpDialog(
+                                  context,
+                                  "Your complain is received, Our team inquiry about complaint soon. Thank you",
+                                  "");
+                            } else {
+                              generalPopUpDialog(
+                                  context,
+                                  "Your complain is not placed, Please try again!",
+                                  "");
+                            }
+                          });
+                        }
+                      },
+                      child: Text(
+                        "Complaint",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.clickedHotelInfo);
     return Scaffold(
       backgroundColor: Color(0xff031925),
       body: SingleChildScrollView(
@@ -158,26 +290,19 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      height: 30,
                       child: ElevatedButton(
-                        child: Icon(
-                          Icons.directions,
-                          color: Colors.white,
-                        ),
-                        // icon: Icon(
-                        //   Icons.directions,
-                        //   color: Colors.white,
-                        // ),
-                        // label: Text(
-                        //   'Directions',
-                        //   //style: GoogleFonts.montserrat(fontSize: 14,color: Colors.black)),
-                        // ),
-                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          //primary: Colors.white,
-
-                          textStyle:
-                              GoogleFonts.montserrat(color: Colors.black),
+                            primary: Colors.blueAccent),
+                        onPressed: () {
+                          complainPopUpDialog(context);
+                        },
+                        child: Text(
+                          "Complaint",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/getHelpScreen.dart';
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
   //   return MaterialApp(
   //     debugShowCheckedModeBanner: false,
   //     title: 'Flutter Demo',
-  //     home: ClickOnTheTaxiFeedBid(),
+  //     home: ClickedTaxiInfoScreen(),
   //   );
   // }
 }

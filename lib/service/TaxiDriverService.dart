@@ -140,4 +140,18 @@ class TaxiDriverService {
     var response =
         await dio.post('http://10.0.2.2:9092/updateFavouriteSp', data: details);
   }
+
+  Future<int> addComplaint(spId, description) {
+    // print(spId.toString() + " " + description.toString());
+    return getUsertId().then((value) async {
+      Map<String, dynamic> details = {
+        "description": description,
+        "traveller_id": value,
+        "sp_id": spId,
+      };
+      var response =
+          await dio.post('http://10.0.2.2:9092/addComplaint', data: details);
+      return response.data;
+    });
+  }
 }
