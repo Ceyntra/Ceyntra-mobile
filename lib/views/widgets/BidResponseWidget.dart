@@ -213,6 +213,7 @@ class BidResponseWidget extends StatelessWidget {
                         bidService
                             .travellerAcceptBidResponse(bidId, taxiId)
                             .then((value) {
+                          print(value);
                           if (value == "updated") {
                             Navigator.of(context).pop();
                             refresh();
