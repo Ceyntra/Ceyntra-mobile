@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/auth.dart';
+import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -16,6 +17,20 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
+  TaxiDriverService taxiDriverService = new TaxiDriverService();
+  var travellerDetails;
+  @override
+  void initState() {
+    super.initState();
+
+    taxiDriverService.getTravellerData().then((value) {
+      print(value);
+      setState(() {
+        travellerDetails = value;
+      });
+    });
+  }
+
   Auth auth = new Auth();
   @override
   Widget build(BuildContext context) {
@@ -41,7 +56,9 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage('assets/images/profile1.jpg'))),
+                          image: travellerDetails != null
+                              ? NetworkImage(travellerDetails["photo"])
+                              : AssetImage('assets/images/profile1.jpg'))),
                 ),
                 Container(
                   // height: 40,
@@ -55,22 +72,26 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                     children: [
                       Container(
                         // color: Colors.amber,
-                        child: Text(
-                          "Stephanie illiamson",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: travellerDetails != null
+                            ? Text(
+                                travellerDetails["firstName"] +
+                                    " " +
+                                    travellerDetails["lastName"],
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(""),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "San Francisco, CA",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 15, color: Colors.grey),
-                        ),
-                      )
+                      // Container(
+                      //   margin: EdgeInsets.only(top: 5),
+                      //   child: Text(
+                      //     "San Francisco, CA",
+                      //     style: GoogleFonts.montserrat(
+                      //         fontSize: 15, color: Colors.grey),
+                      //   ),
+                      // )
                     ],
                   ),
                 )

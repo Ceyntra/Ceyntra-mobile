@@ -154,4 +154,12 @@ class TaxiDriverService {
       return response.data;
     });
   }
+
+  Future<dynamic> getTravellerData() {
+    return getUsertId().then((value) async {
+      var response =
+          await dio.get('http://10.0.2.2:9092/getTravellerData/$value');
+      return response.data;
+    });
+  }
 }
