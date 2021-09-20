@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/screens/GlobalChat.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheFavPlaceFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheFavGuideFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheGuide/clickOnTheGuideFeed.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnThePlaceFeed.dart';
@@ -153,6 +154,17 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       return GlobalChatScreen();
     else if (mainFeedState == "clickOnThePlace")
       return ClickOnThePlaceFeedScreen(
+        userId: userId,
+        setClickedTaxi: setClickedTaxi,
+        place: clickedPlace,
+        setClickedGuide: setClickedGuide,
+        changeMainFeedStateState: changeMainFeedStateState,
+        setClickedHotel: setClickedHotel,
+        changedFeedState: clickedOnThePlaceState,
+        setNullChangedFeedState: setNullClickedOnThePlaceState,
+      );
+    else if (mainFeedState == "clickOnTheFavPlace")
+      return ClickOnFavThePlaceFeedScreen(
         userId: userId,
         setClickedTaxi: setClickedTaxi,
         place: clickedPlace,

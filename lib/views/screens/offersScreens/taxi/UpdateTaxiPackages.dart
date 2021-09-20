@@ -6,6 +6,7 @@ import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/taxiPackages.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/updateFormField.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -583,9 +584,11 @@ class _UpdateTaxiPackageScreenState extends State<UpdateTaxiPackageScreen> {
 
                         //Save Data in a model
                         updatePackage(widget.taxiPackageModel);
+                        successDialog("Update SucessFull");
+                      
 
                         //rest
-                        _formKey.currentState.reset();
+                        _formKey.currentState.reassemble();
                       }
                     },
                   ),
@@ -645,4 +648,50 @@ class _UpdateTaxiPackageScreenState extends State<UpdateTaxiPackageScreen> {
     final messages = json.decode(response.body);
     // print(messages);
   }
+  void successDialog(sentence){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.done_all,
+            color: Colors.green,
+            size: 80,
+          ),
+          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+
+      actions: [
+        ElevatedButton(
+          child: Text("Done", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            // Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                   builder: (context) => ComplaintPage()));
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> TaxiOfferScreen()));
+            // deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.green,
+            onPrimary: Colors.white,
+          )
+        ),
+      ],
+    );
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+        });
+        return alert;
+      });
+  }
+  
 }
