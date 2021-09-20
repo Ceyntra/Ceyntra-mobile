@@ -37,10 +37,17 @@ class PlaceService {
     //   "longitude": geoPosition.longitude
     // };
 
+    // Dambulla coordinates
     Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
+      "latitude": 7.8742,
+      "longitude": 80.6511
     };
+
+    // Mathara coordinates
+    // Map<String, double> currentLocation = {
+    //   "latitude": 5.9549,
+    //   "longitude": 80.5550
+    // };
 
     var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
         data: currentLocation);
@@ -59,20 +66,8 @@ class PlaceService {
 
   loadAllPlacesForPopulerFeed(
       Function setPlaceList, Function setPlacePhotos) async {
-    // final geoPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // Map<String, double> currentLocation = {
-    //   "latitude": geoPosition.latitude,
-    //   "longitude": geoPosition.longitude
-    // };
-
-    Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
-    };
-
-    var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
-        data: currentLocation);
+    var response =
+        await dio.post("http://10.0.2.2:9092/getAllPlacesForPopularFeed");
 
     if (response != null) {
       print("inner");
@@ -90,12 +85,25 @@ class PlaceService {
   Future<dynamic> loadPlaceListForSearchDropDown() async {
     var list = [];
     Map<String, double> currentLocation = {
-      "latitude": 7.9573,
-      "longitude": 80.7600
+      "latitude": 7.8742,
+      "longitude": 80.6511
     };
 
     var response = await dio.post("http://10.0.2.2:9092/getAllPlaces",
         data: currentLocation);
+
+    for (int i = 0; i < response.data.length; i++) {
+      list.add(response.data[i]["place_name"].toString());
+    }
+
+    return list;
+  }
+
+  Future<dynamic> loadPlaceListForSearchDropDownPopulerFeed() async {
+    var list = [];
+
+    var response =
+        await dio.post("http://10.0.2.2:9092/getAllPlacesForPopularFeed");
 
     for (int i = 0; i < response.data.length; i++) {
       list.add(response.data[i]["place_name"].toString());

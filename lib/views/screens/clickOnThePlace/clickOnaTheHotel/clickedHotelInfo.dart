@@ -106,7 +106,7 @@ class _ClickedHotelInfoScreenState extends State<ClickedHotelInfoScreen> {
                         dotPosition: DotPosition.bottomRight,
                         images: [
                           NetworkImage(photoList[0]),
-                          NetworkImage(photoList[1]),
+                          // NetworkImage(photoList[1]),
                           // NetworkImage(photoList[2])
                         ],
                       )

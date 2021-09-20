@@ -83,7 +83,7 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
             Container(
               // color: Colors.amber,
               // padding: EdgeInsets.only(right: 10),
-              width: (MediaQuery.of(context).size.width / 100) * 80,
+              width: (MediaQuery.of(context).size.width / 100) * 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -142,34 +142,34 @@ class _SecondaryFeedScreenState extends State<SecondaryFeedScreen> {
                               ),
                             ],
                           ))),
-                  InkWell(
-                      onTap: () {
-                        widget.setSecondaryFeedState("suggestions");
-                        setState(() {
-                          feedState = "suggestions";
-                        });
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.lightbulb,
-                                color: feedState == "suggestions"
-                                    ? Colors.green[400]
-                                    : Colors.amber,
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                "Suggestions",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ))),
+                  // InkWell(
+                  //     onTap: () {
+                  //       widget.setSecondaryFeedState("suggestions");
+                  //       setState(() {
+                  //         feedState = "suggestions";
+                  //       });
+                  //     },
+                  //     child: Container(
+                  //         padding: EdgeInsets.symmetric(horizontal: 10),
+                  //         alignment: Alignment.center,
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             Icon(
+                  //               Icons.lightbulb,
+                  //               color: feedState == "suggestions"
+                  //                   ? Colors.green[400]
+                  //                   : Colors.amber,
+                  //             ),
+                  //             SizedBox(
+                  //               height: 2,
+                  //             ),
+                  //             Text(
+                  //               "Suggestions",
+                  //               style: TextStyle(fontSize: 12),
+                  //             ),
+                  //           ],
+                  //         ))),
                 ],
               ),
             )
