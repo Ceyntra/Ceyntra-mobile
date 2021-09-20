@@ -1,5 +1,6 @@
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
 import 'package:ceyntra_mobile/views/screens/signUpScreen/hotelSignUpScreen.dart';
+import 'package:ceyntra_mobile/views/screens/signUpScreen/taxiSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/widgets/signUpwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +37,7 @@ class ServiceProviderSignUp extends StatelessWidget {
             description:
                 "If you wish to join our service provider community to support travellers and earn profits. Join us.",
             image: AssetImage('assets/images/signup3.png'),
-            widget: LoginScreen(),
+            widget: TaxiSignUp(),
           ),
           SizedBox(
             height: 20,

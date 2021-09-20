@@ -1,8 +1,11 @@
 import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/UpdateHotelPackages.dart';
+import 'package:http/http.dart' as http;
 
 class HotelPackageScreen extends StatefulWidget {
   HotelPackageScreen({Key key}) : super(key: key);
@@ -61,7 +64,216 @@ class HotelOfferCard extends StatelessWidget {
   }) : super(key: key);
 
   final HotelPackageModel packageModel;
+   void confirmDeleteDialog(BuildContext context){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your package permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            deletePackage(packageModel.packageId);
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> HotelOfferScreen()));
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
 
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+  void confirmDialog(BuildContext context){
+    AlertDialog alert = AlertDialog(
+      scrollable: true,
+      backgroundColor: Colors.blueGrey.shade800,
+      title: Text("Package Details",style:TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),textAlign: TextAlign.center),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children:[
+          packageModel.packageName == null
+          ? Row()
+          : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  Text("Package Name",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                  Text(packageModel.packageName,style: TextStyle(color: Colors.white)),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+              Column(
+                children: [
+                  packageModel.packageDesc == null
+                  ? Row()
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Package Description",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text(packageModel.packageDesc,style: TextStyle(color: Colors.white)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                    
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  packageModel.other == false
+                  ? Column()
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Other Facilities",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text(packageModel.otherFacility,style: TextStyle(color: Colors.white)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  packageModel.perDay == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Per Day / Per Package",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                      Text("Per Day",style: TextStyle(color: Colors.white)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Per Day / Per Package",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text("Per Package",style: TextStyle(color: Colors.white)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  packageModel.negotiable == true
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                      Text("Yes",style: TextStyle(color: Colors.white)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  )
+                  :Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Negotiable",style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    Text("No",style: TextStyle(color: Colors.white)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    ],
+                  ),
+                    
+                ],                
+                  
+              ),
+              ],
+              ),
+          
+        ],
+      ),
+      
+      actions: [
+        // ElevatedButton(
+        //   child: Text("Cancel", style: GoogleFonts.montserrat()),
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   }
+        // ),
+        ElevatedButton(
+          child: Text("Update", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            // Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                   builder: (context) => ComplaintPage()));
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> UpdateHotelOfferScreen(hotelPackageModel:packageModel)));
+            // deleteAccount();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.green,
+            onPrimary: Colors.white,
+          )
+        ),
+        ElevatedButton(
+          child: Text("Delete", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            confirmDeleteDialog(context);
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5,)),
+      ],
+    );
+
+    showDialog(
+      //barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.8),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+    Future<http.Response> deletePackage(int packageId) async {
+  final http.Response response = await http.delete(
+    Uri.parse('http://10.0.2.2:9092/deleteHotelPackage/$packageId'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  return response;
+}
   @override
   Widget build(BuildContext context) {
     var fontStyle = GoogleFonts.montserrat(
@@ -69,7 +281,11 @@ class HotelOfferCard extends StatelessWidget {
       height: 1.5,
       color: Colors.white,
     );
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        confirmDialog(context);
+      },
+     child: Container(
       margin: EdgeInsets.only(top:25,right: 20,left: 20),
       decoration: BoxDecoration(
         borderRadius:BorderRadius.all(
@@ -150,7 +366,7 @@ class HotelOfferCard extends StatelessWidget {
           )
         ],
       ),
-
+     ),
     );
   }
 }
