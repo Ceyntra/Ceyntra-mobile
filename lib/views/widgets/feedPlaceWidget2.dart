@@ -67,7 +67,7 @@ class _FeedPlaceWidgetState extends State<FeedPlaceWidget2> {
             placeName: widget.placeName,
             rating: widget.rating));
         widget.changeMainFeedStateState(
-          "clickOnThePlace",
+          "clickOnTheFavPlace",
         );
       },
       child: Container(
