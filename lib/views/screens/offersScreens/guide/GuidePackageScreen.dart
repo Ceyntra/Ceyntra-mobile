@@ -4,6 +4,7 @@ import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/guide/UpdateGuidePackages.dart';
 
 class GuidePackageScreen extends StatefulWidget {
   const GuidePackageScreen({Key key}) : super(key: key);
@@ -145,8 +146,8 @@ class GuideOfferCard extends StatelessWidget {
             //               context,
             //               MaterialPageRoute(
             //                   builder: (context) => ComplaintPage()));
-            // Navigator.push(context, 
-            // MaterialPageRoute(builder: (context)=> UpdateTaxiPackageScreen(taxiPackageModel:packageModel)));
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> UpdateGuideScreen(guidePackageModel:packageModel)));
             // deleteAccount();
           },
           style: ElevatedButton.styleFrom(
