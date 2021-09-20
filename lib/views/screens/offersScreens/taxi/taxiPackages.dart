@@ -1,11 +1,14 @@
 import 'package:ceyntra_mobile/models/TaxiPackageModel.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/TaxiPackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/UpdateTaxiPackages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class TaxiPackageScreen extends StatefulWidget {
   TaxiPackageScreen({Key key}) : super(key: key);
@@ -17,6 +20,7 @@ class TaxiPackageScreen extends StatefulWidget {
 class _TaxiPackageScreenState extends State<TaxiPackageScreen> {
 
   int userID;
+  int packageId;
   List<TaxiPackageModel> taxiPackages= [];
   PackageService packageService=new PackageService();
 
@@ -63,6 +67,53 @@ class TaxiOfferCard extends StatelessWidget {
   }) : super(key: key);
 
   final TaxiPackageModel packageModel;
+  void confirmDeleteDialog(BuildContext context){
+    AlertDialog alert = AlertDialog(
+      title: Column(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.red,
+            size: 80,
+          ),
+          Text("Are you sure?", style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+        ],
+      ),
+      titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      content: Text("This action will delete your package permanently", style: GoogleFonts.montserrat(), textAlign: TextAlign.center),
+      actions: [
+        ElevatedButton(
+          child: Text("Cancel", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }
+        ),
+        ElevatedButton(
+          child: Text("OK", style: GoogleFonts.montserrat()),
+          onPressed: () {
+            Navigator.of(context).pop();
+            deletePackage(packageModel.packageId);
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context)=> TaxiOfferScreen()));
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            onPrimary: Colors.white,
+          )
+        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal:5)),
+      ],
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.9),
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
 void confirmDialog(BuildContext context){
     AlertDialog alert = AlertDialog(
       scrollable: true,
@@ -221,7 +272,7 @@ void confirmDialog(BuildContext context){
           child: Text("Delete", style: GoogleFonts.montserrat()),
           onPressed: () {
             Navigator.of(context).pop();
-            // deleteAccount();
+            confirmDeleteDialog(context);
           },
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
@@ -241,6 +292,16 @@ void confirmDialog(BuildContext context){
       }
     );
   }
+Future<http.Response> deletePackage(int packageId) async {
+  final http.Response response = await http.delete(
+    Uri.parse('http://10.0.2.2:9092/deleteTaxiPackage/$packageId'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  return response;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -355,6 +416,8 @@ void confirmDialog(BuildContext context){
         ],
       ),
 ),
+
     );
   }
+  
 }
