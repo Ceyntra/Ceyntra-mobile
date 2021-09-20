@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:ceyntra_mobile/models/placeModel.dart';
 import 'package:ceyntra_mobile/service/PlaceService.dart';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:geolocator/geolocator.dart';
 
@@ -27,6 +28,7 @@ class _PopularFeedScreenState extends State<PopularFeedScreen> {
   PlaceService placeService = new PlaceService();
   var placeList;
   var topPlacePhotos = [];
+  List<String> cities = [];
 
   void setPlaceList(res) {
     setState(() {
@@ -44,8 +46,15 @@ class _PopularFeedScreenState extends State<PopularFeedScreen> {
   void initState() {
     super.initState();
     placeService.loadAllPlacesForPopulerFeed(setPlaceList, setPlacePhotos);
+    placeService.loadPlaceListForSearchDropDownPopulerFeed().then((value) {
+      setState(() {
+        cities = List<String>.from(value);
+      });
+    });
     // loadAllPlaces();
   }
+
+  final citiesSelected = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,44 +97,44 @@ class _PopularFeedScreenState extends State<PopularFeedScreen> {
                 width: double.infinity,
                 height: 250,
               ),
-              Positioned(
-                height: 40,
-                width: (MediaQuery.of(context).size.width / 100) * 80,
-                top: 10,
-                right: 0,
-                child: Container(
-                  child: TextField(
-                    style: GoogleFonts.itim(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.green,
-                        ),
-                        contentPadding: EdgeInsets.only(
-                            left: 2, top: 2, bottom: 2, right: 20),
-                        // isDense: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              bottomLeft: Radius.circular(30)),
-                          borderSide: BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
-                        ),
-                        hintText: 'Where are you going?',
-                        hintStyle: GoogleFonts.montserrat(
-                            color: Colors.grey,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   height: 40,
+              //   width: (MediaQuery.of(context).size.width / 100) * 80,
+              //   top: 10,
+              //   right: 0,
+              //   child: Container(
+              //     child: TextField(
+              //       style: GoogleFonts.itim(
+              //           fontSize: 15,
+              //           fontWeight: FontWeight.w700,
+              //           color: Colors.white),
+              //       decoration: InputDecoration(
+              //           filled: true,
+              //           fillColor: Colors.white,
+              //           prefixIcon: Icon(
+              //             Icons.search,
+              //             color: Colors.green,
+              //           ),
+              //           contentPadding: EdgeInsets.only(
+              //               left: 2, top: 2, bottom: 2, right: 20),
+              //           // isDense: true,
+              //           border: OutlineInputBorder(
+              //             borderRadius: BorderRadius.only(
+              //                 topLeft: Radius.circular(30),
+              //                 bottomLeft: Radius.circular(30)),
+              //             borderSide: BorderSide(
+              //               width: 0,
+              //               style: BorderStyle.none,
+              //             ),
+              //           ),
+              //           hintText: 'Where are you going?',
+              //           hintStyle: GoogleFonts.montserrat(
+              //               color: Colors.grey,
+              //               fontSize: 15,
+              //               fontWeight: FontWeight.w500)),
+              //     ),
+              //   ),
+              // ),
               Positioned(
                   top: 80,
                   left: 20,
@@ -173,14 +182,60 @@ class _PopularFeedScreenState extends State<PopularFeedScreen> {
                           ? placeList[0]["number_of_votes"]
                           : 0,
                     ),
-                  ))
+                  )),
+              Positioned(
+                // height: 40,
+                width: (MediaQuery.of(context).size.width / 100) * 80,
+                top: 10,
+                right: 0,
+                child: Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        bottomLeft: Radius.circular(30)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: DropDownField(
+                        controller: citiesSelected,
+                        hintText: "Search here",
+                        enabled: true,
+                        strict: false,
+                        items: cities,
+                        itemsVisibleInDropdown: 4,
+                        onValueChanged: (value) {
+                          print(value);
+                          placeService
+                              .getPlaceByPlaceName(value)
+                              .then((value1) {
+                            widget.setNullClickedOnThePlaceState();
+                            widget.setClickedPlace(PlaceModel(
+                                placeId: value1["place_id"],
+                                description: value1["description"],
+                                latitude: value1["latitude"],
+                                longitude: value1["longitude"],
+                                numberOfVotes: value1["number_of_votes"],
+                                photo: value1["photo"],
+                                placeName: value1["place_name"],
+                                rating: value1["rating"]));
+                            widget.changeMainFeedStateState("clickOnThePlace");
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
         Container(
           alignment: Alignment.centerLeft,
           child: GreenTagWidget(
-            title: "Nearest Destinations",
+            title: placeList != null
+                ? "All Destinations(" + placeList.length.toString() + ")"
+                : "All Destinations",
           ),
         ),
         Column(

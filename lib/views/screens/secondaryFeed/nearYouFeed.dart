@@ -47,7 +47,9 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
     super.initState();
     placeService.loadAllPlaces(setPlaceList, setPlacePhotos);
     placeService.loadPlaceListForSearchDropDown().then((value) {
-      cities = List<String>.from(value);
+      setState(() {
+        cities = List<String>.from(value);
+      });
     });
     // loadAllPlaces();
   }
@@ -149,36 +151,6 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
                 top: 10,
                 right: 0,
                 child: Container(
-                  // child: TextField(
-                  //   style: GoogleFonts.itim(
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.w700,
-                  //       color: Colors.white),
-                  //   decoration: InputDecoration(
-                  //       filled: true,
-                  //       fillColor: Colors.white,
-                  //       prefixIcon: Icon(
-                  //         Icons.search,
-                  //         color: Colors.green,
-                  //       ),
-                  //       contentPadding: EdgeInsets.only(
-                  //           left: 2, top: 2, bottom: 2, right: 20),
-                  //       // isDense: true,
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(30),
-                  //             bottomLeft: Radius.circular(30)),
-                  //         borderSide: BorderSide(
-                  //           width: 0,
-                  //           style: BorderStyle.none,
-                  //         ),
-                  //       ),
-                  //       hintText: 'Where are you going?',
-                  //       hintStyle: GoogleFonts.montserrat(
-                  //           color: Colors.grey,
-                  //           fontSize: 15,
-                  //           fontWeight: FontWeight.w500)),
-                  // ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
@@ -223,7 +195,9 @@ class _NearYouFeedScreenState extends State<NearYouFeedScreen> {
         Container(
           alignment: Alignment.centerLeft,
           child: GreenTagWidget(
-            title: "Nearest Destinations",
+            title: placeList != null
+                ? "Nearest Destinations(" + placeList.length.toString() + ")"
+                : "Nearest Destinations",
           ),
         ),
         Column(
