@@ -1,4 +1,5 @@
 import 'package:ceyntra_mobile/views/screens/loginScreen.dart';
+import 'package:ceyntra_mobile/views/screens/signUpScreen/hotelSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/widgets/signUpwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,7 @@ class ServiceProviderSignUp extends StatelessWidget {
             description:
                 "If you are a traveller who eger to travel around Sri Lanka. Please sign up to use our amazing support for you.",
             image: AssetImage('assets/images/signup1.png'),
-            widget: LoginScreen(),
+            widget: HotelSignUp(),
           ),
           SizedBox(
             height: 20,
