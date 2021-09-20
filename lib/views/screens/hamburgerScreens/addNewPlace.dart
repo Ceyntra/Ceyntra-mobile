@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/InputFormField.dart';
-import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ThreeImageUploadField.dart';
 
 class AddNewPlaceScreen extends StatefulWidget {
   // const AddNewPlaceScreen({ Key? key }) : super(key: key);
@@ -107,11 +107,27 @@ class _AddNewPlaceScreenState extends State<AddNewPlaceScreen> {
                 height: 8,
               ),
               
-              ImageUploadField(setImageState: (img) {
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  
+                  ImageUploadField(setImageState: (img) {
+
+              }),
+                  ImageUploadField(setImageState: (img) {
 
               }),
 
-               Divider(
+                  ImageUploadField(setImageState: (img) {
+
+              }),
+                ],
+              ),
+              
+
+
+
+              Divider(
                 color: Colors.white,
               ),
 
