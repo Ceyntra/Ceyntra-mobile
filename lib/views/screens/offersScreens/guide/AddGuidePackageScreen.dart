@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:ceyntra_mobile/models/GuidePackageModel.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
@@ -20,6 +21,9 @@ class AddGuideScreen extends StatefulWidget {
 
 class _AddGuideScreenState extends State<AddGuideScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool success=false;
+  bool saving=false;
+
   String _packageName;
   String _description;
   String _places;
@@ -87,319 +91,381 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Title('Package Name'),
+    return Stack(
 
-              SizedBox(
-                height: 8,
-              ),
-
-              //Input Package name field
-              InputFormField(
-                  emptyMsg: "Package name can not be empty",
-                  setValue: setPackageName,
-                  maxline: 1,
-                  minline: 1),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Title("Package Description"),
-              SizedBox(
-                height: 8,
-              ),
-              InputFormField(
-                  emptyMsg: "Package Description can not be empty",
-                  setValue: setPackageDesc,
-                  maxline: 10,
-                  minline: 4),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Title("Places"),
-              SizedBox(
-                height: 8,
-              ),
-              InputFormField(
-                  emptyMsg: "Places can not be empty",
-                  setValue: setPlaces,
-                  maxline: 1,
-                  minline: 1),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Title("Languages"),
-              SizedBox(
-                height: 8,
-              ),
-              InputFormField(
-                  emptyMsg: "Languages can not be empty",
-                  setValue: setLanguage,
-                  maxline: 1,
-                  minline: 1),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Title("Image"),
-              SizedBox(
-                height: 8,
-              ),
-              //Image Uploader
-              ImageUploadField(setImageState: (img) {
-                setState(() {
-                  image = img;
-                });
-              }),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              //No of passengers
-              Title("Group Capacity"),
-              SizedBox(
-                height: 8,
-              ),
-
-              Row(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child: Text(
-                    "Maximum Group Capacity",
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  Container(
-                    child: IconButton(
-                      iconSize: 20.0,
-                      splashRadius: 20.0,
-                      icon: const Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.white,
-                        size: 25.0,
+                  Title('Package Name'),
+
+                  SizedBox(
+                    height: 8,
+                  ),
+
+                  //Input Package name field
+                  InputFormField(
+                      emptyMsg: "Package name can not be empty",
+                      setValue: setPackageName,
+                      maxline: 1,
+                      minline: 1),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Title("Package Description"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  InputFormField(
+                      emptyMsg: "Package Description can not be empty",
+                      setValue: setPackageDesc,
+                      maxline: 10,
+                      minline: 4),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Title("Places"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  InputFormField(
+                      emptyMsg: "Places can not be empty",
+                      setValue: setPlaces,
+                      maxline: 1,
+                      minline: 1),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Title("Languages"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  InputFormField(
+                      emptyMsg: "Languages can not be empty",
+                      setValue: setLanguage,
+                      maxline: 1,
+                      minline: 1),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Title("Image"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  //Image Uploader
+                  ImageUploadField(setImageState: (img) {
+                    setState(() {
+                      image = img;
+                    });
+                  }),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //No of passengers
+                  Title("Group Capacity"),
+                  SizedBox(
+                    height: 8,
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Maximum Group Capacity",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                      Container(
+                        child: IconButton(
+                          iconSize: 20.0,
+                          splashRadius: 20.0,
+                          icon: const Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          onPressed: _groupCapacity > 1
+                              ? () {
+                                  setState(() {
+                                    _groupCapacity--;
+                                  });
+                                }
+                              : null,
+                        ),
                       ),
-                      onPressed: _groupCapacity > 1
-                          ? () {
-                              setState(() {
-                                _groupCapacity--;
-                              });
-                            }
-                          : null,
+                      Text(_groupCapacity.toString(),
+                          style: TextStyle(color: Colors.white)),
+                      Container(
+                        child: IconButton(
+                          iconSize: 20.0,
+                          splashRadius: 20.0,
+                          icon: const Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _groupCapacity++;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  //Charging
+                  Title("Charging Preferances"),
+                  SizedBox(
+                    height: 8,
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _perDay,
+                              checkColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (_perDay == false) {
+                                    _perDay = !_perDay;
+                                  }
+                                });
+                              },
+                              fillColor: MaterialStateProperty.all(Colors.green),
+                            ),
+                            Title("Per day"),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: !_perDay,
+                              checkColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (_perDay == true) {
+                                    _perDay = !_perDay;
+                                  }
+                                });
+                              },
+                              fillColor: MaterialStateProperty.all(Colors.green),
+                            ),
+                            Title("Per Tour"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Title("Price"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    validator: (name) {
+                      double p = double.tryParse(name);
+                      if (name.isEmpty) {
+                        return "Price cannot be empty";
+                      } else if (p == null) {
+                        return "Invalid value for a price";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onSaved: (name) {
+                      setState(() {
+                        _price = double.parse(name);
+                      });
+                    },
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                     ),
                   ),
-                  Text(_groupCapacity.toString(),
-                      style: TextStyle(color: Colors.white)),
+
+                  Row(
+                    children: [
+                      Expanded(child: Title("Negotiable")),
+                      Title("No"),
+                      Transform.scale(
+                          scale: 1,
+                          child: Switch(
+                            onChanged: (value) {
+                              setState(() {
+                                _negotiable = !_negotiable;
+                              });
+                            },
+                            value: _negotiable,
+                            activeColor: Colors.green,
+                            activeTrackColor: Colors.green,
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Colors.white,
+                          )),
+                      Title("Yes"),
+                    ],
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
                   Container(
-                    child: IconButton(
-                      iconSize: 20.0,
-                      splashRadius: 20.0,
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: Colors.white,
-                        size: 25.0,
-                      ),
+                    width: MediaQuery.of(context).size.width * 0.96,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                      child: Text("Add Offer"),
                       onPressed: () {
-                        setState(() {
-                          _groupCapacity++;
-                        });
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+
+                          setState(() {
+                            saving=true;
+                          });
+
+                          savePackage();
+
+                          //rest
+                          _formKey.currentState.reset();
+                        }
                       },
                     ),
                   ),
                 ],
               ),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              //Charging
-              Title("Charging Preferances"),
-              SizedBox(
-                height: 8,
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: _perDay,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              if (_perDay == false) {
-                                _perDay = !_perDay;
-                              }
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Per day"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: !_perDay,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              if (_perDay == true) {
-                                _perDay = !_perDay;
-                              }
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Per Tour"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Title("Price"),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                style: TextStyle(color: Colors.black),
-                validator: (name) {
-                  double p = double.tryParse(name);
-                  if (name.isEmpty) {
-                    return "Price cannot be empty";
-                  } else if (p == null) {
-                    return "Invalid value for a price";
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (name) {
-                  setState(() {
-                    _price = double.parse(name);
-                  });
-                },
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-              ),
-
-              Row(
-                children: [
-                  Expanded(child: Title("Negotiable")),
-                  Title("No"),
-                  Transform.scale(
-                      scale: 1,
-                      child: Switch(
-                        onChanged: (value) {
-                          setState(() {
-                            _negotiable = !_negotiable;
-                          });
-                        },
-                        value: _negotiable,
-                        activeColor: Colors.green,
-                        activeTrackColor: Colors.green,
-                        inactiveThumbColor: Colors.white,
-                        inactiveTrackColor: Colors.white,
-                      )),
-                  Title("Yes"),
-                ],
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Container(
-                width: MediaQuery.of(context).size.width * 0.96,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ))),
-                  child: Text("Add Offer"),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-
-                      savePackage();
-
-                      //rest
-                      _formKey.currentState.reset();
-                    }
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+
+        //Pop up
+        if(success) ...[
+
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 5),
+            child: AlertDialog(
+              title: const Text('Success',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: Color(0xff031925),
+
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: const <Widget>[
+                    Text('Package added successfully',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+
+                TextButton(
+                  child: const Text('Ok',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      success=false;
+                    });
+                  },
+                ),
+
+              ],
+            ),
+          ),
+        ],
+
+        if (saving) ...[
+          LoadingSpinner(),
+        ],
+
+
+
+
+
+      ],
     );
     ;
   }
@@ -425,3 +491,24 @@ class _AddGuideScreenState extends State<AddGuideScreen> {
   }
 
 }
+
+
+class LoadingSpinner extends StatelessWidget {
+  const LoadingSpinner({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 150.0,
+        height: 150.0,
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.blueAccent,
+          valueColor: AlwaysStoppedAnimation(Colors.white),
+          strokeWidth: 5.0,
+        ),
+      ),
+    );
+  }
+}
+
