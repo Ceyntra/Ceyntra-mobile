@@ -1,11 +1,9 @@
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:tflite/tflite.dart';
-
 
 class AnimalDetectionScreen extends StatefulWidget {
   // const AnimalDetectionScreen({ Key? key }) : super(key: key);
@@ -296,12 +294,5 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
     setState(() {
       _results = results;
     });
-  }
-
-  void queryPage() async {
-    var wiki = Wikipedia();
-    var resultss = await wiki.search('hello world');
-    var queryResults = await wiki.getPage(resultss.searchResults[0].title);
-    print(queryResults);
   }
 }
