@@ -181,7 +181,7 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
                   HomeOptionWidget(Colors.green, '  Chat', Icons.chat, (){
                     Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => ChatRoomScreen()),
+                          builder: (context) => ChatRoomScreen(userType: 2,)),
                     );
                   }),
                 ],

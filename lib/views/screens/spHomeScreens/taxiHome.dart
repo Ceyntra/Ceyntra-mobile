@@ -190,7 +190,7 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
                   HomeOptionWidget(Colors.green, '  Chat', Icons.chat, () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChatRoomScreen()),
+                      MaterialPageRoute(builder: (context) => ChatRoomScreen(userType: 3,)),
                     );
                   }),
                 ],

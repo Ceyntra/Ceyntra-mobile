@@ -184,7 +184,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen> {
                   HomeOptionWidget(Colors.green, '  Chat', Icons.chat, (){
                     Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => ChatRoomScreen()),
+                          builder: (context) => ChatRoomScreen(userType: 1,)),
                     );
                   }),
                 ],
