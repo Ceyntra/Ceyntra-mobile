@@ -78,6 +78,8 @@ flutter:
     - assets/images/
     - assets/secrets.json
     # - assets/icons/
+    - assets/mobilenet_v1_1.0_224.txt
+    - assets/mobilenet_v1_1.0_224.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
