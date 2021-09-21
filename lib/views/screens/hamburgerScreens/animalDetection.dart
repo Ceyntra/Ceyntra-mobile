@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
+import 'package:tflite/tflite.dart';
 
 class AnimalDetectionScreen extends StatefulWidget {
   // const AnimalDetectionScreen({ Key? key }) : super(key: key);
@@ -17,22 +18,32 @@ class AnimalDetectionScreen extends StatefulWidget {
 
 class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
   File imageFile;
+  List _results;
+  String queryResults;
 
-  _imgFromCamera() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera,
-    );
+  @override
+  void initState() {
+    super.initState();
+    loadModel();
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future _imgFromCamera() async {
+    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
+    imageClassification(pickedFile);
     setState(() {
       imageFile = File(pickedFile.path);
     });
   }
 
-  _imgFromGallery() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-    );
-
+  Future _imgFromGallery() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    imageClassification(pickedFile);
     setState(() {
       imageFile = File(pickedFile.path);
     });
@@ -47,16 +58,15 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
               child: Wrap(
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(
-                      Icons.photo_library,
-                      color: Colors.black,
-                    ),
-                    title: Text('Photo Library'),
-                    onTap: () {
-                      _imgFromGallery();
-                      Navigator.of(context).pop();
-                    }
-                  ),
+                      leading: Icon(
+                        Icons.photo_library,
+                        color: Colors.black,
+                      ),
+                      title: Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
                   ListTile(
                     leading: Icon(
                       Icons.photo_camera,
@@ -104,7 +114,6 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                 )),
         backgroundColor: Color(0xff192537),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -114,7 +123,6 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                 title: "Photo",
               ),
             ),
-
             imageFile != null
                 ? Container(
                     margin: EdgeInsets.only(right: 10, left: 10),
@@ -201,56 +209,90 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                           color: Colors.white,
                         )),
                   ),
-
             Container(
               alignment: Alignment.centerLeft,
               child: GreenTagWidget(
                 title: "Result",
               ),
             ),
-
             imageFile != null
-              ? Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 10, left: 10),
-                  // height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    // color: Colors.grey.withOpacity(0.5),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+                ? Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 10, left: 10),
+                    // height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
                     ),
-                  ),
 
-                  child: Text(
-                    'The description will goes here ...',
-                    style: TextStyle(
-                      color: Colors.white,
+                    child: Column(
+                      children: _results != null
+                          ? _results.map((result) {
+                              return Card(
+                                color: Color(0xff192537),
+                                child: Container(
+                                  child: Text(
+                                    "${result["label"]} (Confidence -  ${result["confidence"].toStringAsFixed(2)})",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              );
+                            }).toList()
+                          : [],
                     ),
-                  ),
-                )
-              : Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 10, left: 10),
-                  // height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    // color: Colors.grey.withOpacity(0.5),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+                  )
+                : Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 10, left: 10),
+                    // height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
                     ),
-                  ),
 
-                  child: Text(
-                    'Please enter the image to view results',
-                    style: TextStyle(
-                      color: Colors.white,
+                    child: Text(
+                      'Please select the image to view results',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                )
           ],
         ),
       ),
     );
+  }
+
+  Future loadModel() async {
+    Tflite.close();
+    String res;
+    res = await Tflite.loadModel(
+      model: "assets/mobilenet_v1_1.0_224.tflite",
+      labels: "assets/mobilenet_v1_1.0_224.txt",
+    );
+    print(res);
+  }
+
+  Future imageClassification(var image) async {
+    // Run tensorflowlite image classification model on the image
+    final List results = await Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 1,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
+    );
+    setState(() {
+      _results = results;
+    });
   }
 }

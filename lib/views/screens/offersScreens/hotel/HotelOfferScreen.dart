@@ -2,6 +2,7 @@ import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/AddHotelOffers.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelPackages.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -83,7 +84,11 @@ class _HotelOfferScreenState extends State<HotelOfferScreen> {
           backgroundColor: Color(0xff192537),
           leading: InkWell(
             onTap: (){
-              Navigator.pop(context);
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HotelHomeScreen()
+              ));
             },
             child: Icon(Icons.arrow_back),
           ),

@@ -270,4 +270,25 @@ class PlaceService {
     );
     return items;
   }
+
+  Future<dynamic> addNewPlace(placeName, List<String> imgList, desc, district,
+      latitude, longitude) async {
+    return getUsertId().then((value) async {
+      Map<String, dynamic> details1 = {
+        "place_name": placeName,
+        "description": desc,
+        "latitude": latitude,
+        "longitude": longitude,
+        "place_added_user_id": value,
+        "photo": imgList[0],
+        "district": district,
+        "photoList": imgList
+      };
+
+      var response =
+          await dio.post('http://10.0.2.2:9092/addNewPlace', data: details1);
+
+      return response.data;
+    });
+  }
 }

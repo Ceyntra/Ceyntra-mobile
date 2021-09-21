@@ -3,6 +3,7 @@ import 'package:ceyntra_mobile/service/UserService.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/guide/AddGuidePackageScreen.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/guide/GuidePackageScreen.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/AddTaxiOfferScreen.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -79,7 +80,11 @@ class _TaxiOfferScreenState extends State<GuideOfferScreen> {
           backgroundColor: Color(0xff192537),
           leading: InkWell(
             onTap: (){
-              Navigator.pop(context);
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GuideHomeScreen()
+              ));
             },
             child: Icon(Icons.arrow_back),
           ),

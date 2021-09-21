@@ -1,8 +1,10 @@
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/views/screens/clickOnThePlace/Bid/clickOntheTaxiFeedBid.dart';
+import 'package:ceyntra_mobile/views/screens/clickOnThePlace/clickOnTheTaxi/clickedTaxiInfo.dart';
 import 'package:ceyntra_mobile/views/screens/firstPage.dart';
 import 'package:ceyntra_mobile/views/screens/firstSignUpScreen.dart';
 import 'package:ceyntra_mobile/views/screens/getHelpScreen.dart';
+import 'package:ceyntra_mobile/views/screens/hamburgerScreens/addNewPlace.dart';
 import 'package:ceyntra_mobile/views/screens/mainScreen.dart';
 import 'package:ceyntra_mobile/views/screens/introSlide.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/taxi/TaxiOfferScreen.dart';
@@ -61,7 +63,7 @@ class MyApp extends StatelessWidget {
   //   return MaterialApp(
   //     debugShowCheckedModeBanner: false,
   //     title: 'Flutter Demo',
-  //     home: ClickOnTheTaxiFeedBid(),
+  //     home: AddNewPlaceScreen(),
   //   );
   // }
 }
