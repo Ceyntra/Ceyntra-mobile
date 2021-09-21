@@ -25,8 +25,8 @@ class GuideHomeScreen extends StatefulWidget {
 class _GuideHomeScreenState extends State<GuideHomeScreen> {
   Auth auth = new Auth();
 
-  int packageCount;
-  int newRequestCount;
+  int packageCount=0;
+  int newRequestCount=0;
 
   Function logIn() {}
 

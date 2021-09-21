@@ -26,8 +26,8 @@ class TaxiHomeScreen extends StatefulWidget {
 class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
   Auth auth = new Auth();
 
-  int packageCount;
-  int newRequestCount;
+  int packageCount=0;
+  int newRequestCount=0;
 
   Function logIn() {}
 

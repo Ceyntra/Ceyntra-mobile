@@ -25,8 +25,8 @@ class HotelHomeScreen extends StatefulWidget {
 class _HotelHomeScreenState extends State<HotelHomeScreen> {
   Auth auth = new Auth();
 
-  int packageCount;
-  int newRequestCount;
+  int packageCount=0;
+  int newRequestCount=0;
 
   Function logIn(){}
 
@@ -49,7 +49,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen> {
       newRequestCount=reqC;
     });
 
-    // print("pkg Count: "+ packageCount.toString());
+     print("pkg Count: "+ packageCount.toString());
+    print("pkg Count: "+ newRequestCount.toString());
 
   }
 
@@ -224,7 +225,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen> {
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child:Row(
                 children: [
-                  HomeIIndicatorWidget('$packageCount OFFERS',  packageCount == null ? 0.0 : packageCount/100 , 'TOTAL OFFERS',
+                  HomeIIndicatorWidget('$packageCount OFFERS',  packageCount == 0 ? 0.0 : packageCount/100 , 'TOTAL OFFERS',
                       Colors.grey, Colors.white),
                   HomeIIndicatorWidget('$newRequestCount NEW ', newRequestCount == 0 ? 0.0 : newRequestCount/100, 'NEW REQUEST',
                       Colors.grey, Colors.pink[100]),
