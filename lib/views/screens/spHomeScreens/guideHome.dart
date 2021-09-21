@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ceyntra_mobile/auth.dart';
+import 'package:ceyntra_mobile/service/GuideService.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/RequestService.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
@@ -27,6 +28,7 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
 
   int packageCount=0;
   int newRequestCount=0;
+  double rating=0.0;
 
   Function logIn() {}
 
@@ -43,10 +45,13 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
     PackageService packageService=new PackageService();
     int c=await packageService.getGuidePackageCount(widget.userID);
     int reqC= await RequestService.getRequestCount(widget.userID);
+    double rate=await GuideService.getGuideRating(widget.userID);
+
 
     setState(() {
       packageCount=c;
       newRequestCount=reqC;
+      rating=rate;
     });
 
     // print("pkg Count: "+ packageCount.toString());
@@ -106,7 +111,7 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: '648',
+                                  text: rating.toString(),
                                   style: TextStyle(
                                     color: Colors.amber,
                                     fontSize: 20,
@@ -124,27 +129,8 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
                             ),
                           ),
                           Text(
-                            'REACH',
+                            'RATING',
                             style: TextStyle(color: Colors.white),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    size: 17,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '8.1%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),

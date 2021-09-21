@@ -3,6 +3,7 @@ import 'package:ceyntra_mobile/views/widgets/GuideWidget2.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class GuideService {
   var dio = Dio();
@@ -39,6 +40,18 @@ class GuideService {
       return response.data;
     });
   }
+
+
+  static Future<double> getGuideRating(int spID) async {
+
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getGuideRating/$spID')  //$userID
+    );
+
+    return double.parse(response.body);
+  }
+
+
 
   List<Widget> loadGuideWidgets(BuildContext context, guideList,
       setClickedGuide, changeMainFeedStateState) {

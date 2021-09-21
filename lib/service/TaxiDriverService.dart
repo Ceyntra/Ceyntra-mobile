@@ -4,6 +4,8 @@ import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class TaxiDriverService {
   var dio = Dio();
@@ -40,6 +42,15 @@ class TaxiDriverService {
       var response = await dio.get('http://10.0.2.2:9092/loadFavTaxies/$value');
       return response.data;
     });
+  }
+
+  static Future<double> getTaxiRating(int spID) async {
+
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getTaxiRating/$spID')  //$userID
+    );
+
+    return double.parse(response.body);
   }
 
   List<Widget> loadTaxiWidgets(BuildContext context, taxiList, setClickedTaxi,

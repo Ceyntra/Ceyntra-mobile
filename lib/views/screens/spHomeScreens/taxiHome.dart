@@ -1,6 +1,7 @@
 import 'package:ceyntra_mobile/auth.dart';
 import 'package:ceyntra_mobile/service/PackageService.dart';
 import 'package:ceyntra_mobile/service/RequestService.dart';
+import 'package:ceyntra_mobile/service/TaxiDriverService.dart';
 import 'package:ceyntra_mobile/views/screens/chatRoomScreen.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
 import 'package:ceyntra_mobile/views/screens/spHomeScreens/notificationScreen.dart';
@@ -28,6 +29,7 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
 
   int packageCount=0;
   int newRequestCount=0;
+  double rating=0.0;
 
   Function logIn() {}
 
@@ -44,10 +46,12 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
     PackageService packageService=new PackageService();
     int c=await packageService.getTaxiPackageCount(widget.userID);
     int reqC= await RequestService.getRequestCount(widget.userID);
+    double rate=await TaxiDriverService.getTaxiRating(widget.userID);
 
     setState(() {
       packageCount=c;
       newRequestCount=reqC;
+      rating=rate;
     });
 
     print("pkg Count: "+ packageCount.toString());
@@ -110,7 +114,7 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: '648',
+                                  text: rating.toString(),
                                   style: TextStyle(
                                     color: Colors.amber,
                                     fontSize: 20,
@@ -128,27 +132,8 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
                             ),
                           ),
                           Text(
-                            'REACH',
+                            'RATING',
                             style: TextStyle(color: Colors.white),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    size: 17,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '8.1%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),
