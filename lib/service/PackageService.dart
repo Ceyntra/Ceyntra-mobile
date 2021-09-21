@@ -109,13 +109,44 @@ class PackageService{
 
   }
 
+  Future<int> getTaxiPackageCount(int userID) async{
 
+    print("Taxi ID -"+ userID.toString());
 
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getTaxiPackageCount/$userID')  //$userID
+    );
 
+    print(response.body);
 
+    return int.parse(response.body);
+  }
 
+  Future<int> getHotelPackageCount(int userID) async{
 
+    print("Hotel ID -"+ userID.toString());
 
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getHotelPackageCount/$userID')  //$userID
+    );
+
+    print(response.body);
+
+    return int.parse(response.body);
+  }
+
+  Future<int> getGuidePackageCount(int userID) async{
+
+    print("Guide ID -"+ userID.toString());
+
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getGuidePackageCount/$userID')  //$userID
+    );
+
+    print(response.body);
+
+    return int.parse(response.body);
+  }
 
 
 

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:ceyntra_mobile/auth.dart';
+import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/RequestService.dart';
 import 'package:ceyntra_mobile/views/screens/complaints.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/guide/GuideOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/guideProfile.dart';
@@ -12,9 +14,45 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 import '../chatRoomScreen.dart';
 
-class GuideHomeScreen extends StatelessWidget {
+class GuideHomeScreen extends StatefulWidget {
+  const GuideHomeScreen({Key key, this.userID}) : super(key: key);
+
+  @override
+  _GuideHomeScreenState createState() => _GuideHomeScreenState();
+  final int userID;
+}
+
+class _GuideHomeScreenState extends State<GuideHomeScreen> {
   Auth auth = new Auth();
+
+  int packageCount;
+  int newRequestCount;
+
   Function logIn() {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    loadData();
+
+  }
+
+  loadData() async {
+    PackageService packageService=new PackageService();
+    int c=await packageService.getGuidePackageCount(widget.userID);
+    int reqC= await RequestService.getRequestCount(widget.userID);
+
+    setState(() {
+      packageCount=c;
+      newRequestCount=reqC;
+    });
+
+    // print("pkg Count: "+ packageCount.toString());
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,8 +207,8 @@ class GuideHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
                   HomeOptionWidget(
-                    Colors.blue, '  Settings', 
-                    Icons.settings, 
+                    Colors.blue, '  Settings',
+                    Icons.settings,
                     () {
                       print("object");
                       Navigator.push(
@@ -191,9 +229,9 @@ class GuideHomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Row(
                 children: [
-                  HomeIIndicatorWidget('54 OFFERS', 0.54, 'LAST MONTH',
+                  HomeIIndicatorWidget('$packageCount OFFERS', packageCount == 0 ? 0.0 : packageCount/100, 'TOTAL OFFERS',
                       Colors.grey, Colors.white),
-                  HomeIIndicatorWidget('67 OFFERS', 0.67, 'THIS MONTH',
+                  HomeIIndicatorWidget('$newRequestCount NEW ', newRequestCount == 0 ? 0.0 : newRequestCount/100, 'NEW REQUEST',
                       Colors.grey, Colors.pink[100]),
                 ],
               ),

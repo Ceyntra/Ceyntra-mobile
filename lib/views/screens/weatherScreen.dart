@@ -40,6 +40,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
     String apiKey=await Secret.getPlaceAPIKey();
 
 
+
+
     http.Response response = await http.get(Uri.parse(
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&fields=geometry&key=$apiKey'));
     return jsonDecode(response.body)['candidates'][0]['geometry']['location'];
