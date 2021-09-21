@@ -53,9 +53,11 @@ dependencies:
   geolocator: ^7.0.3
   stomp_dart_client: ^0.4.3
   dropdownfield: ^1.0.0
+  tflite: ^1.1.1
   readmore:
   dropdown_formfield:
   flutter_pin_code_fields: ^1.1.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,8 @@ flutter:
     - assets/images/
     - assets/secrets.json
     # - assets/icons/
+    - assets/mobilenet_v1_1.0_224.txt
+    - assets/mobilenet_v1_1.0_224.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
