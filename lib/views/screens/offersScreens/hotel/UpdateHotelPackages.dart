@@ -2,16 +2,17 @@ import 'dart:convert';
 import 'package:ceyntra_mobile/models/HotelPackageModel.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/widget/ImageUploadField.dart';
+import 'package:ceyntra_mobile/views/screens/offersScreens/widget/updateFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'package:ceyntra_mobile/views/screens/offersScreens/widget/UpdateFormField.dart';
 
 class UpdateHotelOfferScreen extends StatefulWidget {
-  const UpdateHotelOfferScreen({Key key, @required this.hotelPackageModel}) : super(key: key);
+  const UpdateHotelOfferScreen({Key key, @required this.hotelPackageModel})
+      : super(key: key);
 
   final HotelPackageModel hotelPackageModel;
 
@@ -71,11 +72,10 @@ class _UpdateHotelOfferScreenState extends State<UpdateHotelOfferScreen> {
       _negotiable = widget.hotelPackageModel.negotiable;
       _perDay = widget.hotelPackageModel.perDay;
       imageURL = widget.hotelPackageModel.imageURL;
-      other = widget.hotelPackageModel.other; 
+      other = widget.hotelPackageModel.other;
       withAC = widget.hotelPackageModel.withAC;
       swimPool = widget.hotelPackageModel.withAC;
       meal = widget.hotelPackageModel.meal;
-    
     });
   }
 
@@ -143,427 +143,428 @@ class _UpdateHotelOfferScreenState extends State<UpdateHotelOfferScreen> {
 
         backgroundColor: Color(0xff031925),
       ),
-    body:SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Title('Package Name'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Title('Package Name'),
 
-              SizedBox(
-                height: 8,
-              ),
-
-              //Input Package name field
-              UpdateFormField(
-                  emptyMsg: "Package name can not be empty",
-                  setValue: setPackageName,
-                  initialName: widget.hotelPackageModel.packageName,
-                  maxline: 1,
-                  minline: 1),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Title("Package Description"),
-
-              SizedBox(
-                height: 8,
-              ),
-              //Package Description Input
-              UpdateFormField(
-                  emptyMsg: "Package Description can not be empty",
-                  setValue: setPackageDesc,
-                  initialName: widget.hotelPackageModel.packageDesc,
-                  maxline: 10,
-                  minline: 4),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Title("Image"),
-              SizedBox(
-                height: 8,
-              ),
-
-              //Image Uploader
-              ImageUploadField(setImageState: (img) {
-                setState(() {
-                  image = img;
-                });
-              }),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Title("Details"),
-              SizedBox(
-                height: 8,
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: withAC,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              // this.value = value;
-                              withAC = !withAC;
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("With AC"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: swimPool,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              // this.value = value;
-                              swimPool = !swimPool;
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Swim Pool"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: meal,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              // this.value = value;
-                              meal = !meal;
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Meal"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: other,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              // this.value = value;
-                              other = !other;
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Other"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              other
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Divider(
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-
-                        Title("Other Facilities & Service"),
-
-                        SizedBox(
-                          height: 8,
-                        ),
-                        //Package Description Input
-                        UpdateFormField(
-                            emptyMsg: "Other Facilities can't leave blank",
-                            setValue: setOtherFacility,
-                            initialName: widget.hotelPackageModel.otherFacility,
-                            maxline: 10,
-                            minline: 4),
-
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    )
-                  : SizedBox(
-                      height: 10,
-                    ),
-
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              //No of passengers
-              Title("Room Capacity"),
-              SizedBox(
-                height: 8,
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    "Max Room Capacity",
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  Container(
-                    child: IconButton(
-                      iconSize: 20.0,
-                      splashRadius: 20.0,
-                      icon: const Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.white,
-                        size: 25.0,
-                      ),
-                      onPressed: _roomCapacity > 1
-                          ? () {
-                              setState(() {
-                                _roomCapacity--;
-                              });
-                            }
-                          : null,
-                    ),
-                  ),
-                  Text(_roomCapacity.toString(),
-                      style: TextStyle(color: Colors.white)),
-                  Container(
-                    child: IconButton(
-                      iconSize: 20.0,
-                      splashRadius: 20.0,
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: Colors.white,
-                        size: 25.0,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _roomCapacity++;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              //Charging
-              Title("Charging Preferances"),
-              SizedBox(
-                height: 8,
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: _perDay,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              if (_perDay == false) {
-                                _perDay = !_perDay;
-                              }
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Per day"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: !_perDay,
-                          checkColor: Colors.green,
-                          onChanged: (value) {
-                            setState(() {
-                              if (_perDay == true) {
-                                _perDay = !_perDay;
-                              }
-                            });
-                          },
-                          fillColor: MaterialStateProperty.all(Colors.green),
-                        ),
-                        Title("Per Package"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Title("Price"),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                initialValue: widget.hotelPackageModel.price.toString(),
-                style: TextStyle(color: Colors.black),
-                validator: (name) {
-                  double p = double.tryParse(name);
-                  if (name.isEmpty) {
-                    return "Price cannot be empty";
-                  } else if (p == null) {
-                    return "Invalid value for a price";
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (name) {
-                  setState(() {
-                    _price = double.parse(name);
-                  });
-                },
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
+                SizedBox(
+                  height: 8,
                 ),
-              ),
 
-              Row(
-                children: [
-                  Expanded(child: Title("Negotiable")),
-                  Title("No"),
-                  Transform.scale(
-                      scale: 1,
-                      child: Switch(
-                        onChanged: (value) {
+                //Input Package name field
+                UpdateFormField(
+                    emptyMsg: "Package name can not be empty",
+                    setValue: setPackageName,
+                    initialName: widget.hotelPackageModel.packageName,
+                    maxline: 1,
+                    minline: 1),
+
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Title("Package Description"),
+
+                SizedBox(
+                  height: 8,
+                ),
+                //Package Description Input
+                UpdateFormField(
+                    emptyMsg: "Package Description can not be empty",
+                    setValue: setPackageDesc,
+                    initialName: widget.hotelPackageModel.packageDesc,
+                    maxline: 10,
+                    minline: 4),
+
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Title("Image"),
+                SizedBox(
+                  height: 8,
+                ),
+
+                //Image Uploader
+                ImageUploadField(setImageState: (img) {
+                  setState(() {
+                    image = img;
+                  });
+                }),
+
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Title("Details"),
+                SizedBox(
+                  height: 8,
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: withAC,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                // this.value = value;
+                                withAC = !withAC;
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("With AC"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: swimPool,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                // this.value = value;
+                                swimPool = !swimPool;
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("Swim Pool"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: meal,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                // this.value = value;
+                                meal = !meal;
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("Meal"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: other,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                // this.value = value;
+                                other = !other;
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("Other"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                other
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Divider(
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          Title("Other Facilities & Service"),
+
+                          SizedBox(
+                            height: 8,
+                          ),
+                          //Package Description Input
+                          UpdateFormField(
+                              emptyMsg: "Other Facilities can't leave blank",
+                              setValue: setOtherFacility,
+                              initialName:
+                                  widget.hotelPackageModel.otherFacility,
+                              maxline: 10,
+                              minline: 4),
+
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
+                    : SizedBox(
+                        height: 10,
+                      ),
+
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                //No of passengers
+                Title("Room Capacity"),
+                SizedBox(
+                  height: 8,
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                      "Max Room Capacity",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    Container(
+                      child: IconButton(
+                        iconSize: 20.0,
+                        splashRadius: 20.0,
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.white,
+                          size: 25.0,
+                        ),
+                        onPressed: _roomCapacity > 1
+                            ? () {
+                                setState(() {
+                                  _roomCapacity--;
+                                });
+                              }
+                            : null,
+                      ),
+                    ),
+                    Text(_roomCapacity.toString(),
+                        style: TextStyle(color: Colors.white)),
+                    Container(
+                      child: IconButton(
+                        iconSize: 20.0,
+                        splashRadius: 20.0,
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.white,
+                          size: 25.0,
+                        ),
+                        onPressed: () {
                           setState(() {
-                            _negotiable = !_negotiable;
+                            _roomCapacity++;
                           });
                         },
-                        value: _negotiable,
-                        activeColor: Colors.green,
-                        activeTrackColor: Colors.green,
-                        inactiveThumbColor: Colors.white,
-                        inactiveTrackColor: Colors.white,
-                      )),
-                  Title("Yes"),
-                ],
-              ),
-              Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
+                      ),
+                    ),
+                  ],
+                ),
 
-              Container(
-                width: MediaQuery.of(context).size.width * 0.96,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ))),
-                  child: Text("Update Offer"),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
 
-                      //Save Data in a model
-                      //savePackage();
-                      updatePackage(widget.hotelPackageModel);
-                      successDialog("Update SucessFull");
-                      //reset
-                      _formKey.currentState.reset();
+                //Charging
+                Title("Charging Preferances"),
+                SizedBox(
+                  height: 8,
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _perDay,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                if (_perDay == false) {
+                                  _perDay = !_perDay;
+                                }
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("Per day"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: !_perDay,
+                            checkColor: Colors.green,
+                            onChanged: (value) {
+                              setState(() {
+                                if (_perDay == true) {
+                                  _perDay = !_perDay;
+                                }
+                              });
+                            },
+                            fillColor: MaterialStateProperty.all(Colors.green),
+                          ),
+                          Title("Per Package"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Title("Price"),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  initialValue: widget.hotelPackageModel.price.toString(),
+                  style: TextStyle(color: Colors.black),
+                  validator: (name) {
+                    double p = double.tryParse(name);
+                    if (name.isEmpty) {
+                      return "Price cannot be empty";
+                    } else if (p == null) {
+                      return "Invalid value for a price";
+                    } else {
+                      return null;
                     }
                   },
+                  onSaved: (name) {
+                    setState(() {
+                      _price = double.parse(name);
+                    });
+                  },
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+
+                Row(
+                  children: [
+                    Expanded(child: Title("Negotiable")),
+                    Title("No"),
+                    Transform.scale(
+                        scale: 1,
+                        child: Switch(
+                          onChanged: (value) {
+                            setState(() {
+                              _negotiable = !_negotiable;
+                            });
+                          },
+                          value: _negotiable,
+                          activeColor: Colors.green,
+                          activeTrackColor: Colors.green,
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: Colors.white,
+                        )),
+                    Title("Yes"),
+                  ],
+                ),
+                Divider(
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.96,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ))),
+                    child: Text("Update Offer"),
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+
+                        //Save Data in a model
+                        //savePackage();
+                        updatePackage(widget.hotelPackageModel);
+                        successDialog("Update SucessFull");
+                        //reset
+                        _formKey.currentState.reset();
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ),
     );
-
-    
   }
+
   void updatePackage(HotelPackageModel packageModel) async {
     packageModel.packageName = _packageName;
     packageModel.packageDesc = _description;
@@ -578,7 +579,7 @@ class _UpdateHotelOfferScreenState extends State<UpdateHotelOfferScreen> {
     packageModel.swimPool = swimPool;
     packageModel.withAC = withAC;
 
-  packageModel.toString();
+    packageModel.toString();
 
     http.Response response = await http.put(
       Uri.parse('http://10.0.2.2:9092/updateHotelPackage'),
@@ -591,8 +592,8 @@ class _UpdateHotelOfferScreenState extends State<UpdateHotelOfferScreen> {
     final messages = json.decode(response.body);
     // print(messages);
   }
- 
-void successDialog(sentence){
+
+  void successDialog(sentence) {
     AlertDialog alert = AlertDialog(
       title: Column(
         children: [
@@ -601,41 +602,40 @@ void successDialog(sentence){
             color: Colors.green,
             size: 80,
           ),
-          Text(sentence, style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
+          Text(sentence,
+              style: GoogleFonts.montserrat(), textAlign: TextAlign.center)
         ],
       ),
       titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 50),
-
       actions: [
         ElevatedButton(
-          child: Text("Done", style: GoogleFonts.montserrat()),
-          onPressed: () {
-            Navigator.of(context).pop();
-            // Navigator.push(
-            //               context,
-            //               MaterialPageRoute(
-            //                   builder: (context) => ComplaintPage()));
-            Navigator.push(context, 
-            MaterialPageRoute(builder: (context)=> HotelOfferScreen()));
-            // deleteAccount();
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green,
-            onPrimary: Colors.white,
-          )
-        ),
+            child: Text("Done", style: GoogleFonts.montserrat()),
+            onPressed: () {
+              Navigator.of(context).pop();
+              // Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) => ComplaintPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HotelOfferScreen()));
+              // deleteAccount();
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.green,
+              onPrimary: Colors.white,
+            )),
       ],
     );
 
     showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.7),
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.of(context).pop();
+        context: context,
+        barrierColor: Colors.black.withOpacity(0.7),
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop();
+          });
+          return alert;
         });
-        return alert;
-      });
   }
 
   // void savePackage() async{
@@ -643,12 +643,9 @@ void successDialog(sentence){
   //   createPackage();
   // }
 
-
   // void createPackage() async {
 
-
   //   HotelPackageModel package=new HotelPackageModel(0,_packageName,_description,imageURL,withAC,swimPool,meal,other,_otherFacilities,_roomCapacity,_perDay,!_perDay,_price,_negotiable,widget.userId);
-
 
   //   print(package.toString());
 
@@ -660,7 +657,7 @@ void successDialog(sentence){
   //     body: jsonEncode(package.toJson()),
   //   );
 
-    // final messages = json.decode(response.body);
-    // // print(messages);
+  // final messages = json.decode(response.body);
+  // // print(messages);
   //}
 }
