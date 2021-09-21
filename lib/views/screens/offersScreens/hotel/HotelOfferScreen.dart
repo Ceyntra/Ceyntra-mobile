@@ -87,7 +87,7 @@ class _HotelOfferScreenState extends State<HotelOfferScreen> {
               Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HotelHomeScreen()
+                builder: (context) => HotelHomeScreen(userID: userID,)
               ));
             },
             child: Icon(Icons.arrow_back),

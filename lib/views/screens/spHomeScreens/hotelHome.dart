@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:ceyntra_mobile/service/HotelService.dart';
+import 'package:ceyntra_mobile/service/PackageService.dart';
+import 'package:ceyntra_mobile/service/RequestService.dart';
 import 'package:ceyntra_mobile/views/screens/offersScreens/hotel/HotelOfferScreen.dart';
 import 'package:ceyntra_mobile/views/screens/profileScreens/hotelProfile.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
@@ -11,9 +14,50 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../../../auth.dart';
 import '../chatRoomScreen.dart';
 
-class HotelHomeScreen extends StatelessWidget {
+class HotelHomeScreen extends StatefulWidget {
+  const HotelHomeScreen({Key key, this.userID}) : super(key: key);
+
+  @override
+  _HotelHomeScreenState createState() => _HotelHomeScreenState();
+  final int userID;
+
+}
+
+class _HotelHomeScreenState extends State<HotelHomeScreen> {
   Auth auth = new Auth();
+
+  int packageCount=0;
+  int newRequestCount=0;
+  double rating=0.0;
+
   Function logIn(){}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    loadData();
+
+  }
+
+  loadData() async {
+    PackageService packageService=new PackageService();
+    int c=await packageService.getHotelPackageCount(widget.userID);
+    int reqC= await RequestService.getRequestCount(widget.userID);
+    double rate=await HotelService.getHotelRating(widget.userID);
+
+    setState(() {
+      packageCount=c;
+      newRequestCount=reqC;
+      rating=rate;
+    });
+
+     print("pkg Count: "+ packageCount.toString());
+    print("pkg Count: "+ newRequestCount.toString());
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +109,7 @@ class HotelHomeScreen extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: '648',
+                                  text: rating.toString(),
                                   style: TextStyle(
                                     color: Colors.amber,
                                     fontSize: 20,
@@ -83,28 +127,9 @@ class HotelHomeScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'REACH',
+                            'RATING',
                             style: TextStyle(
                               color: Colors.white
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    size: 17,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '8.1%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ],
@@ -144,7 +169,7 @@ class HotelHomeScreen extends StatelessWidget {
                   HomeOptionWidget(Colors.green, '  Chat', Icons.chat, (){
                     Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => ChatRoomScreen()),
+                          builder: (context) => ChatRoomScreen(userType: 1,)),
                     );
                   }),
                 ],
@@ -160,9 +185,9 @@ class HotelHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                   ),
                   HomeOptionWidget(
-                    Colors.blue, 
-                    '  Settings', 
-                    Icons.settings, 
+                    Colors.blue,
+                    '  Settings',
+                    Icons.settings,
                     () {
                       print("object");
                       Navigator.push(
@@ -185,8 +210,10 @@ class HotelHomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child:Row(
                 children: [
-                  HomeIIndicatorWidget('54 OFFERS', 0.54, 'LAST MONTH', Colors.grey, Colors.white),
-                  HomeIIndicatorWidget('67 OFFERS', 0.67, 'THIS MONTH', Colors.grey, Colors.pink[100]),
+                  HomeIIndicatorWidget('$packageCount OFFERS',  packageCount == 0 ? 0.0 : packageCount/100 , 'TOTAL OFFERS',
+                      Colors.grey, Colors.white),
+                  HomeIIndicatorWidget('$newRequestCount NEW ', newRequestCount == 0 ? 0.0 : newRequestCount/100, 'NEW REQUEST',
+                      Colors.grey, Colors.pink[100]),
                 ],
               ),
             ),

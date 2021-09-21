@@ -677,12 +677,7 @@ class _GuideProfileScreenState extends State<GuideProfileScreen> {
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => GuideHomeScreen()
-              )
-            );
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back),
         ),

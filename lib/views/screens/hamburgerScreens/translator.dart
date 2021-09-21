@@ -133,37 +133,37 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       child: Scaffold(
         backgroundColor: Color(0xff192537),
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              // Tab(
-              //   icon: Icon(Icons.text_fields),
-              // ),
-              Tab(
-                child: Container(
-                  child: Row(
-                    children: [
-                      Icon(Icons.photo),
-                      Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text("Photo to Text"))
-                    ],
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Row(
-                    children: [
-                      Icon(Icons.text_fields),
-                      Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text("Text to Text"))
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // bottom: TabBar(
+          //   tabs: [
+          //     // Tab(
+          //     //   icon: Icon(Icons.text_fields),
+          //     // ),
+          //     Tab(
+          //       child: Container(
+          //         child: Row(
+          //           children: [
+          //             Icon(Icons.photo),
+          //             Container(
+          //                 margin: EdgeInsets.only(left: 10),
+          //                 child: Text("Photo to Text"))
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //     Tab(
+          //       child: Container(
+          //         child: Row(
+          //           children: [
+          //             Icon(Icons.text_fields),
+          //             Container(
+          //                 margin: EdgeInsets.only(left: 10),
+          //                 child: Text("Text to Text"))
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           title: Text(
             "Ceyntra Translator",
             style: GoogleFonts.montserrat(fontSize: 18),

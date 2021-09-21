@@ -83,7 +83,7 @@ class _TaxiOfferScreenState extends State<GuideOfferScreen> {
               Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => GuideHomeScreen()
+                builder: (context) => GuideHomeScreen(userID: userID,)
               ));
             },
             child: Icon(Icons.arrow_back),

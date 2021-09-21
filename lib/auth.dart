@@ -132,22 +132,22 @@ class Auth {
         {
           print("Redirect to hotel page");
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => HotelHomeScreen()));
+              MaterialPageRoute(builder: (context) => HotelHomeScreen(userID: userID)));
         }
         break;
 
       case 2:
         {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => GuideHomeScreen()));
+              MaterialPageRoute(builder: (context) => GuideHomeScreen(userID: userID)));
         }
         break;
 
       case 3:
         {
-          print("Redirect to Taxi page");
+          print("Redirect to Taxi page : "+ userID.toString());
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => TaxiHomeScreen()));
+              MaterialPageRoute(builder: (context) => TaxiHomeScreen(userID:userID)));
         }
         break;
 
@@ -268,26 +268,27 @@ class Auth {
     } else {
       //Check userType & redirect to relevant page
       var userType = preferences.getInt("userType");
+      int userID= await preferences.getInt("userID");
 
       switch (userType) {
         case 1:
           {
-            print("Redirect to hotel page");
-            return HotelHomeScreen();
+            print("Redirect to hotel page"+ userID.toString());
+            return HotelHomeScreen(userID: userID);
           }
           break;
 
         case 2:
           {
-            print("Redirect to Taxi page");
-            return TaxiHomeScreen();
+            print("Redirect to Guide page"+ userID.toString());
+            return GuideHomeScreen(userID: userID);
           }
           break;
 
         case 3:
           {
-            print("Redirect to Taxi page");
-            return TaxiHomeScreen();
+            print("Redirect to Taxi page"+userID.toString());
+            return TaxiHomeScreen(userID: userID);
           }
           break;
 
@@ -307,4 +308,6 @@ class Auth {
       }
     }
   }
+
+
 }

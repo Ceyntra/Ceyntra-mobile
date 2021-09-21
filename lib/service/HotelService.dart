@@ -3,6 +3,8 @@ import 'package:ceyntra_mobile/views/widgets/HotelWidget2.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class HotelService {
   var dio = Dio();
@@ -31,6 +33,15 @@ class HotelService {
       var response = await dio.get('http://10.0.2.2:9092/loadFavHotels/$value');
       return response.data;
     });
+  }
+
+  static Future<double> getHotelRating(int spID) async {
+
+    http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:9092/getHotelRating/$spID')  //$userID
+    );
+
+    return double.parse(response.body);
   }
 
   List<Widget> loadHotelWidgets(BuildContext context, hotelList,

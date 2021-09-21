@@ -1,12 +1,16 @@
 import 'package:ceyntra_mobile/models/ChatRoomModel.dart';
 import 'package:ceyntra_mobile/service/ChatRoomService.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/guideHome.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/hotelHome.dart';
+import 'package:ceyntra_mobile/views/screens/spHomeScreens/taxiHome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'ServiceChatScreen.dart';
 
 class ChatRoomScreen extends StatefulWidget {
-  const ChatRoomScreen({Key key}) : super(key: key);
+  const ChatRoomScreen({Key key, this.userType}) : super(key: key);
+  final int userType;
 
   @override
   _ChatRoomScreenState createState() => _ChatRoomScreenState();
@@ -60,7 +64,27 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         brightness: Brightness.dark,
         leading: InkWell(
           onTap: (){
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            if(widget.userType==1){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HotelHomeScreen(userID: userID,)
+                  ));
+            }else if(widget.userType==2){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => GuideHomeScreen(userID: userID,)
+                  ));
+            }else if(widget.userType==3){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TaxiHomeScreen(userID: userID)
+                  ));
+            }
+
           },
           child: Icon(Icons.arrow_back),
         ),
