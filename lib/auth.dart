@@ -268,26 +268,26 @@ class Auth {
     } else {
       //Check userType & redirect to relevant page
       var userType = preferences.getInt("userType");
-      int userID= preferences.getInt("userID");
+      int userID= await preferences.getInt("userID");
 
       switch (userType) {
         case 1:
           {
-            print("Redirect to hotel page");
+            print("Redirect to hotel page"+ userID.toString());
             return HotelHomeScreen(userID: userID);
           }
           break;
 
         case 2:
           {
-            print("Redirect to Guide page");
+            print("Redirect to Guide page"+ userID.toString());
             return GuideHomeScreen(userID: userID);
           }
           break;
 
         case 3:
           {
-            print("Redirect to Taxi page");
+            print("Redirect to Taxi page"+userID.toString());
             return TaxiHomeScreen(userID: userID);
           }
           break;

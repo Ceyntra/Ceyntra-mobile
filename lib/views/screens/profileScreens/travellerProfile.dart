@@ -559,7 +559,9 @@ class _TravellerProfileScreenState extends State<TravellerProfileScreen> {
         brightness: Brightness.dark,
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
-          onTap: null,
+          onTap: (){
+            Navigator.pop(context);
+          },
           child: Icon(Icons.arrow_back),
         ),
         title: Center(

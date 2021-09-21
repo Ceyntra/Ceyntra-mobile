@@ -553,12 +553,7 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HotelHomeScreen()
-              )
-            );
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back),
         ),

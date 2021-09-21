@@ -84,7 +84,7 @@ class _TaxiOfferScreenState extends State<TaxiOfferScreen> {
               Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaxiHomeScreen()
+                builder: (context) => TaxiHomeScreen(userID: userID,)
               )
             );
             },

@@ -582,12 +582,7 @@ class _TaxiDriverProfileScreenState extends State<TaxiDriverProfileScreen> {
         // leading: Icon(Icons.arrow_back),
         leading: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TaxiHomeScreen()
-              )
-            );
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back),
         ),

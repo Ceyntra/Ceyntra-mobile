@@ -50,7 +50,7 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
       newRequestCount=reqC;
     });
 
-    // print("pkg Count: "+ packageCount.toString());
+    print("pkg Count: "+ packageCount.toString());
 
   }
 
