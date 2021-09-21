@@ -1,3 +1,4 @@
+import 'package:ceyntra_mobile/views/widgets/ComplainWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget.dart';
 import 'package:ceyntra_mobile/views/widgets/feedPlaceWidget2.dart';
 import 'package:ceyntra_mobile/views/widgets/reviewWidget.dart';
@@ -290,5 +291,24 @@ class PlaceService {
 
       return response.data;
     });
+  }
+
+  Future<dynamic> getComplaint() {
+    return getUsertId().then((value) async {
+      var response = await dio.get('http://10.0.2.2:9092/getComplaint/$value');
+      return response.data;
+    });
+  }
+
+  List<Widget> loadComplaints(
+    complainList,
+  ) {
+    final items = List<Widget>.generate(
+      complainList.length,
+      (index) => ComplainWidget(
+        complain: complainList[index]["description"],
+      ),
+    );
+    return items;
   }
 }
