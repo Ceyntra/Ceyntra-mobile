@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ceyntra_mobile/views/widgets/greenTagWidget.dart';
 import 'package:tflite/tflite.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class AnimalDetectionScreen extends StatefulWidget {
   // const AnimalDetectionScreen({ Key? key }) : super(key: key);
@@ -21,7 +20,6 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
   File imageFile;
   List _results;
   String queryResults;
-  var link;
 
   @override
   void initState() {
@@ -35,8 +33,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
   }
 
   Future _imgFromCamera() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
     imageClassification(pickedFile);
     setState(() {
       imageFile = File(pickedFile.path);
@@ -45,7 +42,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
 
   Future _imgFromGallery() async {
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().getImage(source: ImageSource.gallery);
     imageClassification(pickedFile);
     setState(() {
       imageFile = File(pickedFile.path);
@@ -94,7 +91,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
       backgroundColor: Color(0xff192537),
       appBar: AppBar(
         title: Text(
-          "Ceyntra animal identification",
+          "Ceyntra animal detection",
           style: GoogleFonts.montserrat(fontSize: 18),
         ),
         leading: widget.isPressed
@@ -220,59 +217,34 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
             ),
             imageFile != null
                 ? Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(right: 10, left: 10),
-                          // height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            // color: Colors.grey.withOpacity(0.5),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 10, left: 10),
+                    // height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                    ),
 
-                          child: Column(
-                            children: _results != null
-                                ? _results.map((result) {
-                                    return Card(
-                                      color: Color(0xff192537),
-                                      child: Container(
-                                        child: Text(
-                                          "${result["label"].toString().substring(
-                                                2,
-                                              )} (Confidence -  ${result["confidence"].toStringAsFixed(2)})",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    );
-                                  }).toList()
-                                : [],
-                          ),
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(
-                                top: 40.0, left: 10.0, right: 10.0),
-                            constraints: BoxConstraints(
-                              maxHeight: 300,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                            child: WebView(
-                              key: Key(_results[0]["label"].toString()),
-                              initialUrl:
-                                  'https://en.wikipedia.org/wiki/${_results[0]["label"].toString().substring(
-                                        2,
-                                      )}',
-                            )),
-                      ],
+                    child: Column(
+                      children: _results != null
+                          ? _results.map((result) {
+                              return Card(
+                                color: Color(0xff192537),
+                                child: Container(
+                                  child: Text(
+                                    "${result["label"]} (Confidence -  ${result["confidence"].toStringAsFixed(2)})",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              );
+                            }).toList()
+                          : [],
                     ),
                   )
                 : Container(
@@ -304,8 +276,8 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
     Tflite.close();
     String res;
     res = await Tflite.loadModel(
-      model: "assets/model_unquant.tflite",
-      labels: "assets/labels.txt",
+      model: "assets/mobilenet_v1_1.0_224.tflite",
+      labels: "assets/mobilenet_v1_1.0_224.txt",
     );
     print(res);
   }
@@ -321,8 +293,6 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
     );
     setState(() {
       _results = results;
-      print(_results);
-      print(_results[0]["label"]);
     });
   }
 }
