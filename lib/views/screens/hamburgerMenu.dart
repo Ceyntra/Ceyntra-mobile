@@ -180,7 +180,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      "Animal Detection",
+                      "Animal Identification",
                       style: GoogleFonts.montserrat(
                           fontSize: 15, color: Colors.white),
                     ),
