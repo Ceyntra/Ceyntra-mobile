@@ -241,9 +241,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                                       color: Color(0xff192537),
                                       child: Container(
                                         child: Text(
-                                          "${result["label"].toString().substring(
-                                                2,
-                                              )} (Confidence -  ${result["confidence"].toStringAsFixed(2)})",
+                                          "${result["label"]} (Confidence -  ${result["confidence"].toStringAsFixed(2)})",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20.0,
@@ -268,9 +266,7 @@ class _AnimalDetectionScreenState extends State<AnimalDetectionScreen> {
                             child: WebView(
                               key: Key(_results[0]["label"].toString()),
                               initialUrl:
-                                  'https://en.wikipedia.org/wiki/${_results[0]["label"].toString().substring(
-                                        2,
-                                      )}',
+                                  'https://en.wikipedia.org/wiki/${_results[0]["label"]}',
                             )),
                       ],
                     ),
